@@ -1,0 +1,33 @@
+.nextui-c-hhqfap, .nextui-c-egxOLa {
+    border-radius: 46px !important;
+    border: 0 !important;
+}
+
+.nextui-c-hhqfap {
+    width: 70% !important;
+}
+
+.nextui-c-hhqfap {
+    margin-top: 2rem !important;
+}
+
+.nextui-c-PJLV-ikpPLrz-css {
+    font-size: 1.5rem;
+    padding-left: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+    .nextui-c-hhqfap {
+        width: 90% !important;
+    }
+
+    .nextui-c-kzikkm {
+        display: none !important;
+    }
+
+    .nextui-c-fyNvBR {
+        display: flex;
+        justify-content: center;
+        margin-left: 45%;
+    }
+}
