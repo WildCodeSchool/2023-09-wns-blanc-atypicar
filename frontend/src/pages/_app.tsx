@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/authContext";
 import Layout from "@/components/Layout";
 import { NextUIProvider } from "@nextui-org/react";
-
+import "../styles/navbar.css";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
