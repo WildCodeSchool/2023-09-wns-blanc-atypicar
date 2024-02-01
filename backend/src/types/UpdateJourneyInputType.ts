@@ -1,7 +1,10 @@
 import { Field, InputType, Int } from "type-graphql";
 
 @InputType()
-export class CreateJourneyInputType {
+export class UpdateJourneyInputType {
+  @Field()
+  id: number;
+
   @Field()
   startingPoint: string;
 
