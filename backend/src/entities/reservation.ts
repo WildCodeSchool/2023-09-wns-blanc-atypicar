@@ -22,11 +22,11 @@ export class Reservation extends BaseEntity {
 
   @Field(() => Journey)
   @ManyToOne(() => Journey, (journey) => journey.id)
-  journeyId: number;
+  journey: number;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.id)
-  passengerId: number;
+  passenger: number;
 
   @Field()
   @Column()

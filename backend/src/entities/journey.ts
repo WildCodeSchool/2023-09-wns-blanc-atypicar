@@ -17,7 +17,7 @@ export class Journey extends BaseEntity {
 
   @Field(() => User)
   @OneToMany(() => User, (user) => user.id)
-  driverId: number;
+  driver: number;
 
   @Field()
   @Column({ length: 155 })
@@ -46,4 +46,25 @@ export class Journey extends BaseEntity {
   @Field()
   @Column()
   price: number;
+
+  constructor(datas: {
+    startingPoint: string,
+    arrivalPoint: string,
+    description: string,
+    startDate: Date,
+    endDate: Date, 
+    availableSeats: number,
+    price: number
+  }| null = null){
+    super();
+    if(datas) {
+      this.startingPoint = datas.startingPoint;
+      this.arrivalPoint = datas.arrivalPoint;
+      this.description = datas.description;
+      this.startDate = datas.startDate;
+      this.endDate = datas.endDate;
+      this.availableSeats = datas.availableSeats;
+      this.price = datas.price;
+    }
+  }
 }

@@ -39,9 +39,9 @@ export class Vehicle extends BaseEntity {
 
   @Field(() => User)
   @OneToOne(() => User, (user) => user.id)
-  userId: number;
+  user: number;
 
   @Field(() => Category)
   @ManyToMany(() => Category, (category) => category.id)
-  categoryId: number;
+  category: number;
 }
