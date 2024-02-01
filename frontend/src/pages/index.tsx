@@ -1,6 +1,7 @@
 
 
 import isAuth from "@/components/secure/isAuth";
+import { CancelButton, TagButton, TagButtonActive, ValidButton } from "@/components/theme/theme";
 import { Button, Grid } from "@nextui-org/react";
 
 function Home() {
@@ -11,35 +12,26 @@ function Home() {
     <>
       <Grid.Container gap={2}>
         <Grid>
-          <Button color="primary" auto>
-            Primary
-          </Button>
+          <CancelButton auto>
+            Cancel Button
+          </CancelButton>
         </Grid>
         <Grid>
-          <Button color="secondary" auto>
-            Secondary
-          </Button>
+          <TagButton auto>
+            Tag Button
+          </TagButton>
         </Grid>
         <Grid>
-          <Button color="success" auto>
-            Success
-          </Button>
+          <TagButtonActive auto>
+            Tag Button Active
+          </TagButtonActive>
         </Grid>
         <Grid>
-          <Button color="warning" auto>
-            Warning
-          </Button>
+          <ValidButton auto>
+            Valid Button
+          </ValidButton>
         </Grid>
-        <Grid>
-          <Button color="error" auto>
-            Error
-          </Button>
-        </Grid>
-        <Grid>
-          <Button color="gradient" auto>
-            Gradient
-          </Button>
-        </Grid>
+
       </Grid.Container>
     </>
 
