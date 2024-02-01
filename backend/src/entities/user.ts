@@ -1,5 +1,12 @@
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Tag } from "./tag";
 
 @ObjectType()
 @Entity()
@@ -10,12 +17,44 @@ export class User extends BaseEntity {
 
   @Field()
   @Column()
-  email: string;
-
-  @Column()
-  hashedPassword: string;
+  firstName: string;
 
   @Field()
   @Column()
-  role: string;
+  lastName: string;
+
+  @Field()
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
+
+  @Field()
+  @Column()
+  role: "ADMIN" | "USER";
+
+  @Field()
+  @Column()
+  creationDate: Date;
+
+  @Field()
+  @Column()
+  verifiedLicense: false;
+
+  @Field()
+  @Column()
+  verifiedEmail: false;
+
+  @Field()
+  @Column()
+  picture?: string;
+
+  @Field()
+  @Column()
+  description?: string;
+
+  @Field(() => Tag)
+  @ManyToMany(() => Tag, (tag) => tag.id)
+  tagId: number;
 }

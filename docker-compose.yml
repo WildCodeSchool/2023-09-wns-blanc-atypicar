@@ -8,12 +8,10 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     volumes:
-      # - ./backend/good_corner_typeorm.sqlite:/app/good_corner_typeorm.sqlite
       - ./backend/.env:/app/.env:rw
       - ./backend/src:/app/src:rw
       - ./backend/node_modules:/app/node_modules
       - ./backend/package.json:/app/package.json:rw
-      - ./backend/migrations:/app/migrations:rw
 
   frontend:
     build: ./frontend
@@ -23,7 +21,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
-      - WDS_SOCKET_HOST=127.0.0.1 
+      - WDS_SOCKET_HOST=127.0.0.1
     volumes:
       - ./frontend/src:/app/src:rw
       - ./frontend/package.json:/app/package.json:rw
@@ -32,14 +30,14 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_USER: goodcorner
+      POSTGRES_USER: atypicar
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: goodcornerdb
+      POSTGRES_DB: atypicardb
       PGDATA: customDataFolder
     volumes:
       - ./dbData:/var/lib/postgresql/data/customDataFolder
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d goodcornerdb -U goodcorner" ]
+      test: ["CMD-SHELL", "pg_isready -d atypicardb -U atypicar" ]
       interval: 5s
       timeout: 5s
       retries: 10
