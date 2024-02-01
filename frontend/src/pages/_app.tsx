@@ -1,5 +1,4 @@
-import Layout from "@/components/Layout";
-import "@/styles/globals.css";
+
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, from } from "@apollo/client";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
@@ -7,6 +6,8 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/authContext";
+import Layout from "@/components/Layout";
+import { NextUIProvider } from "@nextui-org/react";
 
 
 const httpLink = createHttpLink({
@@ -29,7 +30,7 @@ const errorLink = onError(({ graphQLErrors, operation }) => {
     for (let err of graphQLErrors) {
       if (err.extensions.code === "UNAUTHENTICATED") {
         localStorage.removeItem("token");
-        location.replace("/signin");
+        location.replace("/");
       }
     }
   }
@@ -45,19 +46,21 @@ function App({ Component, pageProps }: AppProps) {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-  if (token) {
-    setAuthenticated(true);
-  }
-}, []);
+    if (token) {
+      setAuthenticated(true);
+    }
+  }, []);
 
   return (
-    <AuthContext.Provider value={{authenticated, setAuthenticated}}>
-      <ApolloProvider client={client}>
-        <Layout>
+    <NextUIProvider>
+      <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
+        <ApolloProvider client={client}>
+          <Layout>
             <Component {...pageProps} />
-        </Layout>
-      </ApolloProvider>
-    </AuthContext.Provider>
+          </Layout>
+        </ApolloProvider>
+      </AuthContext.Provider>
+    </NextUIProvider>
   );
 }
 
