@@ -4,9 +4,11 @@ import {
   Column,
   Entity,
   ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Tag } from "./tag";
+import { Vehicle } from "./vehicles";
 
 @ObjectType()
 @Entity()
@@ -56,5 +58,9 @@ export class User extends BaseEntity {
 
   @Field(() => Tag)
   @ManyToMany(() => Tag, (tag) => tag.id)
-  tagId: number;
+  tag: number;
+
+  @Field(() => Vehicle)
+  @OneToOne(() => Vehicle, (vehicle) => vehicle.id)
+  vehicle?: number;
 }
