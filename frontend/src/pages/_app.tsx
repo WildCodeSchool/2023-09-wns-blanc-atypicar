@@ -8,7 +8,9 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/authContext";
 import Layout from "@/components/Layout";
 import { NextUIProvider } from "@nextui-org/react";
-import "../styles/navbar.css";
+import "../components/theme/navbar.css";
+import { theme } from "@/components/theme/theme";
+import "../components/theme/globals.css"
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
@@ -52,7 +54,7 @@ function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <NextUIProvider>
+    <NextUIProvider theme={theme}>
       <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
         <ApolloProvider client={client}>
           <Layout>

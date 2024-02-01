@@ -8,6 +8,5 @@ COPY tsconfig.json tsconfig.json
 RUN npm i
 
 COPY src src
-COPY migrations migrations
 
 CMD npm start
