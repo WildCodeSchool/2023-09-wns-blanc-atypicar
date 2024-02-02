@@ -21,5 +21,5 @@ export class Category extends BaseEntity {
 
   @Field(() => Vehicle)
   @ManyToMany(() => Vehicle, (vehicle) => vehicle.id)
-  vehicleId: number;
+  vehicle: number;
 }

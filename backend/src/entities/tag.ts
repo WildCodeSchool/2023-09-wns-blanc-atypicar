@@ -22,5 +22,5 @@ export class Tag extends BaseEntity {
 
   @Field(() => User)
   @ManyToMany(() => User, (user) => user.id)
-  userId: number;
+  user: number;
 }
