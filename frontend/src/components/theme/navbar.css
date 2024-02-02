@@ -8,10 +8,11 @@
     margin-top: 2rem !important;
 }
 
-b {
-    font-size: 1.5rem;
-    padding-left: 1rem;
+.websiteName {
+    font-size: 1.5rem !important;
+    padding-left: 1rem !important;
 }
+
 
 @media screen and (max-width: 650px) {
     .nextui-navbar {

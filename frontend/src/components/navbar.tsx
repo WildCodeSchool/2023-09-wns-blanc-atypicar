@@ -20,7 +20,7 @@ export default function Navbar() {
           }}
         >
         <Image src={Logo} alt="logo" height={35} />
-          <Text b color="inherit" hideIn="xs">
+          <Text b color="inherit" hideIn="xs" className="websiteName">
             Atypi'Car
           </Text>
         </NextUiNav.Brand>
