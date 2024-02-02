@@ -1,31 +1,28 @@
-.nextui-c-hhqfap, .nextui-c-egxOLa {
+ .nextui-navbar, .nextui-navbar-container {
     border-radius: 46px !important;
     border: 0 !important;
 }
 
-.nextui-c-hhqfap {
+.nextui-navbar {
     width: 70% !important;
-}
-
-.nextui-c-hhqfap {
     margin-top: 2rem !important;
 }
 
-.nextui-c-PJLV-ikpPLrz-css {
+b {
     font-size: 1.5rem;
     padding-left: 1rem;
 }
 
-@media screen and (max-width: 600px) {
-    .nextui-c-hhqfap {
+@media screen and (max-width: 650px) {
+    .nextui-navbar {
         width: 90% !important;
     }
 
-    .nextui-c-kzikkm {
+    .nextui-navbar-link {
         display: none !important;
     }
 
-    .nextui-c-fyNvBR {
+    .nextui-navbar-brand {
         display: flex;
         justify-content: center;
         margin-left: 45%;

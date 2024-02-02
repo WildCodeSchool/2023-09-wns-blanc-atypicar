@@ -1,16 +1,15 @@
-import { Navbar as NextUiNav, Link, Text, Avatar, Dropdown } from "@nextui-org/react";
+import { Navbar as NextUiNav, Link, Text, Avatar, Dropdown, useTheme } from "@nextui-org/react";
 import Image from "../../node_modules/next/image";
 import NewTraject from "../assets/icons/new-traject.svg";
 import SearchTraject from "../assets/icons/search.svg";
 import Logo from "../assets/images/Logo.svg";
-import styles from '../styles/navbar.module.css'
-
 
 export default function Navbar() {
-
+const { theme } = useTheme()
   return (
       <div style={{ display: "flex", justifyContent: "center" }}>
     <NextUiNav
+    className="nav"
       isBordered
       variant="sticky"
     >
@@ -50,7 +49,7 @@ export default function Navbar() {
                 <Avatar
                   bordered
                   as="button"
-                  color="secondary"
+                  color= "secondary"
                   size="md"
                   src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                 />
