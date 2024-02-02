@@ -1,8 +1,11 @@
-
-
 import isAuth from "@/components/secure/isAuth";
-import { CancelButton, TagButton, TagButtonActive, ValidButton } from "@/components/theme/theme";
-import { Button, Grid } from "@nextui-org/react";
+// import {
+//   CancelButton,
+//   TagButton,
+//   TagButtonActive,
+//   ValidButton,
+// } from "@/components/theme/theme";
+import { Button } from "@nextui-org/button";
 
 function Home() {
   const defaultContent =
@@ -10,32 +13,32 @@ function Home() {
 
   return (
     <>
-      <Grid.Container gap={2}>
-        <Grid>
-          <CancelButton auto>
-            Cancel Button
-          </CancelButton>
-        </Grid>
-        <Grid>
-          <TagButton auto>
-            Tag Button
-          </TagButton>
-        </Grid>
-        <Grid>
-          <TagButtonActive auto>
-            Tag Button Active
-          </TagButtonActive>
-        </Grid>
-        <Grid>
-          <ValidButton auto>
-            Valid Button
-          </ValidButton>
-        </Grid>
-
-      </Grid.Container>
+      <h1 className="font-monserrat">Hello </h1>
+      <Button color="default">Default</Button>
+      <Button color="primary">Primary</Button>
+      <Button color="secondary">Secondary</Button>
+      <Button color="success">Success</Button>
+      <Button color="warning">Warning</Button>
+      <Button color="default" radius="full" className="text-white">
+        Tag button
+      </Button>
     </>
-
   );
 }
+
+// const TagButton = styled(Button, {
+//   borderRadius: "50px",
+//   fontSize: "15px",
+
+//   [`.${theme} &`]: {
+//     color: "$blue",
+//     backgroundColor: "$grey",
+//     fontWeight: "medium",
+//   },
+
+//   "&:hover": {
+//     backgroundColor: "$darkergrey",
+//   },
+// });
 
 export default Home;
