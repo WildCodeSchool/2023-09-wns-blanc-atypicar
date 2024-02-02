@@ -1,4 +1,4 @@
-import { createTheme, Button, styled, Avatar } from "@nextui-org/react";
+import { createTheme, Button, styled } from "@nextui-org/react";
 
 const theme = createTheme({
     type: "light",
