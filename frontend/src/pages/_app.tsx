@@ -9,6 +9,7 @@ import { AuthContext } from "@/contexts/authContext";
 import Layout from "@/components/Layout";
 import { NextUIProvider } from "@nextui-org/react";
 import "../components/theme/navbar.css";
+import "../components/theme/header.css";
 import { theme } from "@/components/theme/theme";
 import "../components/theme/globals.css"
 

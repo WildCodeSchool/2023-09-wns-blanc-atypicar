@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ReactNode } from "react";
+import Header from "./header";
 import Navbar from "./navbar";
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -16,6 +17,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </Head>
 
             <Navbar />
+            <Header />
 
             <main className="main-content">
 
