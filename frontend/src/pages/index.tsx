@@ -1,18 +1,15 @@
+import JourneyCard from "@/components/JourneyCard";
 import isAuth from "@/components/secure/isAuth";
-// import {
-//   CancelButton,
-//   TagButton,
-//   TagButtonActive,
-//   ValidButton,
-// } from "@/components/theme/theme";
 import { Button } from "@nextui-org/button";
-
+import { Spacer } from "@nextui-org/react";
 
 function Home() {
-
   return (
     <>
       <h1 className="font-monserrat">Hello </h1>
+      <Spacer y={8} />
+      <JourneyCard />
+      <Spacer y={8} />
       <Button color="default">Default</Button>
       <Button color="primary">Primary</Button>
       <Button color="secondary">Secondary</Button>
@@ -24,20 +21,5 @@ function Home() {
     </>
   );
 }
-
-// const TagButton = styled(Button, {
-//   borderRadius: "50px",
-//   fontSize: "15px",
-
-//   [`.${theme} &`]: {
-//     color: "$blue",
-//     backgroundColor: "$grey",
-//     fontWeight: "medium",
-//   },
-
-//   "&:hover": {
-//     backgroundColor: "$darkergrey",
-//   },
-// });
 
 export default Home;
