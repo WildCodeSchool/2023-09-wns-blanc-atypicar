@@ -7,35 +7,25 @@ import Logo from "../assets/images/Logo.svg";
 export default function CustomNavbar() {
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div className="flex justify-center">
       <Navbar
         isBordered
         position="sticky"
+        className="w-9/12 mt-8 shadow-lg rounded-full"
       >
-        <NavbarBrand
-          css={{
-            "@xs": {
-              w: "12%",
-            },
-          }}
-        >
+        <NavbarBrand className="flex items-center justify-end lg:justify-start">
           <Image src={Logo} alt="logo" height={35} />
-          {/* <Text b color="inherit" hideIn="xs" className="websiteName">
-            Atypi'Car
-          </Text> */}
+          <p className="pl-2 text-2xl font-bold hidden lg:flex">Atypi'Car</p>
         </NavbarBrand>
-        <NavbarContent
-
-        >
-          <Link href="#" css={{ display: "flex", gap: "10px", mr: "1em" }}>
+        <NavbarContent className="flex navbar-content">
+          <a href="#" className="flex mr-4 p-0 hidden lg:flex">
             <Image src={SearchTraject} />
-            Rechercher</Link >
-          {/* Ajout de la marge entre la photo de profil et le lien "Publier un trajet" */}
-          <Link href="#" css={{ display: "flex", gap: "10px", mr: "2em" }}>
+            Rechercher
+          </a >
+          <a href="#" className="flex gap-2 mr-8 hidden lg:flex">
             <Image src={NewTraject} />
-            Publier un trajet</Link>
-        </NavbarContent>
-        <NavbarContent>
+            Publier un trajet
+          </a>
           <Dropdown placement="bottom-right">
             <NavbarItem>
               <DropdownTrigger>
