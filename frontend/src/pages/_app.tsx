@@ -1,5 +1,10 @@
-
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, from } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+  from,
+} from "@apollo/client";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { setContext } from "@apollo/client/link/context";
@@ -8,13 +13,12 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/authContext";
 import Layout from "@/components/Layout";
 import { NextUIProvider } from "@nextui-org/react";
-import "../components/theme/navbar.css";
-import { theme } from "@/components/theme/theme";
-import "../components/theme/globals.css"
+import "../globals.css";
+import { Montserrat_Alternates } from "next/font/google";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
-})
+});
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("token");
@@ -23,8 +27,8 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : "",
-    }
-  }
+    },
+  };
 });
 
 const errorLink = onError(({ graphQLErrors, operation }) => {
@@ -40,7 +44,12 @@ const errorLink = onError(({ graphQLErrors, operation }) => {
 
 const client = new ApolloClient({
   link: authLink.concat(from([errorLink, httpLink])),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+});
+
+const MontserratAlternates = Montserrat_Alternates({
+  subsets: ["latin"],
+  weight: "400",
 });
 
 function App({ Component, pageProps }: AppProps) {
@@ -54,7 +63,7 @@ function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <NextUIProvider theme={theme}>
+    <NextUIProvider className={MontserratAlternates.className}>
       <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
         <ApolloProvider client={client}>
           <Layout>
