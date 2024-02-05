@@ -2,13 +2,8 @@ import "reflect-metadata"
 import { dataSource } from './config/db';
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { CategoryResolver } from "./resolvers/category.resolver";
-import { AdResolver } from "./resolvers/ad.resolver";
+import { JourneyResolver } from "./resolvers/journey.resolver";
 import * as dotenv from "dotenv";
-import { verifyToken } from "./services/auth.service";
-import { UserResolver } from "./resolvers/user.resolver";
-import { getByEmail } from "./services/user.service";
-import { GraphQLError } from 'graphql';
 
 const port: number = 3001;
 
@@ -17,30 +12,8 @@ const start = async () => {
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [CategoryResolver, AdResolver, UserResolver],
+    resolvers: [JourneyResolver],
     validate: { forbidUnknownValues: false },
-    authChecker: async ({ context }, roles) => {
-      try {
-        const payload: any = verifyToken(context.token);
-        const userFromDB = await getByEmail(payload.email);
-        context.user = userFromDB;
-
-        if (roles.length >= 1) {
-          if (roles.includes(context.user.role)) {
-            return true;
-          }
-          else {
-            throw new Error();
-          }
-        }
-
-        return true;
-      } catch(e) {
-        throw new GraphQLError('You are not authorized to perform this action.', null, null, null, null, null, {
-          code: 'UNAUTHENTICATED'
-        })
-      }
-    }
   });
 
   const server = new ApolloServer({
