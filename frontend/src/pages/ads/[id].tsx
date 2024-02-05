@@ -1,4 +1,4 @@
-import { Ad } from "@/types/ad.type";
+// import { Ad } from "@/types/ad.type";
 import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
