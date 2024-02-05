@@ -3,39 +3,30 @@ import Image from "next/image";
 import NewTraject from "../assets/icons/new-traject.svg";
 import SearchTraject from "../assets/icons/search.svg";
 import Logo from "../assets/images/Logo.svg";
+import { CiSearch, CiCirclePlus } from "react-icons/ci";
 
 export default function CustomNavbar() {
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div className="flex justify-center">
       <Navbar
         isBordered
         position="sticky"
+        className="w-4/6 mt-8 shadow-lg rounded-full p-0"
       >
-        <NavbarBrand
-          css={{
-            "@xs": {
-              w: "12%",
-            },
-          }}
-        >
+        <NavbarBrand className="flex items-center justify-end xl:justify-start">
           <Image src={Logo} alt="logo" height={35} />
-          {/* <Text b color="inherit" hideIn="xs" className="websiteName">
-            Atypi'Car
-          </Text> */}
+          <p className="pl-2 text-3xl font-bold hidden xl:flex">Atypi'Car</p>
         </NavbarBrand>
-        <NavbarContent
-
-        >
-          <Link href="#" css={{ display: "flex", gap: "10px", mr: "1em" }}>
-            <Image src={SearchTraject} />
-            Rechercher</Link >
-          {/* Ajout de la marge entre la photo de profil et le lien "Publier un trajet" */}
-          <Link href="#" css={{ display: "flex", gap: "10px", mr: "2em" }}>
-            <Image src={NewTraject} />
-            Publier un trajet</Link>
-        </NavbarContent>
-        <NavbarContent>
+        <NavbarContent className="flex navbar-content">
+          <a href="#" className="flex gap-2 mr-4 hidden xl:flex">
+          <CiSearch className="h-auto text-2xl"/>
+            Rechercher
+          </a >
+          <a href="#" className="flex gap-2 mr-0 2xl:mr-8 hidden xl:flex">
+          <CiCirclePlus className="h-auto text-2xl" />
+            Publier un trajet
+          </a>
           <Dropdown placement="bottom-right">
             <NavbarItem>
               <DropdownTrigger>
@@ -53,19 +44,11 @@ export default function CustomNavbar() {
               color="secondary"
               onAction={(actionKey) => console.log({ actionKey })}
             >
-              <DropdownItem key="profile" css={{ height: "$18" }}>
-                {/* <Text b color="inherit" css={{ d: "flex" }}>
-                  Connecter en temps que
-                </Text>
-                <Text b color="inherit" css={{ d: "flex" }}>
-                  John D.
-                </Text> */}
-              </DropdownItem>
               <DropdownItem key="profile">Profil</DropdownItem>
-              <DropdownItem key="search" withDivider>
+              <DropdownItem key="search" withDivider className="block xl:hidden">
                 Rechercher
               </DropdownItem>
-              <DropdownItem key="new-traject">Publier un trajet</DropdownItem>
+              <DropdownItem key="new-traject" className="block xl:hidden">Publier un trajet</DropdownItem>
               <DropdownItem key="logout" withDivider color="error">
                 Se déconnecter
               </DropdownItem>
