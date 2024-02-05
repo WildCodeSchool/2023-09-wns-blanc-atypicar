@@ -4,6 +4,7 @@ import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
 import { JourneyResolver } from "./resolvers/journey.resolver";
 import * as dotenv from "dotenv";
+import { ReservationResolver } from "./resolvers/reservation.resolver";
 
 const port: number = 3001;
 
@@ -12,7 +13,7 @@ const start = async () => {
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [JourneyResolver],
+    resolvers: [JourneyResolver, ReservationResolver],
     validate: { forbidUnknownValues: false },
   });
 
