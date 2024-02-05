@@ -25,7 +25,6 @@ export default function Layout({ children }: { children: ReactNode }) {
       <main className="main-content">{children}</main>
 
       <BigFooter />
-      <SmallFooter />
     </>
   );
 }
