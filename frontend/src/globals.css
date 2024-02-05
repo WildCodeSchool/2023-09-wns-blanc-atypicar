@@ -8,3 +8,7 @@
 .navbar-content {
     justify-content: end !important;
 }
+
+header.z-40 {
+    max-width: 100% !important;
+}
