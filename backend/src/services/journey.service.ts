@@ -1,14 +1,25 @@
-import { DeleteResult } from "typeorm";
+import { DeleteResult, Like } from "typeorm";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 
-export async function searchJourney(): Promise<Journey[]> {
-  return Journey.find();
+export async function searchJourney(start: string, arrival: string): Promise<Journey[]> {
+  return Journey.find({
+    relations: {
+      reservation: true
+    },
+    where: {
+      startingPoint: Like(`%${start}`),
+      arrivalPoint: Like(`%${arrival}`)
+    }
+  });
 }
 
 export function findJourney(id: number): Promise<Journey | null> {
   return Journey.findOne({
+    relations: {
+      reservation: true
+    },
     where: { id },
   });
 }
