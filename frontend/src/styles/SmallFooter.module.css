@@ -1,0 +1,21 @@
+.footer {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: white;
+}
+  .footer a, .logo {
+    color:  #6F8B90;
+}
+
+.footer a {
+    margin-right: 2rem;
+}
+
+@media (max-width: 768px) {
+    .footer, .footer a, .logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 1.2rem;
+    }
+  }
