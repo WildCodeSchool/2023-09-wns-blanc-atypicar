@@ -18,7 +18,7 @@ const CategoryCard = () => {
                 <h4 className="font-medium text-base font-montserrat text-center">Vivez le voyage le plus fou de
                     votre vie</h4>
                 <h4 className="font-normal font-montserrat text-center text-sm text-gray-400">Découvrez nos moyens de déplacement les plus atypique</h4>
-                <Link href="#" className="font-normal font-montserrat text-center text-sm text-default"> Je réserve</Link>
+                <Link href="#" className="font-bold font-montserrat text-center text-sm text-default text-secondary"> Je réserve</Link>
             </CardBody>
 
         </Card>

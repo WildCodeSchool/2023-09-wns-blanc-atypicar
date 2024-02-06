@@ -4,12 +4,12 @@ import Logo from "../assets/images/Logo.svg";
 function SmallFooter() {
   return (
     <footer className={styles.footer}>
-      <div className={styles.link}>
+      <div className="mt-5 pb-8">
         <a href="#">Transparence des platformes</a>
         <a href="#">Informations légales</a>
         <a href="#">Paramètres des cookies</a>
       </div>
-      <div className={styles.logo}>
+      <div className="mt-1 flex items-center">
         <svg
           width="50"
           height="42"
@@ -29,7 +29,7 @@ function SmallFooter() {
             fill="#E76F51"
           />
         </svg>
-        <p>Atypi’Car, 2024 ©</p>
+        <p className="pl-3">Atypi’Car, 2024 ©</p>
       </div>
     </footer>
   );
