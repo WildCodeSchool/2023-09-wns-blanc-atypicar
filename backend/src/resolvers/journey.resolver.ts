@@ -33,6 +33,9 @@ export class JourneyResolver {
   @Mutation(() => String)
   async deleteJourney(@Arg("id") id: number): Promise<string> {
     const result = await journeyService.deleteJourney(id);
+    if(result.affected === 0){
+      return "No journey found"
+    } 
     return "OK";
   }
 }

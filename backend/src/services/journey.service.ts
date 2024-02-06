@@ -4,11 +4,18 @@ import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 
 export async function searchJourney(): Promise<Journey[]> {
-  return Journey.find();
+  return Journey.find({
+    relations: {
+      reservation: true
+    }
+  });
 }
 
 export function findJourney(id: number): Promise<Journey | null> {
   return Journey.findOne({
+    relations: {
+      reservation: true
+    },
     where: { id },
   });
 }
