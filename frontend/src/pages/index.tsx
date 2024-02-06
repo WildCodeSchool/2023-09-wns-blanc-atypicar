@@ -7,9 +7,6 @@ function Home() {
   return (
     <>
       <h1 className="font-monserrat">Hello </h1>
-      <Spacer y={8} />
-      <JourneyCard />
-      <Spacer y={8} />
       <Button color="default">Default</Button>
       <Button color="primary">Primary</Button>
       <Button color="secondary">Secondary</Button>
