@@ -8,23 +8,25 @@ import { CiSearch, CiCirclePlus } from "react-icons/ci";
 export default function CustomNavbar() {
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full	fixed z-50">
       <Navbar
         isBordered
         position="sticky"
         className="w-4/6 mt-8 shadow-lg rounded-full p-0"
       >
-        <NavbarBrand className="flex items-center justify-end xl:justify-start">
-          <Image src={Logo} alt="logo" height={35} />
-          <p className="pl-2 text-3xl font-bold hidden xl:flex">Atypi'Car</p>
-        </NavbarBrand>
+        <Link href="/">
+          <NavbarBrand className="flex items-center justify-end xl:justify-start" >
+            <Image src={Logo} alt="logo" height={35} />
+            <p className="pl-2 text-3xl  hidden xl:flex font-bold text-default font-montserrat ">Atypi'Car</p>
+          </NavbarBrand>
+        </Link>
         <NavbarContent className="flex navbar-content">
-          <a href="#" className="flex gap-2 mr-4 hidden xl:flex">
-          <CiSearch className="h-auto text-2xl"/>
+          <a href="#" className=" gap-2 mr-4 hidden xl:flex">
+            <CiSearch className="h-auto text-2xl" />
             Rechercher
           </a >
-          <a href="#" className="flex gap-2 mr-0 2xl:mr-8 hidden xl:flex">
-          <CiCirclePlus className="h-auto text-2xl" />
+          <a href="#" className=" gap-2 mr-0 2xl:mr-8 hidden xl:flex">
+            <CiCirclePlus className="h-auto text-2xl" />
             Publier un trajet
           </a>
           <Dropdown placement="bottom-right">
@@ -45,6 +47,7 @@ export default function CustomNavbar() {
               onAction={(actionKey) => console.log({ actionKey })}
             >
               <DropdownItem key="profile">Profil</DropdownItem>
+              <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
               <DropdownItem key="search" withDivider className="block xl:hidden">
                 Rechercher
               </DropdownItem>

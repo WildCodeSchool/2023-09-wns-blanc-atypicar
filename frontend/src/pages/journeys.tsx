@@ -26,7 +26,7 @@ export const MyJourneys = () => {
   });
 
   return (
-    <div className="my-journeys">
+    <div className="my-journeys pt-24">
       <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
         Mes trajets publiés
       </h2>
