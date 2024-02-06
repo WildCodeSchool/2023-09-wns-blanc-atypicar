@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { Field, ObjectType } from "type-graphql";
 import { User } from "./user";
+import { Reservation } from "./reservation";
 
 @ObjectType()
 @Entity()
@@ -40,31 +41,15 @@ export class Journey extends BaseEntity {
   endDate: Date;
 
   @Field()
-  @Column()
+  @Column({ type: "integer", nullable: false})
   availableSeats: number;
 
   @Field()
   @Column()
   price: number;
 
-  constructor(datas: {
-    startingPoint: string,
-    arrivalPoint: string,
-    description: string,
-    startDate: Date,
-    endDate: Date, 
-    availableSeats: number,
-    price: number
-  }| null = null){
-    super();
-    if(datas) {
-      this.startingPoint = datas.startingPoint;
-      this.arrivalPoint = datas.arrivalPoint;
-      this.description = datas.description;
-      this.startDate = datas.startDate;
-      this.endDate = datas.endDate;
-      this.availableSeats = datas.availableSeats;
-      this.price = datas.price;
-    }
-  }
+  @Field(() => [Reservation])
+  @OneToMany(() => Reservation, reservation => reservation.journey, { cascade: true, onDelete: "CASCADE" })
+  reservation?: Reservation[];
+
 }
