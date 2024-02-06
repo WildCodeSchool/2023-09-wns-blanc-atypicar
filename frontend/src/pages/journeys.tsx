@@ -29,22 +29,18 @@ export const MyJourneys = () => {
   loading && <p>Chargement...Veuillez patienter</p>;
   error && <p>Erreur 🤯</p>;
 
-  console.log(journeys);
   return (
-    <div>
+    <div className="pt-24">
       <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
-        Tous les trajets publiés
+        Mes trajets publiés
       </h2>
-      {journeys ? (
-        <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
-          {journeys.map((journey) => (
-            <Link href={`/journeys/${journey.id}`}>
-              <JourneyCard key={journey.id} journey={journey} />
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <div>Aucun trajet publié</div>
+      <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
+        {journeys.map((journey) => (
+          <JourneyCard key={journey.id} journey={journey} />
+        ))}
+      </div>
+      {journeys.length < 1 && (
+        <div className="p-8 text-center">Aucun trajet disponible.</div>
       )}
     </div>
   );
