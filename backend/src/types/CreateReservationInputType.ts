@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from "type-graphql";
+import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class CreateReservationInputType {
@@ -6,13 +6,14 @@ export class CreateReservationInputType {
   status: string;
 
   @Field()
-  passenger: number;
+  passenger?: number;
+
 
   @Field()
   dateTime: Date;
 
   @Field()
-  creationDate: Date;
+  creationDate?: Date;
 
   @Field()
   seatNumber: number;

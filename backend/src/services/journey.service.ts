@@ -1,7 +1,8 @@
-import { DeleteResult } from "typeorm";
+import { DeleteResult, Like } from "typeorm";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
+
 
 export async function searchJourney(): Promise<Journey[]> {
   return Journey.find({

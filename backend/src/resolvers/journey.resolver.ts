@@ -7,8 +7,8 @@ import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 @Resolver(Journey)
 export class JourneyResolver {
   @Query(() => [Journey])
-  getJourneys(): Promise<Journey[]> {
-    return journeyService.searchJourney();
+  getJourneys(@Arg("start", { nullable: true }) start: string, @Arg("arrival", { nullable: true }) arrival: string): Promise<Journey[]> {
+    return journeyService.searchJourney(start, arrival);
   }
 
   @Query(() => Journey)
