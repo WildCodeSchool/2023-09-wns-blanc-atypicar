@@ -17,6 +17,11 @@ export async function addJourney(
   JourneyData: CreateJourneyInputType
 ): Promise<Journey | Error> {
   try {
+
+    if (JourneyData.endDate < JourneyData.startDate) {
+      throw new Error("La date d'arrivée ne peut pas être inférieur à la date de départ");
+    }
+
     let journey = new Journey();
     Object.assign(journey, JourneyData);
 

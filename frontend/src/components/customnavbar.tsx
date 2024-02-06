@@ -8,7 +8,7 @@ import { CiSearch, CiCirclePlus } from "react-icons/ci";
 export default function CustomNavbar() {
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full	fixed z-50">
       <Navbar
         isBordered
         position="sticky"
@@ -16,15 +16,15 @@ export default function CustomNavbar() {
       >
         <NavbarBrand className="flex items-center justify-end xl:justify-start">
           <Image src={Logo} alt="logo" height={35} />
-          <p className="pl-2 text-3xl font-bold hidden xl:flex">Atypi'Car</p>
+          <p className="pl-2 text-3xl  hidden xl:flex font-bold font-montserrat ">Atypi'Car</p>
         </NavbarBrand>
         <NavbarContent className="flex navbar-content">
           <a href="#" className="flex gap-2 mr-4 hidden xl:flex">
-          <CiSearch className="h-auto text-2xl"/>
+            <CiSearch className="h-auto text-2xl" />
             Rechercher
           </a >
           <a href="#" className="flex gap-2 mr-0 2xl:mr-8 hidden xl:flex">
-          <CiCirclePlus className="h-auto text-2xl" />
+            <CiCirclePlus className="h-auto text-2xl" />
             Publier un trajet
           </a>
           <Dropdown placement="bottom-right">

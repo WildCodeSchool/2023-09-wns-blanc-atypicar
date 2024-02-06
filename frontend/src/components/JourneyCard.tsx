@@ -4,7 +4,7 @@ const JourneyCard = () => {
   return (
     <Card className="flex-row min-w-96 max-w-80 h-44 ">
       <Image
-        className="h-44 w-32 max-w-none rounded-r-none"
+        className="h-44 w-32 max-w-none rounded-r-none object-cover"
         alt="Card background"
         src="http://placekitten.com/g/200/200"
       />
