@@ -71,6 +71,7 @@ export async function modifyReservation(ReservationData: CreateReservationInputT
     reservationToUpdate.dateTime = dateTime;
     reservationToUpdate.seatNumber = ReservationData.seatNumber;
 
+
     return reservationToUpdate.save();
 }
 

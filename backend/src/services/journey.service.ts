@@ -3,14 +3,11 @@ import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 
-export async function searchJourney(start: string, arrival: string): Promise<Journey[]> {
+
+export async function searchJourney(): Promise<Journey[]> {
   return Journey.find({
     relations: {
       reservation: true
-    },
-    where: {
-      startingPoint: Like(`%${start}`),
-      arrivalPoint: Like(`%${arrival}`)
     }
   });
 }
@@ -28,6 +25,11 @@ export async function addJourney(
   JourneyData: CreateJourneyInputType
 ): Promise<Journey | Error> {
   try {
+
+    if (JourneyData.endDate < JourneyData.startDate) {
+      throw new Error("La date d'arrivée ne peut pas être inférieur à la date de départ");
+    }
+
     let journey = new Journey();
     Object.assign(journey, JourneyData);
 

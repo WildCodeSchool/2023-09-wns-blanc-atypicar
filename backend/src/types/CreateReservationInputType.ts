@@ -8,6 +8,7 @@ export class CreateReservationInputType {
   @Field()
   passenger?: number;
 
+
   @Field()
   dateTime: Date;
 
