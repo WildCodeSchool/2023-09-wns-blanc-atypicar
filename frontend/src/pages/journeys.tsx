@@ -32,11 +32,13 @@ export const MyJourneys = () => {
   return (
     <div className="pt-24">
       <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
-        Mes trajets publiés
+        Mes trajets publiés Mes trajets publiés
       </h2>
       <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
         {journeys.map((journey) => (
-          <JourneyCard key={journey.id} journey={journey} />
+          <Link href={`/journeys/${journey.id}`}>
+            <JourneyCard key={journey.id} journey={journey} />
+          </Link>
         ))}
       </div>
       {journeys.length < 1 && (
