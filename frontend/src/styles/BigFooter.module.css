@@ -6,7 +6,7 @@
   justify-content: space-evenly;
   min-height: 15rem;
   line-height: 2.5rem;
-  position: fixed;
+  position: relative;
   bottom: 0;
   width: 100%;
   padding-bottom: 4rem;
@@ -41,7 +41,7 @@
   .mobile {
     display: block;
     background-color: #2a9d8f;
-    position: absolute;
+    position: relative;
     color: white;
     bottom: 0;
     width: 100%;
