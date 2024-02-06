@@ -7,8 +7,8 @@ import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 @Resolver(Journey)
 export class JourneyResolver {
   @Query(() => [Journey])
-  getJourneys(@Arg("start", { nullable: true }) start: string, @Arg("arrival", { nullable: true }) arrival: string): Promise<Journey[]> {
-    return journeyService.searchJourney(start, arrival);
+  getJourneys(): Promise<Journey[]> {
+    return journeyService.searchJourney();
   }
 
   @Query(() => Journey)
@@ -33,9 +33,9 @@ export class JourneyResolver {
   @Mutation(() => String)
   async deleteJourney(@Arg("id") id: number): Promise<string> {
     const result = await journeyService.deleteJourney(id);
-    if(result.affected === 0){
-      return "No journey found"
-    } 
+    if (result.affected === 0) {
+      return "No journey found";
+    }
     return "OK";
   }
 }
