@@ -23,7 +23,6 @@ const { loading, error, data } = useQuery(GET_ALL_JOURNEYS, {
       setJourneys(data.getJourneys);
     }
   });
-console.log(journeys);
   return (
     <div className="my-journeys">
     <h2 className='flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat'>Mes trajets publiés</h2>

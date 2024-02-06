@@ -2,7 +2,6 @@ import { Card, CardHeader, Image, Avatar, CardBody } from "@nextui-org/react";
 
 
 const JourneyCard = ({journey}) => {
-  console.log(journey)
   const FormatDate = (date) => {
     let dateObj = new Date(date);
     return dateObj.toLocaleTimeString('fr-FR', {hour12: false, hour: '2-digit', minute: '2-digit'});
