@@ -28,7 +28,6 @@ export const MyJourneys = () => {
   loading && <p>Chargement...Veuillez patienter</p>;
   error && <p>Erreur 🤯</p>;
 
-  console.log(journeys);
   return (
     <div className="my-journeys pt-24">
       <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
@@ -40,7 +39,7 @@ export const MyJourneys = () => {
         ))}
       </div>
       {journeys.length < 1 && (
-        <div className="p-8">Aucun trajet disponible.</div>
+        <div className="p-8 text-center">Aucun trajet disponible.</div>
       )}
     </div>
   );
