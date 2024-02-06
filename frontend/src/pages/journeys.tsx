@@ -26,6 +26,10 @@ export const MyJourneys = () => {
     },
   });
 
+  loading && <p>Chargement...Veuillez patienter</p>;
+  error && <p>Erreur 🤯</p>;
+
+  console.log(journeys);
   return (
     <div>
       <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
