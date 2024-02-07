@@ -50,10 +50,10 @@ export const MyJourneys = () => {
 </nav>
 
     <div className="pt-10">
-      <h2 className="flex justify-center pt-3 pb-8 text-xl font-bold font-montserrat">
+      <h1 className="flex justify-center pt-3 pb-8 text-xl font-bold font-montserrat">
 
         Tous mes trajets publiés
-      </h2>
+      </h1>
       <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
         {journeys.map((journey) => (
           <Link data-testid="journey-card" href={`/journeys/${journey.id}`}>
