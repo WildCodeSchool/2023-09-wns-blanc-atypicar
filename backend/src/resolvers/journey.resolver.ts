@@ -7,8 +7,13 @@ import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 @Resolver(Journey)
 export class JourneyResolver {
   @Query(() => [Journey])
-  getJourneys(): Promise<Journey[]> {
-    return journeyService.searchJourney();
+  getJourneys(
+    @Arg("start", { nullable: true }) start: string,
+    @Arg("arrival", { nullable: true }) arrival: string,
+    @Arg("date", { nullable: true }) date: Date,
+    @Arg("seats", { nullable: true }) seats: number
+  ): Promise<Journey[] | Error> {
+    return journeyService.searchJourney(start, arrival, date, seats);
   }
 
   @Query(() => Journey)
@@ -34,7 +39,7 @@ export class JourneyResolver {
   async deleteJourney(@Arg("id") id: number): Promise<string> {
     const result = await journeyService.deleteJourney(id);
     if (result.affected === 0) {
-      return "No journey found";
+      return "No journey found"
     }
     return "OK";
   }

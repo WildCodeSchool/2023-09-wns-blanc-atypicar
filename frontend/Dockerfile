@@ -6,11 +6,15 @@ COPY package.json package.json
 COPY tsconfig.json tsconfig.json
 
 COPY next-env.d.ts next-env.d.ts
+COPY tailwind.config.js tailwind.config.js
+COPY postcss.config.js postcss.config.js
 COPY next.config.js next.config.js
 COPY postcss.config.js postcss.config.js
 COPY tailwind.config.js tailwind.config.js
 
+
 COPY playwright.config.ts playwright.config.ts
+
 
 RUN npm i
 
