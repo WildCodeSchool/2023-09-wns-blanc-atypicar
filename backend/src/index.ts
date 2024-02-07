@@ -5,6 +5,9 @@ import { buildSchema } from "type-graphql";
 import { JourneyResolver } from "./resolvers/journey.resolver";
 import * as dotenv from "dotenv";
 import { ReservationResolver } from "./resolvers/reservation.resolver";
+import { UserResolver } from "./resolvers/user.resolver";
+import { verifyToken } from "./services/auth.service";
+import { getUserByEmail } from "./services/user.service";
 
 const port: number = 3001;
 
@@ -13,8 +16,19 @@ const start = async () => {
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [JourneyResolver, ReservationResolver],
+    resolvers: [JourneyResolver, ReservationResolver, UserResolver],
     validate: { forbidUnknownValues: false },
+    authChecker: async ({ context }, roles) => {
+      try {
+        const payload: any = verifyToken(context.token);
+        const userFromDb = await getUserByEmail(payload.email);
+        context.user = userFromDb;
+
+        return true
+      } catch (error) {
+        return false;
+      }
+    }
   });
 
   const server = new ApolloServer({

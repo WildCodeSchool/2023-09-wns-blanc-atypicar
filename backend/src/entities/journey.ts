@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -15,10 +16,6 @@ export class Journey extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Field(() => User)
-  @OneToMany(() => User, (user) => user.id)
-  driver: number;
 
   @Field()
   @Column({ length: 155 })
@@ -52,4 +49,7 @@ export class Journey extends BaseEntity {
   @OneToMany(() => Reservation, reservation => reservation.journey, { cascade: true, onDelete: "CASCADE" })
   reservation?: Reservation[];
 
+  @Field(() => User)
+  @ManyToOne(() => User, user => user.journey)
+  driver: User;
 }
