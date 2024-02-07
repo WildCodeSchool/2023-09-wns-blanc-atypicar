@@ -27,3 +27,11 @@ export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("fr-FR", options);
 };
+
+export const formattedDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+  const newDate = date.toLocaleDateString('fr-FR', options);
+
+  return newDate;
+}
