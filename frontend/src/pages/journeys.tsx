@@ -31,12 +31,15 @@ export const MyJourneys = () => {
 
   return (
     <div className="pt-24">
-      <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
+      <h1
+        data-testid="journey-title"
+        className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat"
+      >
         Tous mes trajets publiés
-      </h2>
+      </h1>
       <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
         {journeys.map((journey) => (
-          <Link href={`/journeys/${journey.id}`}>
+          <Link data-testid="journey-card" href={`/journeys/${journey.id}`}>
             <JourneyCard key={journey.id} journey={journey} />
           </Link>
         ))}
