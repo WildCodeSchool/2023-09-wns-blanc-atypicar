@@ -1,6 +1,13 @@
 import { Journey } from "@/types/journey";
 import { formatHour, calculateDuration } from "@/utils/formatDates";
-import { Card, CardHeader, Image, Avatar, CardBody } from "@nextui-org/react";
+import {
+  Card,
+  CardHeader,
+  Image,
+  Avatar,
+  CardBody,
+  CardFooter,
+} from "@nextui-org/react";
 
 type JourneyCardProps = {
   journey: Journey;
@@ -8,36 +15,38 @@ type JourneyCardProps = {
 
 const JourneyCard = ({ journey }: JourneyCardProps) => {
   return (
-    <Card isPressable className="flex-row min-w-96 max-w-80 h-44 ">
+    <Card isPressable className="flex flex-row">
       <Image
-        className="h-44 w-32 max-w-none rounded-r-none object-cover"
+        className="h-52 w-32 max-w-none rounded-r-none object-cover"
         alt="Card background"
         src="http://placekitten.com/g/200/200"
       />
-      <div className="flex-col p-2">
-        <CardHeader className="w-auto grid-cols-2 pb-0 pt-2 px-4 grid">
-          <p className="text font-bold">{formatHour(journey.startDate)}</p>
-          <h4 className="font-bold">{journey.startingPoint}</h4>
-          <small className="pl-2 text-default-500">
-            {calculateDuration(journey.startDate, journey.endDate)}
-          </small>
-          <small></small>
-          <p className="text font-bold">{formatHour(journey.endDate)}</p>
-          <h4 className="font-bold">{journey.arrivalPoint}</h4>
-        </CardHeader>
-        <CardBody className="flex-col items-start py-2">
-          <h4 className="font-bold">{journey.price} €</h4>
-          <div className="grid grid-cols-2 items-center w-full pt-2">
-            <Avatar
-              isBordered
-              as="button"
-              color="success"
-              size="md"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            />
-            <h4 className="font-bold">Mohamed</h4>
-          </div>
-        </CardBody>
+      <div className="flex flex-col justify-between items-center p-2 h-52">
+        <div className="flex flex-col md:flex-row">
+          <CardHeader className="grid-cols-2 grid justify-items-start font-bold font-montserrat w-52">
+            <p>{formatHour(journey.startDate)}</p>
+            <h4>{journey.startingPoint}</h4>
+            <small className="pl-2 text-default-500 font-normal">
+              {calculateDuration(journey.startDate, journey.endDate)}
+            </small>
+            <small></small>
+            <p>{formatHour(journey.endDate)}</p>
+            <h4>{journey.arrivalPoint}</h4>
+          </CardHeader>
+          <CardBody className="py-1 ml-0 md:ml-4 md:p-3 w-auto">
+            <h4>{journey.price}€</h4>
+          </CardBody>
+        </div>
+        <CardFooter className="flex justify-start gap-6 items-center w-full pt-2">
+          <Avatar
+            isBordered
+            as="button"
+            color="success"
+            size="md"
+            src="https://i.pravatar.cc/300"
+          />
+          <h4>username</h4>
+        </CardFooter>
       </div>
     </Card>
   );
