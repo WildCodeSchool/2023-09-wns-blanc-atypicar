@@ -6,7 +6,10 @@ COPY package.json package.json
 COPY tsconfig.json tsconfig.json
 COPY public public
 COPY next-env.d.ts next-env.d.ts
+COPY tailwind.config.js tailwind.config.js
+COPY postcss.config.js postcss.config.js
 COPY next.config.js next.config.js
+
 
 RUN npm i
 
