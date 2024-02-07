@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Divider, Image } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
+import { IoIosHome, IoIosArrowForward } from "react-icons/io";
+
 
 const GET_JOURNEY_BY_ID = gql`
   query findJourney($findJourneyId: Float!) {
@@ -40,6 +42,30 @@ const JourneyDetail = () => {
   if (journey)
     return (
       <div>
+    <nav className="flex pt-16 justify-center" aria-label="Breadcrumb">
+  <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+    <li className="inline-flex items-center">
+      <a href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-secondary dark:text-gray-400 dark:hover:text-white">
+      <IoIosHome className="text-lg mb-1"/> &nbsp;
+        Accueil
+      </a>
+    </li>
+    <li>
+      <div className="flex items-center">
+      <IoIosArrowForward/>
+        <a href="/journeys" className="ms-1 text-sm font-medium text-gray-700 hover:text-secondary md:ms-2 dark:text-gray-400 dark:hover:text-white">Mes trajets</a>
+      </div>
+    </li>
+    <li>
+      <div className="flex items-center">
+      <IoIosArrowForward/>
+        <a href="#" className="ms-1 text-sm font-medium text-gray-700 hover:text-secondary md:ms-2 dark:text-gray-400 dark:hover:text-white">Détails du trajet</a>
+      </div>
+    </li>
+  </ol>
+</nav>
+
+      <div>
         <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
           {formatDate(journey.startDate)}
         </h2>
@@ -64,6 +90,7 @@ const JourneyDetail = () => {
             <Divider className=" my-6" />
           </div>
         </section>
+      </div>
       </div>
     );
 };

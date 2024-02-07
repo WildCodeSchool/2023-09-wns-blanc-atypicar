@@ -16,17 +16,27 @@ const JourneyCard = ({ journey }: JourneyCardProps) => {
       />
       <div className="flex-col p-2">
         <CardHeader className="w-auto grid-cols-2 pb-0 pt-2 px-4 grid">
-          <p className="text font-bold">{formatHour(journey.startDate)}</p>
-          <h4 className="font-bold">{journey.startingPoint}</h4>
+          <p data-testid="journey-start-date" className="text font-bold">
+            {formatHour(journey.startDate)}
+          </p>
+          <h4 data-testid="journey-starting-point" className="font-bold">
+            {journey.startingPoint}
+          </h4>
           <small className="pl-2 text-default-500">
             {calculateDuration(journey.startDate, journey.endDate)}
           </small>
           <small></small>
-          <p className="text font-bold">{formatHour(journey.endDate)}</p>
-          <h4 className="font-bold">{journey.arrivalPoint}</h4>
+          <p data-testid="journey-end-date" className="text font-bold">
+            {formatHour(journey.endDate)}
+          </p>
+          <h4 data-testid="journey-arrival-point" className="font-bold">
+            {journey.arrivalPoint}
+          </h4>
         </CardHeader>
         <CardBody className="flex-col items-start py-2">
-          <h4 className="font-bold">{journey.price} €</h4>
+          <h4 data-testid="journey-price" className="font-bold">
+            {journey.price} €
+          </h4>
           <div className="grid grid-cols-2 items-center w-full pt-2">
             <Avatar
               isBordered
