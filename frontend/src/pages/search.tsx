@@ -68,7 +68,10 @@ export default function SearchPage() {
                     objectFit="cover"
                     className="absolute inset-0 w-full h-full -z-50 cover opacity-50"
                 />
-                <SearchBar startingPoint={router.query.start} endingPoint={router.query.end} dateStart={router.query.date} availableSeats={router.query.seats} />
+                <div className="mt-36 lg:mt-52" >
+                    <SearchBar startingPoint={router.query.start} endingPoint={router.query.end} dateStart={router.query.date} availableSeats={router.query.seats} />
+                </div>
+
 
             </div>
 

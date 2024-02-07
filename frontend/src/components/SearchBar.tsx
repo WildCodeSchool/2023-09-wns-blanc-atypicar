@@ -39,7 +39,7 @@ export default function SearchBar({ startingPoint, endingPoint, dateStart, avail
         router.push(`/search?${searchQuery}`);
     }
     return (
-        <div className="flex flex-col sm:flex-row items-center justify-center  mt-28 md:mt-60   ">
+        <div className="flex flex-col sm:flex-row items-center justify-center  mt-28 lg:mt-54   ">
             <Input placeholder="Départ" classNames={{ input: "text-gray-400	", inputWrapper: "bg-white rounded-t-xl sm:rounded-tr-none sm:rounded-l-xl sm:after:content-[''] sm:after:absolute after:h-10 sm:after:right-0 sm:after:w-1 sm:after:bg-secondary sm:after:rounded ", }} className="sm:w-68 w-80 shadow-lg " radius="none"
                 startContent={
                     <CgShapeCircle className="text-2xl  pointer-events-none flex-shrink-0 text-secondary" />

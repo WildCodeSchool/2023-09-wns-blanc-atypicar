@@ -24,9 +24,9 @@ function Home() {
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-transparent from-25% to-white to-70% opacity-1">
-          <h2 className="font-montserrat font-bold text-center pt-32 text-2xl sm:text-4xl px-2">Plus qu'un <span className=" text-primary ">trajet</span>, une <span className="text-primary">expérience</span> !</h2>
+          <h2 className="font-montserrat font-bold text-center  text-default pt-32 text-2xl sm:text-4xl px-2">Plus qu'un <span className=" text-primary ">trajet</span>, une <span className="text-primary">expérience</span> !</h2>
+          <SearchBar />
         </div >
-        <SearchBar />
       </div >
       <section id="first-section">
         <div className="flex items-center justify-center flex-col sm:flex-row p-3 gap-11 pt-20" >
