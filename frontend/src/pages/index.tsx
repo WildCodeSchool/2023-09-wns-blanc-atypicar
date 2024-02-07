@@ -8,6 +8,7 @@ import Image from "next/image";
 import { CiRainbow } from "react-icons/ci";
 import TopCard from "@/components/TopCard";
 import CategoryCard from "@/components/CategoryCard";
+import SearchBar from "@/components/SearchBar";
 
 function Home() {
   return (
@@ -22,7 +23,7 @@ function Home() {
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-transparent from-25% to-white to-70% opacity-1">
-          <h2 className="font-montserrat font-bold text-center pt-20 text-2xl sm:text-4xl px-2">
+          <h2 className="font-montserrat font-bold text-center pt-20 text-2xl sm:text-4xl px-2 text-default">
             Plus qu'un <span className=" text-primary ">trajet</span>, une{" "}
             <span className="text-primary">expérience</span> !
           </h2>
