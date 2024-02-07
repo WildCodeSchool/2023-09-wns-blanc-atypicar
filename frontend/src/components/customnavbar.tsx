@@ -12,7 +12,7 @@ export default function CustomNavbar() {
       <Navbar
         isBordered
         position="sticky"
-        className="w-4/6 mt-8 shadow-lg rounded-full p-0"
+        className="md:w-4/6 w-11/12 mt-8 shadow-lg rounded-full p-0"
       >
         <Link href="/">
           <NavbarBrand className="flex items-center justify-end xl:justify-start" >

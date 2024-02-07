@@ -2,6 +2,7 @@ import JourneyCard from "@/components/JourneyCard";
 import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Journey } from "@/types/journey";
+import Link from "next/link";
 
 const GET_ALL_JOURNEYS = gql`
   query Journeys {
@@ -25,15 +26,21 @@ export const MyJourneys = () => {
     },
   });
 
+  loading && <p>Chargement...Veuillez patienter</p>;
+  error && <p>Erreur 🤯</p>;
+
+  console.log(journeys);
   return (
-    <div className="my-journeys pt-24">
+    <div>
       <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
-        Mes trajets publiés
+        Tous les trajets publiés
       </h2>
       {journeys ? (
         <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
           {journeys.map((journey) => (
-            <JourneyCard key={journey.id} journey={journey} />
+            <Link href={`/journeys/${journey.id}`}>
+              <JourneyCard key={journey.id} journey={journey} />
+            </Link>
           ))}
         </div>
       ) : (

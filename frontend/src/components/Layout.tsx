@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       <CustomNavbar />
 
-      <main className="main-content">{children}</main>
+      <main className="py-24">{children}</main>
 
       <BigFooter />
     </>
