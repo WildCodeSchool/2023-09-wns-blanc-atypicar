@@ -37,7 +37,7 @@ services:
     volumes:
       - ./dbData:/var/lib/postgresql/data/customDataFolder
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d atypicardb -U atypicar" ]
+      test: [ "CMD-SHELL", "pg_isready -d atypicardb -U atypicar" ]
       interval: 5s
       timeout: 5s
       retries: 10

@@ -1,16 +1,31 @@
-import { DeleteResult, Like } from "typeorm";
+import { DeleteResult, Like, MoreThanOrEqual } from "typeorm";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 
 
-export async function searchJourney(): Promise<Journey[]> {
-  return Journey.find({
-    relations: {
-      reservation: true
+export async function searchJourney(start: string, arrival: string, date: Date, seats: number): Promise<Journey[] | Error> {
+
+  const searchFilter: any = {
+    relations: { reservation: true },
+    where: {
+      ...(start && { startingPoint: start }),
+      ...(arrival && { arrivalPoint: arrival }),
+      ...(date && { startDate: date }),
+      ...(seats && { availableSeats: seats })
     }
-  });
+  };
+
+  const journeys = await Journey.find(searchFilter);
+
+
+  if (!journeys || journeys.length === 0) {
+    return [];
+  }
+
+  return journeys;
 }
+
 
 export function findJourney(id: number): Promise<Journey | null> {
   return Journey.findOne({
