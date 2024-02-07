@@ -46,7 +46,7 @@ export default function SearchPage() {
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :-(</p>;
-    console.log(journeys)
+
 
 
     const sortedByPrice = [...journeys].sort((a, b) => a.price - b.price);
