@@ -14,10 +14,6 @@ COPY next.config.js next.config.js
 COPY postcss.config.js postcss.config.js
 COPY tailwind.config.js tailwind.config.js
 
-
-COPY playwright.config.ts playwright.config.ts
-
-
 RUN npm i
 
 COPY src src
