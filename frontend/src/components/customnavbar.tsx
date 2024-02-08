@@ -25,7 +25,7 @@ export default function CustomNavbar() {
             <CiSearch className="h-auto text-2xl" />
             Rechercher
           </a >
-          <a href="#" className=" gap-2 mr-0 2xl:mr-8 hidden xl:flex">
+          <a href="/journeys/new" className=" gap-2 mr-0 2xl:mr-8 hidden xl:flex">
             <CiCirclePlus className="h-auto text-2xl" />
             Publier un trajet
           </a>
@@ -51,7 +51,7 @@ export default function CustomNavbar() {
               <DropdownItem key="search" withDivider className="block xl:hidden">
                 Rechercher
               </DropdownItem>
-              <DropdownItem key="new-traject" className="block xl:hidden">Publier un trajet</DropdownItem>
+              <DropdownItem key="journeys/new" className="block xl:hidden">Publier un trajet</DropdownItem>
               <DropdownItem key="logout" withDivider color="error">
                 Se déconnecter
               </DropdownItem>
