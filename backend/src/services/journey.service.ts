@@ -1,20 +1,25 @@
-import { DeleteResult, Like, MoreThanOrEqual } from "typeorm";
+import { Between, DeleteResult, LessThan, Like, MoreThanOrEqual } from "typeorm";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 
 
 export async function searchJourney(start: string, arrival: string, date: Date, seats: number): Promise<Journey[] | Error> {
+  const endDate = new Date(date);
+  endDate.setHours(23, 59, 59, 999);
 
   const searchFilter: any = {
     relations: { reservation: true },
     where: {
       ...(start && { startingPoint: start }),
       ...(arrival && { arrivalPoint: arrival }),
-      ...(date && { startDate: date }),
-      ...(seats && { availableSeats: seats })
+      ...(date && {
+        startDate: Between(date, endDate)
+      }),
+      ...(seats && { availableSeats: MoreThanOrEqual(seats) })
     }
   };
+
 
   const journeys = await Journey.find(searchFilter);
 
