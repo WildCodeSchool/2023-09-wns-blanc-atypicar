@@ -55,7 +55,7 @@ const config = {
             danger: {
               DEFAULT: "#E76F51",
               foreground: "#000000",
-            },
+            }
           },
         },
       },
