@@ -11,7 +11,7 @@ const port: number = 3001;
 const start = async () => {
   dotenv.config();
   await dataSource.initialize();
-
+  
   const schema = await buildSchema({
     resolvers: [JourneyResolver, ReservationResolver],
     validate: { forbidUnknownValues: false },
