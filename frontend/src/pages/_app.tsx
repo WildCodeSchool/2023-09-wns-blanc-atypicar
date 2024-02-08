@@ -15,6 +15,8 @@ import Layout from "@/components/Layout";
 import { NextUIProvider } from "@nextui-org/react";
 import "../globals.css";
 import { Montserrat_Alternates } from "next/font/google";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
