@@ -21,7 +21,7 @@ export default function CustomNavbar() {
           </NavbarBrand>
         </Link>
         <NavbarContent className="flex navbar-content">
-          <a href="#" className=" gap-2 mr-4 hidden xl:flex">
+          <a href="/search" className=" gap-2 mr-4 hidden xl:flex">
             <CiSearch className="h-auto text-2xl" />
             Rechercher
           </a >
@@ -48,7 +48,7 @@ export default function CustomNavbar() {
             >
               <DropdownItem key="profile">Profil</DropdownItem>
               <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
-              <DropdownItem key="search" withDivider className="block xl:hidden">
+              <DropdownItem key="search" href="/search" withDivider className="block xl:hidden">
                 Rechercher
               </DropdownItem>
               <DropdownItem key="new-traject" className="block xl:hidden">Publier un trajet</DropdownItem>
@@ -59,6 +59,6 @@ export default function CustomNavbar() {
           </Dropdown>
         </NavbarContent>
       </Navbar>
-    </div>
+    </div >
   );
 }

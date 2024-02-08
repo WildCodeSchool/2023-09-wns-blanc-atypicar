@@ -28,14 +28,16 @@ query Journeys($start: String, $arrival: String, $date: DateTime, $seats: Float)
 export default function SearchPage() {
     const [journeys, setJourneys] = useState<Journey[]>([]);
     const router = useRouter();
+    const startingPoint = typeof router.query.start === 'string' ? router.query.start.trim() : null;
+    const endingPoint = typeof router.query.end === 'string' ? router.query.end.trim() : null;
 
 
     const { loading, error } = useQuery(SEARCH_JOURNEY, {
         variables: {
-            "start": router.query.start,
-            "arrival": router.query.end,
+            "start": startingPoint,
+            "arrival": endingPoint,
             "date": router.query.date,
-            "seats": parseInt(router.query.seats)
+            "seats": typeof router.query.seats === 'string' ? parseInt(router.query.seats) : undefined
         },
         onCompleted: (data => {
             setJourneys(data.getJourneys)
@@ -69,42 +71,46 @@ export default function SearchPage() {
                     className="absolute inset-0 w-full h-full -z-50 cover opacity-50"
                 />
                 <div className="mt-36 lg:mt-52" >
-                    <SearchBar startingPoint={router.query.start} endingPoint={router.query.end} dateStart={router.query.date} availableSeats={router.query.seats} />
+                    <SearchBar startingPoint={startingPoint} endingPoint={endingPoint} dateStart={router.query.date} availableSeats={router.query.seats} />
                 </div>
 
 
             </div>
+            {router.query.start && router.query.end && router.query.date && router.query.seats ?
+                <div id="contentSearchPage" className="flex flex-col lg:flex-row  justify-center gap-10 pt-[45vh]">
+                    <div id="filter" className="lg:text-left text-center lg:w-[20vw] w-screen">
+                        <h4 className="text-xl text-default font-montserrat font-bold"> Trier par</h4>
+                        <div className="flex flex-col lg:text-left text-center lg:items-start items-center justify-start pt-8 gap-3">
+                            <button onClick={() => setJourneys(sortedByPrice)}>Prix le plus bas</button>
+                            <button onClick={() => setJourneys(sortedByDuration)}>Trajet le plus court</button>
 
-            <div id="contentSearchPage" className="flex flex-col lg:flex-row  justify-center gap-10 pt-[45vh]">
-                <div id="filter" className="lg:text-left text-center lg:w-[20vw] w-screen">
-                    <h4 className="text-xl text-default font-montserrat font-bold"> Trier par</h4>
-                    <div className="flex flex-col lg:text-left text-center lg:items-start items-center justify-start pt-8 gap-3">
-                        <button onClick={() => setJourneys(sortedByPrice)}>Prix le plus bas</button>
-                        <button onClick={() => setJourneys(sortedByDuration)}>Trajet le plus court</button>
-
-                    </div>
-
-                </div>
-                <div className="flex flex-col items-center lg:items-start gap-2 w-100 pt-10">
-                    <div className="pb-10">
-                        <h4 className="pb-7 text-xl text-default font-montserrat font-medium"> Le {formattedDate(router.query.date)}</h4>
-                        <div className="flex flex-row flex-wrap items-center text-sm text-gray-400 gap-1">
-                            <p> {router.query.start} </p> <GoArrowRight /> <p> {router.query.end} : </p>
-                            <p>{journeys?.length} trajet{journeys.length > 1 ? "s" : ""} disponible{journeys.length > 1 ? "s" : ""}</p>
                         </div>
+
                     </div>
-                    <div className="flex flex-col items-start gap-7">
-                        {journeys.map((journey) => (
-                            <Link href={`/journeys/${journey.id}`}>
-                                <JourneyCard key={journey.id} journey={journey} />
-                            </Link>
-                        ))}
+                    <div className="flex flex-col items-center lg:items-start gap-2 w-100 pt-10">
+                        <div className="pb-10">
+                            {router.query.date && (
+                                <h4 className="pb-7 text-xl text-default font-montserrat font-medium"> Le {formattedDate(router.query.date)}</h4>
+                            )}
+
+                            <div className="flex flex-row flex-wrap items-center text-sm text-gray-400 gap-1">
+                                <p> {router.query?.start} </p> <GoArrowRight /> <p> {router.query?.end} : </p>
+                                <p>{journeys?.length} trajet{journeys.length > 1 ? "s" : ""} disponible{journeys.length > 1 ? "s" : ""}</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-start gap-7">
+                            {[...journeys].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()).map((journey) => (
+                                <Link href={`/journeys/${journey.id}`} key={journey.id}>
+                                    <JourneyCard journey={journey} />
+                                </Link>
+                            ))}
+
+                        </div>
 
                     </div>
 
                 </div>
-
-            </div>
+                : <div className="h-[80vh]"></div>}
         </>
     );
 };
