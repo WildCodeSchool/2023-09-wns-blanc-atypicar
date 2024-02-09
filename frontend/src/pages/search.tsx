@@ -10,6 +10,7 @@ import HeaderPicture from "../assets/images/Header.png";
 import SearchBar from "@/components/SearchBar";
 import { formattedDate } from "@/utils/formatDates";
 import { GoArrowRight } from "react-icons/go";
+import { Button } from "@nextui-org/react";
 const SEARCH_JOURNEY = gql`
 query Journeys($start: String, $arrival: String, $date: DateTime, $seats: Float) {
   getJourneys(start: $start, arrival: $arrival, date: $date, seats: $seats) {
@@ -81,8 +82,8 @@ export default function SearchPage() {
                     <div id="filter" className="lg:text-left text-center lg:w-[20vw] w-screen">
                         <h4 className="text-xl text-default font-montserrat font-bold"> Trier par</h4>
                         <div className="flex flex-col lg:text-left text-center lg:items-start items-center justify-start pt-8 gap-3">
-                            <button onClick={() => setJourneys(sortedByPrice)}>Prix le plus bas</button>
-                            <button onClick={() => setJourneys(sortedByDuration)}>Trajet le plus court</button>
+                            <Button className="bg-white text-default text-lg px-0 text-left" onClick={() => setJourneys(sortedByPrice)}>Prix le plus bas</Button>
+                            <Button className="bg-white text-default text-lg px-0 text-left" onClick={() => setJourneys(sortedByDuration)}>Trajet le plus court</Button>
 
                         </div>
 
@@ -99,7 +100,7 @@ export default function SearchPage() {
                             </div>
                         </div>
                         <div className="flex flex-col items-start gap-7">
-                            {[...journeys].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()).map((journey) => (
+                            {journeys.map((journey) => (
                                 <Link href={`/journeys/${journey.id}`} key={journey.id}>
                                     <JourneyCard journey={journey} />
                                 </Link>
