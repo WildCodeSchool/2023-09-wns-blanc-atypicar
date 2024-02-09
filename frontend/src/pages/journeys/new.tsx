@@ -126,7 +126,7 @@ function NewJourney() {
           />
         </div>
 
-        <div className="flex flex-col w-full md:flex-row md:gap-16 gap-4 md:p-5">
+        <div className="flex flex-col w-full lg:flex-row md:gap-16 gap-4 md:p-5">
           <Input
             type="datetime-local"
             name="startDate"
@@ -158,11 +158,17 @@ function NewJourney() {
             name="price"
             label="Prix"
             labelPlacement="outside"
-            placeholder="0 €"
+            placeholder="0"
             className="shadow-sm"
             classNames={{
               inputWrapper: "bg-white ",
             }}
+            startContent={
+              <div className="pointer-events-none flex items-center">
+                <span className="text-default-400 text-small">€</span>
+              </div>
+            }
+            min="0.01"
           />
           <Input
             data-testid="journey-seats"
