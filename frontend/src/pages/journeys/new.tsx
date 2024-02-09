@@ -6,6 +6,7 @@ import { Input, Textarea, Button } from "@nextui-org/react";
 const CREATE_JOURNEY = gql`
   mutation CreateJourney($JourneyData: CreateJourneyInputType!) {
     createJourney(JourneyData: $JourneyData) {
+      id
       startingPoint
       arrivalPoint
       startDate
@@ -42,10 +43,11 @@ function NewJourney() {
             description: formDataJson.description,
           },
         },
-        onCompleted: () => {
-          router.push("/journeys");
-        },
-      });
+        onCompleted: (data) => {
+          router.push(`/journeys/${data.createJourney.id}`);
+        }
+      })
+
     } catch (error) {
       console.error("Incident");
     }

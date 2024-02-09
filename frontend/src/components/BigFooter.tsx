@@ -5,7 +5,7 @@ import { FaInstagram } from "react-icons/fa";
 import styles from "../styles/BigFooter.module.css";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import SmallFooter from "./SmallFooter";
-import { color } from "../../node_modules/framer-motion/dist/index";
+import { SlArrowDown } from "react-icons/sl";
 
 function BigFooter() {
   const content = (
@@ -52,40 +52,42 @@ function BigFooter() {
 
   return (
     <footer className={styles.footer}>
-        <div className={styles.mobile}>
-          <Accordion isCompact>
-            <AccordionItem
-              key="1"
-              aria-label="Accordion 1"
-              title={<span className="text-white font-bold">Voyager avec nous</span>}
-              className="px-10"
-            >
-              {content}
-            </AccordionItem>
-            <AccordionItem key="2" aria-label="Accordion 2" title={<span className="text-white font-bold">Covoiturage</span>} className="px-10"
-            >
-              {content2}
-            </AccordionItem>
-            <AccordionItem
-              key="3"
-              aria-label="Accordion 3"
-              title={<span className="text-white font-bold">En savoir plus</span>} className="px-10"
-            >
-              {content3}
-            </AccordionItem>
-          </Accordion>
+      <div className={styles.mobile}>
+        <Accordion className="divide-white divide-y-1">
+          <AccordionItem
+            indicator={<SlArrowDown className="text-white" />}
+            key="1"
+            aria-label="Accordion 1"
+            title={<span className="text-white font-bold">Voyager avec nous</span>}
+            className="px-10"
+          >
+            {content}
+          </AccordionItem>
+          <AccordionItem indicator={<SlArrowDown className="text-white" />} key="2" aria-label="Accordion 2" title={<span className="text-white font-bold">Covoiturage</span>} className="px-10"
+          >
+            {content2}
+          </AccordionItem>
+          <AccordionItem
+            indicator={<SlArrowDown className="text-white" />}
+            key="3"
+            aria-label="Accordion 3"
+            title={<span className="text-white font-bold">En savoir plus</span>} className="px-10"
+          >
+            {content3}
+          </AccordionItem>
+        </Accordion>
+        {icons}
+      </div>
+
+      <div className={styles.desktop}>
+        {content}
+        {content2}
+        <div>
+          {content3}
           {icons}
         </div>
-
-        <div className={styles.desktop}>
-          {content}
-          {content2}
-          <div>
-            {content3}
-            {icons}
-          </div>
-        </div>
-        <SmallFooter />
+      </div>
+      <SmallFooter />
     </footer>
   );
 }
