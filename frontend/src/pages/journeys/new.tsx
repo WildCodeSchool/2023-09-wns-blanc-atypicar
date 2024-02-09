@@ -1,9 +1,7 @@
-import isAuth from "@/components/secure/isAuth";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import React, { FormEvent, useEffect, useState, useMemo } from "react";
+import React, { FormEvent, useState, useMemo } from "react";
 import { Input, Textarea, Button } from "@nextui-org/react";
-import { toast } from "react-toastify";
 
 const CREATE_JOURNEY = gql`
   mutation CreateJourney($JourneyData: CreateJourneyInputType!) {
@@ -49,9 +47,9 @@ function NewJourney() {
         },
       });
     } catch (error) {
-      console.error('Incident')
+      console.error("Incident");
+    }
   };
-  }
   // Filter Cities
   const [value, setValue] = useState<string>("");
 
@@ -75,7 +73,7 @@ function NewJourney() {
     }
   };
 
-  const [seats, setSeats] = useState<string>("1")
+  const [seats, setSeats] = useState<string>("1");
 
   const isInvalidSeats = useMemo(() => {
     if (valueInt === 0) return false;
@@ -85,9 +83,9 @@ function NewJourney() {
 
   return (
     <form
+      data-testid="journey-form"
       onSubmit={submit}
       className="flex flex-col items-center"
-      // style={{ minHeight: "calc(100vh - 18rem)" }}
     >
       <div className="flex flex-col  gap-4 mt-[5rem] md:items-center md:mb-[4rem] w-full md:w-3/5 md:bg-[#EFF0F6] md:shadow-xl px-4 md:px-1 md:py-4">
         <div className="w-4/5 md:border-b-4 md:border-grey700">
@@ -121,7 +119,7 @@ function NewJourney() {
             onValueChange={setValue}
             className="shadow-sm"
             classNames={{
-              inputWrapper: "bg-white ",
+              inputWrapper: "bg-white",
             }}
           />
         </div>
@@ -135,7 +133,7 @@ function NewJourney() {
             labelPlacement="outside"
             className="shadow-sm"
             classNames={{
-              inputWrapper: "bg-white ",
+              inputWrapper: "bg-white",
             }}
           />
           <Input
@@ -146,13 +144,14 @@ function NewJourney() {
             placeholder="dd - mm - yyyy"
             className="shadow-sm"
             classNames={{
-              inputWrapper: "bg-white ",
+              inputWrapper: "bg-white",
             }}
           />
         </div>
 
         <div className="flex flex-col w-full md:gap-16 md:flex-row md:p-5">
           <Input
+            data-testid="journey-price"
             type="number"
             name="price"
             label="Prix"
@@ -164,6 +163,7 @@ function NewJourney() {
             }}
           />
           <Input
+            data-testid="journey-seats"
             type="number"
             value={seats}
             onChange={(e) => setSeats(e.target.value)}
@@ -173,10 +173,13 @@ function NewJourney() {
             placeholder="1"
             className="shadow-sm"
             classNames={{
-              inputWrapper: "bg-white ",
+              inputWrapper: "bg-white",
             }}
             isInvalid={isInvalidSeats}
-            errorMessage={isInvalidSeats && "Le nombre de places doit être compris entre 1 et 20"}
+            errorMessage={
+              isInvalidSeats &&
+              "Le nombre de places doit être compris entre 1 et 20"
+            }
             onValueChange={setValueInt}
           />
         </div>
@@ -206,6 +209,7 @@ function NewJourney() {
             color="primary"
             className="text-white md:px-10"
             radius="full"
+            data-testid="confirm-journey"
           >
             Valider
           </Button>

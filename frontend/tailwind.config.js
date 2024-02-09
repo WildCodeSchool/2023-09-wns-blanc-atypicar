@@ -12,23 +12,23 @@ const config = {
       fontFamily: {
         montserrat: ["Montserrat Alternates"],
       },
-      backgroundImage:{
-      'hero-pattern': "url('../src/assets/images/Header.png')"
-    }
-  },
-  fontWeight: {
-      thin: '100',
-      hairline: '100',
-      extralight: '200',
-      light: '300',
-      normal: '400',
-      medium: '500',
-      semibold: '600',
-      bold: '700',
-      extrabold: '800',
-      black: '900',
-      extrablack:'1000'
-    }
+      backgroundImage: {
+        "hero-pattern": "url('../src/assets/images/Header.png')",
+      },
+    },
+    fontWeight: {
+      thin: "100",
+      hairline: "100",
+      extralight: "200",
+      light: "300",
+      normal: "400",
+      medium: "500",
+      semibold: "600",
+      bold: "700",
+      extrabold: "800",
+      black: "900",
+      extrablack: "1000",
+    },
   },
   darkMode: "class",
   plugins: [
@@ -55,7 +55,7 @@ const config = {
             danger: {
               DEFAULT: "#E76F51",
               foreground: "#000000",
-            }
+            },
           },
         },
       },
