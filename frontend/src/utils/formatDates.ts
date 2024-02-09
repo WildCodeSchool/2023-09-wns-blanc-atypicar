@@ -4,6 +4,7 @@ export const formatHour = (date: string) => {
     hour12: false,
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC",
   });
 };
 
@@ -30,8 +31,14 @@ export const formatDate = (dateString: string) => {
 
 export const formattedDate = (dateString: string) => {
   const date = new Date(dateString);
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-  const newDate = date.toLocaleDateString('fr-FR', options);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+  const newDate = date.toLocaleDateString("fr-FR", options);
 
   return newDate;
-}
+};
