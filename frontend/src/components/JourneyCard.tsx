@@ -23,14 +23,19 @@ const JourneyCard = ({ journey }: JourneyCardProps) => {
       />
       <div className="flex flex-col justify-between items-center p-2 h-52">
         <div className="flex flex-col md:flex-row">
-          <CardHeader className="grid-cols-2 grid justify-items-start font-bold font-montserrat w-52">
+          <CardHeader className="grid grid-cols-[60px_20px_minmax(0,_1fr)] justify-items-start font-bold font-montserrat w-52">
             <p>{formatHour(journey.startDate)}</p>
+            <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
             <h4>{journey.startingPoint}</h4>
+
             <small className="pl-2 text-default-500 font-normal">
               {calculateDuration(journey.startDate, journey.endDate)}
             </small>
-            <small></small>
+            <div className="h-9 -mb-1.5 -mt-2 ml-1 w-1 border-solid border-2 border-black "></div>
+            <div></div>
+
             <p>{formatHour(journey.endDate)}</p>
+            <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
             <h4>{journey.arrivalPoint}</h4>
           </CardHeader>
           <CardBody className="py-1 ml-0 md:ml-4 md:p-3 w-auto">
