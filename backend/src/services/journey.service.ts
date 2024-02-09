@@ -17,7 +17,8 @@ export async function searchJourney(start: string, arrival: string, date: Date, 
         startDate: Between(date, endDate)
       }),
       ...(seats && { availableSeats: MoreThanOrEqual(seats) })
-    }
+    },
+    order: { startDate: "DESC" }
   };
 
 
