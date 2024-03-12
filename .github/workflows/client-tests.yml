@@ -13,8 +13,8 @@ jobs:
 docker:
  needs: client-tests
  if: github.event_name == 'pull_request'
-  runs-on: ubuntu-latest
-  steps:
+ runs-on: ubuntu-latest
+ steps:
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
     - name: Set up Docker Buildx
