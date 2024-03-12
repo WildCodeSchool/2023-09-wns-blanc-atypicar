@@ -12,7 +12,7 @@ export async function createUser(createUserType: CreateUserType): Promise<User |
         Object.assign(user, createUserType);
         user.password = await argon2.hash(createUserType.password);
         user.creationDate = new Date;
-
+        
         return user.save();
     } catch (error) {
         return new Error();

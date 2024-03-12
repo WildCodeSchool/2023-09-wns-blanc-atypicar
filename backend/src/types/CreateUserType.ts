@@ -7,6 +7,9 @@ export class CreateUserType {
   
     @Field()
     lastName: string;
+
+    @Field()
+    birthday: Date;
   
     @Field()
     email: string;
