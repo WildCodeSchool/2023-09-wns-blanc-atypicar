@@ -55,7 +55,7 @@ export async function addJourney(
 
     let journey = new Journey();
     Object.assign(journey, JourneyData);
-    journey.driver = ctx.user.id;
+    // journey.driver = ctx.user.id;
 
     return journey.save();
   } catch (error) {

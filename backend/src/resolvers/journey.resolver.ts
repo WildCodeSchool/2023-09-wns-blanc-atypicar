@@ -23,7 +23,7 @@ export class JourneyResolver {
   }
 
   @Mutation(() => Journey)
-  @Authorized()
+  // @Authorized()
   createJourney(
     @Arg("JourneyData") JourneyData: CreateJourneyInputType,
     @Ctx() ctx: Context
@@ -32,7 +32,7 @@ export class JourneyResolver {
   }
 
   @Mutation(() => Journey)
-  @Authorized()
+  // @Authorized()
   updateJourney(
     @Arg("JourneyData") JourneyData: UpdateJourneyInputType,
     @Ctx() ctx: Context
@@ -41,7 +41,7 @@ export class JourneyResolver {
   }
 
   @Mutation(() => String)
-  @Authorized()
+  // @Authorized()
   async deleteJourney(@Arg("id") id: number, @Ctx() ctx: Context
   ): Promise<string> {
     const result = await journeyService.deleteJourney(id);
