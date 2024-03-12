@@ -1,4 +1,4 @@
-name : test-ci
+name: test-ci
 
 on: pull_request
 
@@ -8,5 +8,5 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      -name : Goto e2e and run tests
+      - name : Goto e2e and run tests
         run: cd e2e && npm install && npx playwright test
