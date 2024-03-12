@@ -57,7 +57,7 @@ const JourneyDetail = () => {
   if (error) return <p>Erreur 🤯</p>;
   if (journey)
     return (
-      <div>
+      <div id="journey-details">
         <nav className="flex pt-16 justify-center" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li className="inline-flex items-center">
@@ -130,7 +130,7 @@ const JourneyDetail = () => {
                   onClick={deleteJourney}
                   className="inline-flex items-center px-2 py-2 bg-danger hover:bg-danger-800 text-white text-sm font-medium rounded-md"
                 >
-                  <RiDeleteBinLine/>
+                  <RiDeleteBinLine />
                   Supprimer
                 </Button>
               </div>
