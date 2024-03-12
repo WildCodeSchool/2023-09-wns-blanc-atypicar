@@ -18,38 +18,38 @@ const start = async () => {
   const schema = await buildSchema({
     resolvers: [JourneyResolver, ReservationResolver, UserResolver],
     validate: { forbidUnknownValues: false },
-    authChecker: async ({ context }, roles) => {
-      try {
-        const payload: any = verifyToken(context.token);
-        const userFromDb = await getUserByEmail(payload.email);
-        context.user = userFromDb;
+    // authChecker: async ({ context }, roles) => {
+    //   try {
+    //     const payload: any = verifyToken(context.token);
+    //     const userFromDb = await getUserByEmail(payload.email);
+    //     context.user = userFromDb;
 
-        return true
-      } catch (error) {
-        return false;
-      }
-    }
+    //     return true
+    //   } catch (error) {
+    //     return false;
+    //   }
+    // }
   });
 
   const server = new ApolloServer({
     schema,
-    context: ({ req }) => {
-      if (
-        req?.headers.authorization === undefined ||
-        process.env.JWT_SECRET_KEY === undefined
-      ) {
-        return {};
-      } else {
-        try {
-          const bearer = req.headers.authorization.split("Bearer ")[1];
+    // context: ({ req }) => {
+    //   if (
+    //     req?.headers.authorization === undefined ||
+    //     process.env.JWT_SECRET_KEY === undefined
+    //   ) {
+    //     return {};
+    //   } else {
+    //     try {
+    //       const bearer = req.headers.authorization.split("Bearer ")[1];
 
-          return { token: bearer };
-        } catch (e) {
-          console.log(e);
-          return {};
-        }
-      }
-    },
+    //       return { token: bearer };
+    //     } catch (e) {
+    //       console.log(e);
+    //       return {};
+    //     }
+    //   }
+    // },
   });
 
   try {
