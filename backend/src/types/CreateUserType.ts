@@ -8,8 +8,8 @@ export class CreateUserType {
     @Field()
     lastName: string;
 
-    @Field()
-    birthday: Date;
+    @Field({ nullable: true })
+    birthday?: Date;
   
     @Field()
     email: string;
@@ -17,22 +17,22 @@ export class CreateUserType {
     @Field()
     password: string;
   
-    @Field()
+    @Field({ defaultValue: "USER" })
     role: "ADMIN" | "USER";
   
     @Field()
     creationDate: Date;
   
-    @Field()
+    @Field({ defaultValue: false })
     verifiedLicense: false;
   
-    @Field()
+    @Field({ defaultValue: false })
     verifiedEmail: false;
   
-    @Field()
-    picture?: string;
+    @Field({ nullable: true })
+    picture: string;
   
-    @Field()
-    description?: string;
+    @Field({ nullable: true })
+    description: string;
   
 }
