@@ -1,10 +1,12 @@
 import { Journey } from "@/types/journey";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { Divider, Image } from "@nextui-org/react";
+import { useState, useEffect } from "react";
+import { Divider, Image, Button } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { AiFillTool } from "react-icons/ai";
 
 const GET_JOURNEY_BY_ID = gql`
   query findJourney($findJourneyId: Float!) {
@@ -21,6 +23,12 @@ const GET_JOURNEY_BY_ID = gql`
   }
 `;
 
+const DELETE_JOURNEY = gql`
+  mutation deleteJourney($id: Float!) {
+    deleteJourney(id: $id)
+  }
+`;
+
 const JourneyDetail = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -33,6 +41,15 @@ const JourneyDetail = () => {
     },
     onCompleted: (data) => {
       setJourney(data.findJourney);
+    },
+  });
+
+  const [deleteJourney] = useMutation(DELETE_JOURNEY, {
+    variables: {
+      id: Number(id),
+    },
+    onCompleted: () => {
+      router.push("/journeys");
     },
   });
 
@@ -104,6 +121,19 @@ const JourneyDetail = () => {
                 <h4 className="font-bold">{journey.price} €</h4>
               </div>
               <Divider className=" my-6" />
+              <div className="flex justify-between">
+                <Button isDisabled className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md">
+                  <AiFillTool />
+                  Modifier
+                </Button>
+                <Button
+                  onClick={deleteJourney}
+                  className="inline-flex items-center px-2 py-2 bg-danger hover:bg-danger-800 text-white text-sm font-medium rounded-md"
+                >
+                  <RiDeleteBinLine/>
+                  Supprimer
+                </Button>
+              </div>
             </div>
           </section>
         </div>

@@ -1,7 +1,4 @@
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
+import { FaYoutube, FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import styles from "../styles/BigFooter.module.css";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import SmallFooter from "./SmallFooter";
