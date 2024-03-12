@@ -27,8 +27,8 @@ export class User extends BaseEntity {
   @Column()
   lastName: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   birthday: Date;
 
   @Field()
@@ -38,7 +38,7 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Field()
+  @Field({ defaultValue: "USER" })
   @Column()
   role: "ADMIN" | "USER";
 
@@ -46,21 +46,21 @@ export class User extends BaseEntity {
   @Column()
   creationDate: Date;
 
-  @Field()
+  @Field({ defaultValue: false })
   @Column()
-  verifiedLicense: false;
+  verifiedLicense: boolean;
 
-  @Field()
+  @Field({ defaultValue: false })
   @Column()
-  verifiedEmail: false;
+  verifiedEmail: boolean;
 
-  @Field()
-  @Column()
-  picture?: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  picture: string;
 
-  @Field()
-  @Column()
-  description?: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  description: string;
 
   @Field(() => Tag)
   @ManyToMany(() => Tag, (tag) => tag.id)
