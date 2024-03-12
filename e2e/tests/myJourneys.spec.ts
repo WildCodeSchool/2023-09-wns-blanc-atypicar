@@ -1,7 +1,7 @@
 import { test, expect, ElementHandle } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000/journeys");
+  await page.goto("http://frontend:3000/journeys");
 });
 
 test("renders title", async ({ page }) => {
