@@ -28,6 +28,10 @@ export class User extends BaseEntity {
   lastName: string;
 
   @Field()
+  @Column()
+  birthday: Date;
+
+  @Field()
   @Column({ unique: true })
   email: string;
 
