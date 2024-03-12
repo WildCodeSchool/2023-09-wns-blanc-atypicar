@@ -9,7 +9,7 @@ export async function searchJourney(start: string, arrival: string, date: Date, 
   endDate.setHours(23, 59, 59, 999);
 
   const searchFilter: any = {
-    relations: { reservation: true },
+    relations: { reservation: true, driver: true },
     where: {
       ...(start && { startingPoint: start }),
       ...(arrival && { arrivalPoint: arrival }),
@@ -36,6 +36,7 @@ export async function searchJourney(start: string, arrival: string, date: Date, 
 export function findJourney(id: number): Promise<Journey | null> {
   return Journey.findOne({
     relations: {
+      driver: true,
       reservation: true
     },
     where: { id },
@@ -43,7 +44,8 @@ export function findJourney(id: number): Promise<Journey | null> {
 }
 
 export async function addJourney(
-  JourneyData: CreateJourneyInputType
+  JourneyData: CreateJourneyInputType,
+  ctx: any
 ): Promise<Journey | Error> {
   try {
 
@@ -53,6 +55,7 @@ export async function addJourney(
 
     let journey = new Journey();
     Object.assign(journey, JourneyData);
+    journey.driver = ctx.user.id;
 
     return journey.save();
   } catch (error) {

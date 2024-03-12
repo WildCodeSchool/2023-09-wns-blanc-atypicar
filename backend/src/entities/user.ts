@@ -4,11 +4,13 @@ import {
   Column,
   Entity,
   ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Tag } from "./tag";
 import { Vehicle } from "./vehicles";
+import { Journey } from "./journey";
 
 @ObjectType()
 @Entity()
@@ -26,7 +28,7 @@ export class User extends BaseEntity {
   lastName: string;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -63,4 +65,8 @@ export class User extends BaseEntity {
   @Field(() => Vehicle)
   @OneToOne(() => Vehicle, (vehicle) => vehicle.id)
   vehicle?: number;
+
+  @Field(() => [Journey])
+  @OneToMany(() => Journey, journey => journey.driver)
+  journey: Journey[];
 }

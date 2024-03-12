@@ -1,8 +1,9 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import * as journeyService from "../services/journey.service";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
+import { Context } from 'apollo-server-core'
 
 @Resolver(Journey)
 export class JourneyResolver {
@@ -22,21 +23,27 @@ export class JourneyResolver {
   }
 
   @Mutation(() => Journey)
+  @Authorized()
   createJourney(
-    @Arg("JourneyData") JourneyData: CreateJourneyInputType
+    @Arg("JourneyData") JourneyData: CreateJourneyInputType,
+    @Ctx() ctx: Context
   ): Promise<Journey | Error> {
-    return journeyService.addJourney({ ...JourneyData });
+    return journeyService.addJourney({ ...JourneyData }, ctx);
   }
 
   @Mutation(() => Journey)
+  @Authorized()
   updateJourney(
-    @Arg("JourneyData") JourneyData: UpdateJourneyInputType
+    @Arg("JourneyData") JourneyData: UpdateJourneyInputType,
+    @Ctx() ctx: Context
   ): Promise<Journey | Error> {
     return journeyService.updateJourney(JourneyData.id, { ...JourneyData });
   }
 
   @Mutation(() => String)
-  async deleteJourney(@Arg("id") id: number): Promise<string> {
+  @Authorized()
+  async deleteJourney(@Arg("id") id: number, @Ctx() ctx: Context
+  ): Promise<string> {
     const result = await journeyService.deleteJourney(id);
     if (result.affected === 0) {
       return "No journey found"
