@@ -38,7 +38,15 @@ test("should add a new journey and redirect to journeys page", async ({
     .fill("test");
 
   await page.click('[data-testid="confirm-journey"]');
-  await page.waitForURL("http://frontend:3000/journeys");
 
-  expect(page.url()).toEqual("http://frontend:3000/journeys");
+  await page.waitForSelector('[data-testid="journey-details"]');
+
+  const journeyDetails = await page.$eval('[data-testid="journey-details"]', el => el.textContent);
+  expect(journeyDetails).toContain("Paris");
+  expect(journeyDetails).toContain("Lyon");
+  expect(journeyDetails).toContain("2024-02-14T12:00");
+  expect(journeyDetails).toContain("2024-02-14T22:30");
+  expect(journeyDetails).toContain("80");
+  expect(journeyDetails).toContain("2");
+  expect(journeyDetails).toContain("test");
 });
