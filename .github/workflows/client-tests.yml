@@ -6,7 +6,7 @@ jobs:
   client-tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Check out code
         uses: actions/checkout@v2
-      -name : Goto frontend and run tests
-        run: cd frontend && npm install && npm test
+      -name : Goto e2e and run tests
+        run: cd e2e && npm install && npx playwright test
