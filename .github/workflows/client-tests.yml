@@ -9,7 +9,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name : Goto e2e and run tests
-        run: cd e2e && npm install && npx playwright install  && npx playwright test
+        env:
+          BASE_URL: http://localhost:3000 
+        run: cd e2e && npm install && npx playwright install  &&  npx playwright test 
   docker:
     needs: client-tests
     if: github.event_name == 'pull_request'

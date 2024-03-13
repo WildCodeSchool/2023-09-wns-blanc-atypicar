@@ -72,3 +72,5 @@ services:
     depends_on:
       frontend:
         condition: service_healthy
+    environment:
+      - BASE_URL=http://frontend:3000
