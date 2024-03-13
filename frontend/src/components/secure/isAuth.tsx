@@ -12,9 +12,6 @@ export default function isAuth(Component: any) {
     const router = useRouter();
     const token = localStorage.getItem("token");
 
-
-
-
     return;
   }
 }
