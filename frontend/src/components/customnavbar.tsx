@@ -1,7 +1,5 @@
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
 import Image from "next/image";
-import NewTraject from "../assets/icons/new-traject.svg";
-import SearchTraject from "../assets/icons/search.svg";
 import Logo from "../assets/images/Logo.svg";
 import { CiSearch, CiCirclePlus } from "react-icons/ci";
 import { useState, useEffect } from 'react';
@@ -13,7 +11,7 @@ export default function CustomNavbar() {
 
   useEffect(() => {
     if (!token) {
-      setToken(localStorage.getItem("token")); // Mettre à jour le token s'il est présent dans le localStorage
+      setToken(localStorage.getItem("token"));
     }
   }, [localStorage.getItem("token")]);
 
@@ -45,11 +43,11 @@ export default function CustomNavbar() {
             <CiCirclePlus className="h-auto text-2xl" />
             Publier un trajet
           </a>
-          <Dropdown placement="bottom-right">
+          <Dropdown>
             <NavbarItem>
               <DropdownTrigger>
                 <Avatar
-                  bordered
+                  isBordered
                   as="button"
                   color="secondary"
                   size="md"
@@ -57,19 +55,20 @@ export default function CustomNavbar() {
                 />
               </DropdownTrigger>
             </NavbarItem>
-            {!!token ?
+            {token ?
               <DropdownMenu
                 aria-label="User menu actions"
                 color="secondary"
-                onAction={(actionKey) => console.log({ actionKey: String(actionKey) })}
+                onAction={(actionKey) => console.log(actionKey)}
               >
                 <DropdownItem key="profile">Profil</DropdownItem>
                 <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
-                <DropdownItem key="search" href="/search" withDivider className="block xl:hidden">
+                <DropdownItem key="search" href="/search" className="block xl:hidden">
                   Rechercher
                 </DropdownItem>
                 <DropdownItem key="journeys/new" className="block xl:hidden">Publier un trajet</DropdownItem>
-                <DropdownItem key="logout" withDivider color="error" onClick={handleLogout}>
+                <DropdownItem key="logout" color="secondary" onClick={handleLogout}>
+
                   Se déconnecter
                 </DropdownItem>
               </DropdownMenu>
