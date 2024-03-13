@@ -1,5 +1,5 @@
-import "reflect-metadata"
-import { dataSource } from './config/db';
+import "reflect-metadata";
+import { dataSource } from "./config/db";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
 import { JourneyResolver } from "./resolvers/journey.resolver";
@@ -8,15 +8,21 @@ import { ReservationResolver } from "./resolvers/reservation.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 import { verifyToken } from "./services/auth.service";
 import { getUserByEmail } from "./services/user.service";
+import { CategoryResolver } from "./resolvers/category.resolver";
 
 const port: number = 3001;
 
 const start = async () => {
   dotenv.config();
   await dataSource.initialize();
-  
+
   const schema = await buildSchema({
-    resolvers: [JourneyResolver, ReservationResolver, UserResolver],
+    resolvers: [
+      JourneyResolver,
+      ReservationResolver,
+      UserResolver,
+      CategoryResolver,
+    ],
     validate: { forbidUnknownValues: false },
     // authChecker: async ({ context }, roles) => {
     //   try {
@@ -55,10 +61,9 @@ const start = async () => {
   try {
     const { url } = await server.listen({ port });
     console.log(`Server running at ${url}`);
-    
-  } catch(err) {
+  } catch (err) {
     console.error("Error starting the server");
   }
-}
+};
 
 void start();
