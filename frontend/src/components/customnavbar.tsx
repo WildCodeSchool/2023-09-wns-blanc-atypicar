@@ -68,6 +68,7 @@ export default function CustomNavbar() {
                 </DropdownItem>
                 <DropdownItem key="journeys/new" className="block xl:hidden">Publier un trajet</DropdownItem>
                 <DropdownItem key="logout" color="secondary" onClick={handleLogout}>
+
                   Se déconnecter
                 </DropdownItem>
               </DropdownMenu>
