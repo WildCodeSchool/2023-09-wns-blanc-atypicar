@@ -9,7 +9,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Go to frontend and run 
-        run: cd frontend && npm install && npm dev
+        run: cd frontend && npm install && npm run dev
       - name : Goto e2e and run tests
         env:
           BASE_URL: http://localhost:3000 
