@@ -65,6 +65,7 @@ export default function SignUpPage() {
 
   return (
     <form
+      data-testid="signup-form"
       className="flex flex-col items-center mt-[5rem]"
       onSubmit={(e) => {
         e.preventDefault();
@@ -81,6 +82,7 @@ export default function SignUpPage() {
         <CardBody className="flex flex-col gap-12">
           <div className="flex w-full flex-wrap md:flex-nowrap gap-12">
             <Input
+              data-testid="first-name"
               radius="full"
               type="text"
               label="Prénom"
@@ -89,6 +91,7 @@ export default function SignUpPage() {
               }}
             />
             <Input
+            data-testid="last-name"
               radius="full"
               type="text"
               label="Nom de famille"
@@ -99,6 +102,7 @@ export default function SignUpPage() {
           </div>
           <div className="flex w-full flex-wrap md:flex-nowrap gap-12">
             <Input
+              data-testid="password"
               radius="full"
               type="password"
               label="Mot de passe"
@@ -107,6 +111,7 @@ export default function SignUpPage() {
               }}
             />
             <Input
+              data-testid="password-confirmation"
               radius="full"
               type="password"
               label="Confirmation du mot de passe"
@@ -117,6 +122,7 @@ export default function SignUpPage() {
           </div>
           <div className="flex w-full flex-wrap md:flex-nowrap gap-12">
             <Input
+              data-testid="email"
               radius="full"
               type="email"
               label="Adresse email"
@@ -125,6 +131,7 @@ export default function SignUpPage() {
               }}
             />
             <Input
+              data-testid="birthday-input"
               radius="full"
               type="datetime-local"
               name="endDate"
@@ -146,6 +153,7 @@ export default function SignUpPage() {
             Annuler
           </Button>
           <Button
+            data-testid="submit-signup"
             type="submit"
             color="primary"
             className="text-white md:px-10"
