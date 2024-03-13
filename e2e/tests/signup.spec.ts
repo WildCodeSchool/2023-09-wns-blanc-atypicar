@@ -35,9 +35,9 @@ test("should allow user to enter their password", async ({ page }) => {
 });
 
 test("should allow user to enter their birthday", async ({ page }) => {
-  await page.fill('[data-testid="birthday-input"]', "2024-02-14T12:00");
+  await page.fill('[data-testid="birthday-input"]', "2024-02-14");
   const birthdayInput = await page.inputValue('[data-testid="birthday-input"]');
-  expect(birthdayInput).toBe("2024-02-14T12:00");
+  expect(birthdayInput).toBe("2024-02-14");
 });
 
 test("should submit the form successfully", async ({ page }) => {
