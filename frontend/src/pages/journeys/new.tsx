@@ -168,7 +168,7 @@ function NewJourney() {
                 <span className="text-default-400 text-small">€</span>
               </div>
             }
-            min="0.01"
+            min="0.00"
           />
           <Input
             data-testid="journey-seats"
