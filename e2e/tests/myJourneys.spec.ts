@@ -5,6 +5,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("renders title", async ({ page }) => {
+  await page.waitForSelector('[data-testid="journey-title"]');
   const title = await page.$('[data-testid="journey-title"]');
   const titleText = await title?.innerText();
   expect(titleText).toBe("Tous mes trajets publiés");
