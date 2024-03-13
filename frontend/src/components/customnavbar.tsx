@@ -1,11 +1,25 @@
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
 import Image from "next/image";
-import NewTraject from "../assets/icons/new-traject.svg";
-import SearchTraject from "../assets/icons/search.svg";
 import Logo from "../assets/images/Logo.svg";
 import { CiSearch, CiCirclePlus } from "react-icons/ci";
+import { useState, useEffect } from 'react';
+import { useRouter } from "next/router";
 
 export default function CustomNavbar() {
+  const router = useRouter();
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    if (!token) {
+      setToken(localStorage.getItem("token"));
+    }
+  }, [localStorage.getItem("token")]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    router.push("/")
+  };
 
   return (
     <div className="flex justify-center w-full	fixed z-50">
@@ -29,11 +43,11 @@ export default function CustomNavbar() {
             <CiCirclePlus className="h-auto text-2xl" />
             Publier un trajet
           </a>
-          <Dropdown placement="bottom-right">
+          <Dropdown>
             <NavbarItem>
               <DropdownTrigger>
                 <Avatar
-                  bordered
+                  isBordered
                   as="button"
                   color="secondary"
                   size="md"
@@ -41,21 +55,37 @@ export default function CustomNavbar() {
                 />
               </DropdownTrigger>
             </NavbarItem>
-            <DropdownMenu
-              aria-label="User menu actions"
-              color="secondary"
-              onAction={(actionKey) => console.log({ actionKey })}
-            >
-              <DropdownItem key="profile">Profil</DropdownItem>
-              <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
-              <DropdownItem key="search" href="/search" withDivider className="block xl:hidden">
-                Rechercher
-              </DropdownItem>
-              <DropdownItem key="journeys/new" className="block xl:hidden">Publier un trajet</DropdownItem>
-              <DropdownItem key="logout" withDivider color="error">
-                Se déconnecter
-              </DropdownItem>
-            </DropdownMenu>
+            {token ?
+              <DropdownMenu
+                aria-label="User menu actions"
+                color="secondary"
+                onAction={(actionKey) => console.log(actionKey)}
+              >
+                <DropdownItem key="profile">Profil</DropdownItem>
+                <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
+                <DropdownItem key="search" href="/search" className="block xl:hidden">
+                  Rechercher
+                </DropdownItem>
+                <DropdownItem key="journeys/new" className="block xl:hidden">Publier un trajet</DropdownItem>
+                <DropdownItem key="logout" color="secondary" onClick={handleLogout}>
+                  Se déconnecter
+                </DropdownItem>
+              </DropdownMenu>
+              :
+              <DropdownMenu
+                aria-label="User menu actions"
+                color="secondary"
+                onAction={(actionKey) => console.log({ actionKey: String(actionKey) })}
+              >
+                <DropdownItem key="signup" href="/signup">
+                  S'inscrire
+                </DropdownItem>
+                <DropdownItem key="signin" href="/signin">
+                  Se connecter
+                </DropdownItem>
+              </DropdownMenu>
+
+            }
           </Dropdown>
         </NavbarContent>
       </Navbar>
