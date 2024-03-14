@@ -1,12 +1,10 @@
 import { AuthContext } from "@/contexts/authContext";
 import { Journey } from "@/types/journey";
-import { User } from "@/types/user";
 import { calculateDuration, formatDate, formatHour } from "@/utils/formatDates";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Avatar, Button, Divider, Image, Input } from "@nextui-org/react";
 import { useRouter } from "next/router";
-import { use, useContext, useEffect, useState } from "react";
-import { RiDoubleQuotesL, RiDoubleQuotesR } from "react-icons/ri";
+import { useContext, useState } from "react";
 
 const GET_JOURNEY_BY_ID = gql`
   query findJourney($findJourneyId: Float!) {
