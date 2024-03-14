@@ -63,6 +63,7 @@ export default function CustomNavbar() {
               >
                 <DropdownItem key="profile">Profil</DropdownItem>
                 <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
+                <DropdownItem key="myreservations" href="/reservations">Mes réservations</DropdownItem>
                 <DropdownItem key="search" href="/search" className="block xl:hidden">
                   Rechercher
                 </DropdownItem>
