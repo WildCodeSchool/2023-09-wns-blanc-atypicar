@@ -1,8 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import React, { FormEvent, useState, useMemo, use, useContext } from "react";
+import React, { FormEvent, useState, useMemo } from "react";
 import { Input, Textarea, Button } from "@nextui-org/react";
-import { AuthContext } from "@/contexts/authContext";
 
 const CREATE_JOURNEY = gql`
   mutation CreateJourney($JourneyData: CreateJourneyInputType!) {
@@ -22,9 +21,6 @@ const CREATE_JOURNEY = gql`
 function NewJourney() {
   const router = useRouter();
   const [createJourney] = useMutation(CREATE_JOURNEY);
-  const authenticated = useContext(AuthContext);
-
-  console.log(authenticated)
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     const form: EventTarget = event.target;
@@ -48,9 +44,8 @@ function NewJourney() {
         },
         onCompleted: (data) => {
           router.push(`/journeys/${data.createJourney.id}`);
-        }
-      })
-
+        },
+      });
     } catch (error) {
       console.error("Incident");
     }

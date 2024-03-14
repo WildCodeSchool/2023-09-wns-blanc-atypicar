@@ -4,8 +4,6 @@ import {
   InMemoryCache,
   createHttpLink,
   from,
-  gql,
-  useQuery,
 } from "@apollo/client";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
@@ -19,8 +17,6 @@ import "../globals.css";
 import { Montserrat_Alternates } from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
 import { User } from "@/types/user";
-import { UserContext } from "@/types/userContext";
-import { get } from "http";
 
 const httpLink = createHttpLink({
   uri: `${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`,
@@ -58,24 +54,6 @@ const MontserratAlternates = Montserrat_Alternates({
   weight: "400",
 });
 
-
-const GET_USER = gql`
- query Query {
-  getUser {
-    id
-    firstName
-    lastName
-    birthday
-    email
-    role
-    creationDate
-    verifiedLicense
-    verifiedEmail
-    picture
-    description
-  }
-}
-`;
 function App({ Component, pageProps }: AppProps) {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -89,7 +67,9 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <NextUIProvider className={MontserratAlternates.className}>
-      <AuthContext.Provider value={{ authenticated, setAuthenticated, currentUser, setCurrentUser }}>
+      <AuthContext.Provider
+        value={{ authenticated, setAuthenticated, currentUser, setCurrentUser }}
+      >
         <ApolloProvider client={client}>
           <Layout>
             <Component {...pageProps} />

@@ -7,7 +7,6 @@ import {
   Avatar,
   CardBody,
   CardFooter,
-  Badge,
 } from "@nextui-org/react";
 
 type JourneyCardProps = {
@@ -17,7 +16,6 @@ type JourneyCardProps = {
 const JourneyCard = ({ journey }: JourneyCardProps) => {
   return (
     <Card isPressable className="flex flex-row">
-
       <Image
         className="h-56 w-32 max-w-none rounded-r-none object-cover"
         alt="Card background"
@@ -27,7 +25,9 @@ const JourneyCard = ({ journey }: JourneyCardProps) => {
       <div className="flex flex-col justify-between items-center p-2 h-52">
         <div className="flex flex-col md:flex-row">
           {journey.availableSeats == 0 && (
-            <div className="absolute bottom-0 right-0 bg-danger text-white p-2 text-xs rounded-md w-auto">Trajet complet</div>
+            <div className="absolute bottom-0 right-0 bg-danger text-white p-2 text-xs rounded-md w-auto">
+              Trajet complet
+            </div>
           )}
           <CardHeader className="grid grid-cols-[60px_20px_minmax(0,_1fr)] justify-items-start font-bold font-montserrat w-52">
             <p>{formatHour(journey.startDate)}</p>
@@ -43,7 +43,6 @@ const JourneyCard = ({ journey }: JourneyCardProps) => {
             <p>{formatHour(journey.endDate)}</p>
             <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
             <h4>{journey.arrivalPoint}</h4>
-
           </CardHeader>
           <CardBody className="py-1 ml-0 md:ml-4 md:p-3 w-auto">
             <h4>{journey.price}€</h4>
@@ -55,9 +54,9 @@ const JourneyCard = ({ journey }: JourneyCardProps) => {
             as="button"
             color="success"
             size="md"
-            src="https://i.pravatar.cc/300"
+            src={journey.driver.picture}
           />
-          <h4>username</h4>
+          <h4>{journey.driver.firstName}</h4>
         </CardFooter>
       </div>
     </Card>

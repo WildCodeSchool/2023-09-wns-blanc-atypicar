@@ -1,7 +1,7 @@
 import { AuthContext } from "@/contexts/authContext";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -9,9 +9,7 @@ import {
   CardFooter,
   CardHeader,
   Input,
-  Link,
 } from "@nextui-org/react";
-import { User } from "@/types/user";
 
 const SIGN_IN = gql`
   mutation Login($password: String!, $email: String!) {
@@ -21,38 +19,34 @@ const SIGN_IN = gql`
 
 export default function SignInPage() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
-  console.log(currentUser)
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (token) {
-      router.push('/');
+      router.push("/");
     }
-  })
+  });
 
   const [signIn] = useMutation(SIGN_IN, {
     variables: {
       email,
-      password
+      password,
     },
     onCompleted(data: any) {
       localStorage.setItem("token", data.login);
       setAuthenticated(true);
-      router.push('/');
-    }
-  })
+      router.push("/");
+    },
+  });
 
   return (
     <div className="flex flex-col items-center mt-8">
       <Card className="p-6 w-5/5">
         <CardHeader>
-          <h2 className="mb-5 font-bold text-lg text-center">
-            Se connecter
-          </h2>
+          <h2 className="mb-5 font-bold text-lg text-center">Se connecter</h2>
         </CardHeader>
 
         <CardBody className="flex flex-col">
@@ -74,8 +68,7 @@ export default function SignInPage() {
               }}
             />
           </div>
-          <div className="flex w-full flex-wrap md:flex-nowrap gap-12">
-          </div>
+          <div className="flex w-full flex-wrap md:flex-nowrap gap-12"></div>
         </CardBody>
         <CardFooter className="flex justify-end gap-8 pt-8">
           <Button
