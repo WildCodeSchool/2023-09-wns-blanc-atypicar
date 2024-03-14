@@ -91,7 +91,7 @@ export default function SignUpPage() {
               }}
             />
             <Input
-            data-testid="last-name"
+              data-testid="last-name"
               radius="full"
               type="text"
               label="Nom de famille"
@@ -133,7 +133,7 @@ export default function SignUpPage() {
             <Input
               data-testid="birthday-input"
               radius="full"
-              type="datetime-local"
+              type="date"
               name="endDate"
               label="Date de naissance"
               placeholder="dd - mm - yyyy"
