@@ -1,10 +1,29 @@
 import Head from "next/head";
-import { ReactNode } from "react";
-
+import { ReactNode, useContext, useEffect } from "react";
 import CustomNavbar from "./customnavbar";
 import BigFooter from "./BigFooter";
-import SmallFooter from "./SmallFooter";
+import { gql, useQuery } from "@apollo/client";
+import { AuthContext } from "@/contexts/authContext";
+
+const GET_USER = gql`
+  query Query {
+    getUser {
+      id
+      role
+    }
+  }
+`;
+
 export default function Layout({ children }: { children: ReactNode }) {
+  const { setCurrentUser } = useContext(AuthContext);
+  const { loading, error, data } = useQuery(GET_USER);
+
+  useEffect(() => {
+    if (data && !loading) {
+      setCurrentUser({ ...data.getUser });
+    }
+  }, [data, loading]);
+
   return (
     <>
       <Head>
@@ -19,11 +38,8 @@ export default function Layout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </Head>
-
       <CustomNavbar />
-
       <main className="py-24">{children}</main>
-
       <BigFooter />
     </>
   );

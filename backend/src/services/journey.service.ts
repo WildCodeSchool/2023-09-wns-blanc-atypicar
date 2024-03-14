@@ -1,14 +1,7 @@
-import {
-  Between,
-  DeleteResult,
-  LessThan,
-  Like,
-  MoreThanOrEqual,
-} from "typeorm";
+import { Between, DeleteResult, MoreThanOrEqual } from "typeorm";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
-import { User } from "../entities/user";
 
 export async function searchJourney(
   start: string,
