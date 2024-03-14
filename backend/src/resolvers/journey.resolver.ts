@@ -3,7 +3,7 @@ import * as journeyService from "../services/journey.service";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
-import { Context } from 'apollo-server-core'
+import { Context } from "apollo-server-core";
 
 @Resolver(Journey)
 export class JourneyResolver {
@@ -22,8 +22,13 @@ export class JourneyResolver {
     return journeyService.findJourney(id);
   }
 
+  @Query(() => [Journey])
+  findJourneysByDriver(@Arg("driverId") driverId: number): Promise<Journey[]> {
+    return journeyService.searchJourneysByDriver(driverId);
+  }
+
   @Mutation(() => Journey)
-  // @Authorized()
+  @Authorized()
   createJourney(
     @Arg("JourneyData") JourneyData: CreateJourneyInputType,
     @Ctx() ctx: Context
@@ -32,7 +37,7 @@ export class JourneyResolver {
   }
 
   @Mutation(() => Journey)
-  // @Authorized()
+  @Authorized()
   updateJourney(
     @Arg("JourneyData") JourneyData: UpdateJourneyInputType,
     @Ctx() ctx: Context
@@ -41,12 +46,14 @@ export class JourneyResolver {
   }
 
   @Mutation(() => String)
-  // @Authorized()
-  async deleteJourney(@Arg("id") id: number, @Ctx() ctx: Context
+  @Authorized()
+  async deleteJourney(
+    @Arg("id") id: number,
+    @Ctx() ctx: Context
   ): Promise<string> {
     const result = await journeyService.deleteJourney(id);
     if (result.affected === 0) {
-      return "No journey found"
+      return "No journey found";
     }
     return "OK";
   }
