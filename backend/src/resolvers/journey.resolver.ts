@@ -4,7 +4,6 @@ import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 import { Context } from "apollo-server-core";
-import { User } from "../entities/user";
 
 @Resolver(Journey)
 export class JourneyResolver {
@@ -24,12 +23,12 @@ export class JourneyResolver {
   }
 
   @Query(() => [Journey])
-  findJourneysByDriver(@Arg("driver") driver: User): Promise<Journey[]> {
-    return journeyService.searchJourneysByDriver(driver);
+  findJourneysByDriver(@Arg("driverId") driverId: number): Promise<Journey[]> {
+    return journeyService.searchJourneysByDriver(driverId);
   }
 
   @Mutation(() => Journey)
-  // @Authorized()
+  @Authorized()
   createJourney(
     @Arg("JourneyData") JourneyData: CreateJourneyInputType,
     @Ctx() ctx: Context
@@ -38,7 +37,7 @@ export class JourneyResolver {
   }
 
   @Mutation(() => Journey)
-  // @Authorized()
+  @Authorized()
   updateJourney(
     @Arg("JourneyData") JourneyData: UpdateJourneyInputType,
     @Ctx() ctx: Context
@@ -47,7 +46,7 @@ export class JourneyResolver {
   }
 
   @Mutation(() => String)
-  // @Authorized()
+  @Authorized()
   async deleteJourney(
     @Arg("id") id: number,
     @Ctx() ctx: Context

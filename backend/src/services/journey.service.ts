@@ -41,11 +41,11 @@ export async function searchJourney(
   return journeys;
 }
 
-export function searchJourneysByDriver(driver: User): Promise<Journey[]> {
+export function searchJourneysByDriver(driverId: number): Promise<Journey[]> {
   try {
     return Journey.find({
       relations: ["driver"],
-      where: { driver: { id: driver.id } },
+      where: { driver: { id: driverId } },
     });
   } catch (error) {
     return Promise.reject(error);
