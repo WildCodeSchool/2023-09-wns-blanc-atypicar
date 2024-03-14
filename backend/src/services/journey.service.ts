@@ -1,10 +1,21 @@
-import { Between, DeleteResult, LessThan, Like, MoreThanOrEqual } from "typeorm";
+import {
+  Between,
+  DeleteResult,
+  LessThan,
+  Like,
+  MoreThanOrEqual,
+} from "typeorm";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
+import { User } from "../entities/user";
 
-
-export async function searchJourney(start: string, arrival: string, date: Date, seats: number): Promise<Journey[] | Error> {
+export async function searchJourney(
+  start: string,
+  arrival: string,
+  date: Date,
+  seats: number
+): Promise<Journey[] | Error> {
   const endDate = new Date(date);
   endDate.setHours(23, 59, 59, 999);
 
@@ -14,16 +25,14 @@ export async function searchJourney(start: string, arrival: string, date: Date, 
       ...(start && { startingPoint: start }),
       ...(arrival && { arrivalPoint: arrival }),
       ...(date && {
-        startDate: Between(date, endDate)
+        startDate: Between(date, endDate),
       }),
-      ...(seats && { availableSeats: MoreThanOrEqual(seats) })
+      ...(seats && { availableSeats: MoreThanOrEqual(seats) }),
     },
-    order: { startDate: "DESC" }
+    order: { startDate: "DESC" },
   };
 
-
   const journeys = await Journey.find(searchFilter);
-
 
   if (!journeys || journeys.length === 0) {
     return [];
@@ -32,12 +41,22 @@ export async function searchJourney(start: string, arrival: string, date: Date, 
   return journeys;
 }
 
+export function searchJourneysByDriver(driver: User): Promise<Journey[]> {
+  try {
+    return Journey.find({
+      relations: ["driver"],
+      where: { driver: { id: driver.id } },
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
 
 export function findJourney(id: number): Promise<Journey | null> {
   return Journey.findOne({
     relations: {
       driver: true,
-      reservation: true
+      reservation: true,
     },
     where: { id },
   });
@@ -48,14 +67,15 @@ export async function addJourney(
   ctx: any
 ): Promise<Journey | Error> {
   try {
-
     if (JourneyData.endDate < JourneyData.startDate) {
-      throw new Error("La date d'arrivée ne peut pas être inférieur à la date de départ");
+      throw new Error(
+        "La date d'arrivée ne peut pas être inférieur à la date de départ"
+      );
     }
 
     let journey = new Journey();
     Object.assign(journey, JourneyData);
-    // journey.driver = ctx.user.id;
+    journey.driver = ctx.user.id;
 
     return journey.save();
   } catch (error) {
