@@ -2,13 +2,14 @@ import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Na
 import Image from "next/image";
 import Logo from "../assets/images/Logo.svg";
 import { CiSearch, CiCirclePlus } from "react-icons/ci";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useRouter } from "next/router";
+import { AuthContext } from "@/contexts/authContext";
 
 export default function CustomNavbar() {
   const router = useRouter();
   const [token, setToken] = useState(localStorage.getItem("token"));
-
+  const { currentUser } = useContext(AuthContext);
   useEffect(() => {
     if (!token) {
       setToken(localStorage.getItem("token"));
@@ -51,7 +52,7 @@ export default function CustomNavbar() {
                   as="button"
                   color="secondary"
                   size="md"
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                  src={currentUser?.picture}
                 />
               </DropdownTrigger>
             </NavbarItem>
@@ -61,13 +62,15 @@ export default function CustomNavbar() {
                 color="secondary"
                 onAction={(actionKey) => console.log(actionKey)}
               >
+                <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem>
+
                 <DropdownItem key="profile">Profil</DropdownItem>
                 <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
                 <DropdownItem key="myreservations" href="/reservations">Mes réservations</DropdownItem>
                 <DropdownItem key="search" href="/search" className="block xl:hidden">
                   Rechercher
                 </DropdownItem>
-                <DropdownItem key="journeys/new" className="block xl:hidden">Publier un trajet</DropdownItem>
+                <DropdownItem key="journeys/new" href="/journeys/new" className="block xl:hidden">Publier un trajet</DropdownItem>
                 <DropdownItem key="logout" color="secondary" onClick={handleLogout}>
 
                   Se déconnecter

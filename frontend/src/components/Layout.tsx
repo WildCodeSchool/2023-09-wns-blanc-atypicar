@@ -10,6 +10,7 @@ const GET_USER = gql`
     getUser {
       id
       role
+      firstName
     }
   }
 `;
