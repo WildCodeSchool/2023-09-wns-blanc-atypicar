@@ -21,16 +21,12 @@ export class Reservation extends BaseEntity {
   status: "VALIDATED" | "CANCELLED";
 
   @Field(() => Journey)
-  @ManyToOne(() => Journey, (journey) => journey.reservation, { onDelete: "CASCADE"})
+  @ManyToOne(() => Journey, (journey) => journey.reservation, { onDelete: "CASCADE" })
   journey: Journey;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.id)
   passenger?: number;
-
-  @Field()
-  @Column()
-  dateTime?: Date;
 
   @Field()
   @Column()

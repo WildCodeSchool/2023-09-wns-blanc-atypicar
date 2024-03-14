@@ -23,6 +23,10 @@ export async function findReservation(id: number): Promise<Reservation | null> {
 export async function addReservation(ReservationData: CreateReservationInputType, id: number): Promise<Reservation | Error> {
     try {
         let journey = await Journey.findOne({
+            relations: {
+                reservation: true,
+                driver: true
+            },
             where: {
                 id: id
             }
@@ -33,7 +37,10 @@ export async function addReservation(ReservationData: CreateReservationInputType
         } else if (journey.availableSeats === 0) {
             throw new Error("No seats available");
         }
-
+        console.log("journey", journey)
+        if (journey.driver.id === ReservationData.passenger) {
+            throw new Error("You can't book your own journey");
+        }
         let reservation = new Reservation();
         reservation.journey = journey;
         Object.assign(reservation, ReservationData)
@@ -44,6 +51,7 @@ export async function addReservation(ReservationData: CreateReservationInputType
         journey.availableSeats -= reservation.seatNumber;
         journey.save();
 
+
         return reservation.save();
     } catch (error: any) {
         return new Error(error.message);
@@ -52,7 +60,7 @@ export async function addReservation(ReservationData: CreateReservationInputType
 
 export async function modifyReservation(ReservationData: CreateReservationInputType, id: number): Promise<Reservation | Error> {
     const reservationToUpdate = await findReservation(id);
-    const dateTime = new Date(ReservationData.dateTime);
+
 
     if (!reservationToUpdate) {
         throw new Error("Reservation not found")
@@ -68,7 +76,7 @@ export async function modifyReservation(ReservationData: CreateReservationInputT
         reservationToUpdate.journey.save();
     }
 
-    reservationToUpdate.dateTime = dateTime;
+
     reservationToUpdate.seatNumber = ReservationData.seatNumber;
 
 

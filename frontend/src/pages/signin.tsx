@@ -1,5 +1,5 @@
 import { AuthContext } from "@/contexts/authContext";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import {
@@ -11,6 +11,7 @@ import {
   Input,
   Link,
 } from "@nextui-org/react";
+import { User } from "@/types/user";
 
 const SIGN_IN = gql`
   mutation Login($password: String!, $email: String!) {
@@ -19,11 +20,12 @@ const SIGN_IN = gql`
 `;
 
 export default function SignInPage() {
-  const { setAuthenticated } = useContext(AuthContext);
-  const router = useRouter();
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const router = useRouter();
+  console.log(currentUser)
   const token = localStorage.getItem("token");
 
   useEffect(() => {
