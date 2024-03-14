@@ -1,13 +1,13 @@
 import { Journey } from "@/types/journey";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { Divider, Image, Button, Avatar } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillTool } from "react-icons/ai";
-import { User } from "@/types/user";
+import { AuthContext } from "@/contexts/authContext";
 
 const GET_JOURNEY_BY_ID = gql`
   query findJourney($findJourneyId: Float!) {
@@ -20,13 +20,12 @@ const GET_JOURNEY_BY_ID = gql`
       endDate
       availableSeats
       price
-      driver{
+      driver {
         id
         firstName
         lastName
         picture
         description
-      
       }
     }
   }
@@ -38,20 +37,10 @@ const DELETE_JOURNEY = gql`
   }
 `;
 
-const GET_USER = gql`
- query Query {
-  getUser {
-    id
-  }
-}
-`;
-
-
-
 const JourneyDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [user, setUser] = useState<User>();
+  const { currentUser } = useContext(AuthContext);
 
   const [journey, setJourney] = useState<Journey>();
 
@@ -64,13 +53,6 @@ const JourneyDetail = () => {
     },
   });
 
-  const { data } = useQuery(GET_USER, {
-    onCompleted: (data: any) => {
-      setUser(data.getUser);
-    }
-  });
-
-
   const [deleteJourney] = useMutation(DELETE_JOURNEY, {
     variables: {
       id: Number(id),
@@ -79,7 +61,6 @@ const JourneyDetail = () => {
       router.push("/journeys");
     },
   });
-
 
   if (loading) return <p>Chargement...Veuillez patienter</p>;
   if (error) return <p>Erreur 🤯</p>;
@@ -132,35 +113,48 @@ const JourneyDetail = () => {
                 src="https://picsum.photos/450/300"
               />
               <div>
-                <div className="h-36 w-auto grid-cols-2 pb-0 px-4 gap-8 grid">
+                <div className="grid grid-cols-[60px_20px_minmax(0,_1fr)] justify-items-start align-baseline font-bold font-montserrat w-52">
                   <p className="text font-bold">
                     {formatHour(journey.startDate)}
                   </p>
+                  <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
                   <h4 className="font-bold">{journey.startingPoint}</h4>
-                  <small className="text-default-500">
+
+                  <small className="pl-2 text-default-500 font-normal self-center">
                     {calculateDuration(journey.startDate, journey.endDate)}
                   </small>
-                  <small></small>
-                  <p className="text font-bold">{formatHour(journey.endDate)}</p>
-                  <h4 className="font-bold">{journey.arrivalPoint}</h4>
+                  <div className="h-16  -mt-3 ml-1 w-1 border-solid border-2 border-black "></div>
+                  <div></div>
+
+                  <p className="text font-bold -mt-1.5">
+                    {formatHour(journey.endDate)}
+                  </p>
+                  <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
+                  <h4 className="font-bold -mt-1.5">{journey.arrivalPoint}</h4>
                 </div>
                 <Divider className=" my-6" />
                 <div className="flex flex-col">
                   <div className="flex justify-around items-center gap-6">
-
                     <span className="text-xs">Prix total pour un passager</span>
                     <h4 className="font-bold">{journey.price} €</h4>
                   </div>
                   {journey.availableSeats > 0 && (
-                    <p className="text-xs font-montserrat italic"> Il reste {journey.availableSeats} place{journey.availableSeats > 1 && "s"} disponible{journey.availableSeats > 1 && "s"} </p>
+                    <p className="text-xs font-montserrat italic">
+                      {" "}
+                      Il reste {journey.availableSeats} place
+                      {journey.availableSeats > 1 && "s"} disponible
+                      {journey.availableSeats > 1 && "s"}{" "}
+                    </p>
                   )}
                 </div>
 
-
                 <Divider className=" my-6" />
-                {journey.driver.id == user?.id &&
+                {journey.driver.id == currentUser?.id && (
                   <div className="flex justify-between">
-                    <Button isDisabled className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md">
+                    <Button
+                      isDisabled
+                      className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md"
+                    >
                       <AiFillTool />
                       Modifier
                     </Button>
@@ -171,7 +165,8 @@ const JourneyDetail = () => {
                       <RiDeleteBinLine />
                       Supprimer
                     </Button>
-                  </div>}
+                  </div>
+                )}
               </div>
             </section>
             <div className="flex flex-row gap-4 items-center self-start w-2/5 mx-auto">
@@ -187,14 +182,21 @@ const JourneyDetail = () => {
             <Divider className=" w-2/5" />
             <p className="pt-8 px-4">{journey.description}</p>
 
-            {journey && user && journey.driver.id !== user.id && (
-              journey.availableSeats > 0 ? (
+            {journey &&
+              currentUser &&
+              journey.driver.id !== currentUser.id &&
+              (journey.availableSeats > 0 ? (
                 <div className="flex items-center justify-center">
-                  <Button className="bg-[#054652] text-white md:px-10" onClick={() => router.push(`book/${journey.id}`)} >Reserver le trajet</Button>
+                  <Button
+                    className="bg-[#054652] text-white md:px-10"
+                    onClick={() => router.push(`book/${journey.id}`)}
+                  >
+                    Reserver le trajet
+                  </Button>
                 </div>
-              ) : <p>Le trajet est complet</p>
-            )}
-
+              ) : (
+                <p>Le trajet est complet</p>
+              ))}
           </div>
         </div>
       </div>
