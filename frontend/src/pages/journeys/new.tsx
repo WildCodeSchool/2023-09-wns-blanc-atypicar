@@ -27,7 +27,6 @@ function NewJourney() {
     const formData = new FormData(form as HTMLFormElement);
 
     const formDataJson = Object.fromEntries(formData.entries());
-    console.log(formDataJson);
 
     try {
       await createJourney({
