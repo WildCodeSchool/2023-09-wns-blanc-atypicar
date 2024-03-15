@@ -58,18 +58,7 @@ export default function BookJourneyPage() {
     const [numberSeats, setNumberSeats] = useState<number>(1);
     const [journey, setJourney] = useState<Journey>();
     const [userEmail, setUserEmail] = useState<string>("");
-    const [user, setUser] = useState<User>();
-
-
-
-
-    const { data } = useQuery(GET_USER, {
-        onCompleted: (data: any) => {
-            setUser(data.getUser);
-        }
-    });
-
-    console.log(journey, "journey")
+    const { currentUser } = useContext(AuthContext);
 
     const { loading, error } = useQuery(GET_JOURNEY_BY_ID, {
         variables: {
@@ -87,12 +76,12 @@ export default function BookJourneyPage() {
                 "status": "VALIDATED",
                 "seatNumber": numberSeats,
                 "creationDate": new Date(),
-                "passenger": Number(user?.id),
+                "passenger": Number(currentUser?.id),
             },
             "bookJourneyId": Number(journey?.id)
         },
         onCompleted: (data => {
-            router.push('/journeys')
+            router.push('/reservations')
 
         })
     })

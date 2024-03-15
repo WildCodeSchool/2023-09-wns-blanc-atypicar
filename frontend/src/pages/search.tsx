@@ -21,8 +21,12 @@ query Journeys($start: String, $arrival: String, $date: DateTime, $seats: Float)
     startDate
     endDate
     availableSeats
-    price
-  }
+    price 
+      driver{
+        firstName
+        picture
+      }
+       }
 }
 `
 

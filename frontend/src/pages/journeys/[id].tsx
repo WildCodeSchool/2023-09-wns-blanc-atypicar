@@ -1,13 +1,14 @@
 import { Journey } from "@/types/journey";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Divider, Image, Button, Avatar } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillTool } from "react-icons/ai";
 import { User } from "@/types/user";
+import { AuthContext } from "@/contexts/authContext";
 
 const GET_JOURNEY_BY_ID = gql`
   query findJourney($findJourneyId: Float!) {
@@ -38,20 +39,15 @@ const DELETE_JOURNEY = gql`
   }
 `;
 
-const GET_USER = gql`
- query Query {
-  getUser {
-    id
-  }
-}
-`;
+
 
 
 
 const JourneyDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [user, setUser] = useState<User>();
+  const { currentUser } = useContext(AuthContext);
+
 
   const [journey, setJourney] = useState<Journey>();
 
@@ -62,12 +58,6 @@ const JourneyDetail = () => {
     onCompleted: (data) => {
       setJourney(data.findJourney);
     },
-  });
-
-  const { data } = useQuery(GET_USER, {
-    onCompleted: (data: any) => {
-      setUser(data.getUser);
-    }
   });
 
 
@@ -158,7 +148,7 @@ const JourneyDetail = () => {
 
 
                 <Divider className=" my-6" />
-                {journey.driver.id == user?.id &&
+                {journey.driver.id == currentUser?.id &&
                   <div className="flex justify-between">
                     <Button isDisabled className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md">
                       <AiFillTool />
@@ -187,7 +177,7 @@ const JourneyDetail = () => {
             <Divider className=" w-2/5" />
             <p className="pt-8 px-4">{journey.description}</p>
 
-            {journey && user && journey.driver.id !== user.id && (
+            {journey && currentUser && journey.driver.id !== currentUser.id && (
               journey.availableSeats > 0 ? (
                 <div className="flex items-center justify-center">
                   <Button className="bg-[#054652] text-white md:px-10" onClick={() => router.push(`book/${journey.id}`)} >Reserver le trajet</Button>
