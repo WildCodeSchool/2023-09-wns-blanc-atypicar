@@ -35,6 +35,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./client
-          file: ./client/build.Dockerfile
+          file: ./client/Dockerfile
           push: true
           tags: ${{secrets.DOCKERHUB_USERNAME}}/${{ secrets.DOCKER_HUB_CLIENT_IMAGE_NAME }}:latest
