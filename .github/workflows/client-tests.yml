@@ -3,7 +3,7 @@ name: test-ci
 on:
   pull_request:
     branches: ["staging"]
-  workflow_dispatch:
+  # workflow_dispatch:
 
 jobs:
   client-tests:
