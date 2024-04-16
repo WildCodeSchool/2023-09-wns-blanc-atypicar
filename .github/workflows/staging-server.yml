@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
 
 jobs:
-  server-tests:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -17,11 +17,6 @@ jobs:
     #     env:
     #       BASE_URL: http://localhost:3001
     #     run: cd e2e && npm install && npx playwright install &&  npx playwright test
-  docker:
-    needs: server-tests
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
