@@ -1,6 +1,6 @@
 name: test-ci
 
-on: 
+on:
     pull_request:
         branches: ["staging"]
     workflow_dispatch:
@@ -37,4 +37,4 @@ jobs:
           context: ./server
           file: ./server/build.Dockerfile
           push: true
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{ secrets.DOCKER_HUB_CLIENT_SERVER_NAME }}:latest
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{ secrets.DOCKER_HUB_SERVER_IMAGE_NAME }}:latest
