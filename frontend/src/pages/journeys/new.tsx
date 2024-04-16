@@ -1,7 +1,8 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import React, { FormEvent, useState, useMemo } from "react";
-import { Input, Textarea, Button } from "@nextui-org/react";
+import { Input, Textarea, Button, Select, SelectItem } from "@nextui-org/react";
+import { Category } from "@/types/category";
 
 const CREATE_JOURNEY = gql`
   mutation CreateJourney($JourneyData: CreateJourneyInputType!) {
@@ -18,8 +19,18 @@ const CREATE_JOURNEY = gql`
   }
 `;
 
+const GET_CATEGORIES = gql`
+  query Query {
+    getCategories {
+      id
+      wording
+    }
+  }
+`;
+
 function NewJourney() {
   const router = useRouter();
+  const { loading, error, data } = useQuery(GET_CATEGORIES);
   const [createJourney] = useMutation(CREATE_JOURNEY);
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -27,7 +38,6 @@ function NewJourney() {
     const formData = new FormData(form as HTMLFormElement);
 
     const formDataJson = Object.fromEntries(formData.entries());
-    console.log(formDataJson);
 
     try {
       await createJourney({
@@ -50,6 +60,9 @@ function NewJourney() {
       console.error("Incident");
     }
   };
+
+  console.log(data);
+
   // Filter Cities
   const [value, setValue] = useState<string>("");
 
@@ -188,6 +201,26 @@ function NewJourney() {
             }
             onValueChange={setValueInt}
           />
+        </div>
+
+        <div className="flex flex-col w-full md:gap-16 md:flex-row md:p-5">
+          {data && !loading && (
+            <Select
+              label="Type de véhicule"
+              selectionMode="multiple"
+              className="max-w"
+            >
+              {data.getCategories.map((category: Category) => (
+                <SelectItem
+                  color="warning"
+                  key={category.id}
+                  value={category.id}
+                >
+                  {category.wording}
+                </SelectItem>
+              ))}
+            </Select>
+          )}
         </div>
 
         <Textarea

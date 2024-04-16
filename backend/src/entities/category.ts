@@ -19,7 +19,7 @@ export class Category extends BaseEntity {
   @Column()
   wording: string;
 
-  @Field(() => Vehicle)
+  @Field(() => [Vehicle], { nullable: true })
   @ManyToMany(() => Vehicle, (vehicle) => vehicle.id)
-  vehicle: number;
+  vehicle: number[];
 }

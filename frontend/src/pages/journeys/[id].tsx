@@ -1,13 +1,12 @@
 import { Journey } from "@/types/journey";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { Divider, Image, Button, Avatar } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillTool } from "react-icons/ai";
-import { User } from "@/types/user";
 import { AuthContext } from "@/contexts/authContext";
 
 const GET_JOURNEY_BY_ID = gql`
@@ -21,13 +20,12 @@ const GET_JOURNEY_BY_ID = gql`
       endDate
       availableSeats
       price
-      driver{
+      driver {
         id
         firstName
         lastName
         picture
         description
-      
       }
     }
   }
@@ -39,15 +37,10 @@ const DELETE_JOURNEY = gql`
   }
 `;
 
-
-
-
-
 const JourneyDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const { currentUser } = useContext(AuthContext);
-
 
   const [journey, setJourney] = useState<Journey>();
 
@@ -60,7 +53,6 @@ const JourneyDetail = () => {
     },
   });
 
-
   const [deleteJourney] = useMutation(DELETE_JOURNEY, {
     variables: {
       id: Number(id),
@@ -69,7 +61,6 @@ const JourneyDetail = () => {
       router.push("/journeys");
     },
   });
-
 
   if (loading) return <p>Chargement...Veuillez patienter</p>;
   if (error) return <p>Erreur 🤯</p>;
@@ -131,26 +122,34 @@ const JourneyDetail = () => {
                     {calculateDuration(journey.startDate, journey.endDate)}
                   </small>
                   <small></small>
-                  <p className="text font-bold">{formatHour(journey.endDate)}</p>
+                  <p className="text font-bold">
+                    {formatHour(journey.endDate)}
+                  </p>
                   <h4 className="font-bold">{journey.arrivalPoint}</h4>
                 </div>
                 <Divider className=" my-6" />
                 <div className="flex flex-col">
                   <div className="flex justify-around items-center gap-6">
-
                     <span className="text-xs">Prix total pour un passager</span>
                     <h4 className="font-bold">{journey.price} €</h4>
                   </div>
                   {journey.availableSeats > 0 && (
-                    <p className="text-xs font-montserrat italic"> Il reste {journey.availableSeats} place{journey.availableSeats > 1 && "s"} disponible{journey.availableSeats > 1 && "s"} </p>
+                    <p className="text-xs font-montserrat italic">
+                      {" "}
+                      Il reste {journey.availableSeats} place
+                      {journey.availableSeats > 1 && "s"} disponible
+                      {journey.availableSeats > 1 && "s"}{" "}
+                    </p>
                   )}
                 </div>
 
-
                 <Divider className=" my-6" />
-                {journey.driver.id == currentUser?.id &&
+                {journey.driver.id == currentUser?.id && (
                   <div className="flex justify-between">
-                    <Button isDisabled className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md">
+                    <Button
+                      isDisabled
+                      className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md"
+                    >
                       <AiFillTool />
                       Modifier
                     </Button>
@@ -161,7 +160,8 @@ const JourneyDetail = () => {
                       <RiDeleteBinLine />
                       Supprimer
                     </Button>
-                  </div>}
+                  </div>
+                )}
               </div>
             </section>
             <div className="flex flex-row gap-4 items-center self-start w-2/5 mx-auto">
@@ -177,14 +177,21 @@ const JourneyDetail = () => {
             <Divider className=" w-2/5" />
             <p className="pt-8 px-4">{journey.description}</p>
 
-            {journey && currentUser && journey.driver.id !== currentUser.id && (
-              journey.availableSeats > 0 ? (
+            {journey &&
+              currentUser &&
+              journey.driver.id !== currentUser.id &&
+              (journey.availableSeats > 0 ? (
                 <div className="flex items-center justify-center">
-                  <Button className="bg-[#054652] text-white md:px-10" onClick={() => router.push(`book/${journey.id}`)} >Reserver le trajet</Button>
+                  <Button
+                    className="bg-[#054652] text-white md:px-10"
+                    onClick={() => router.push(`book/${journey.id}`)}
+                  >
+                    Reserver le trajet
+                  </Button>
                 </div>
-              ) : <p>Le trajet est complet</p>
-            )}
-
+              ) : (
+                <p>Le trajet est complet</p>
+              ))}
           </div>
         </div>
       </div>

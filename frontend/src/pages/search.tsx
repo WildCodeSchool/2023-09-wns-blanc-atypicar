@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { useSearchParams } from "next/navigation";
 import JourneyCard from "@/components/JourneyCard";
 import Link from "next/link";
 import { Journey } from "@/types/journey";
