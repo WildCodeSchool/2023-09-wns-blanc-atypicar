@@ -113,19 +113,25 @@ const JourneyDetail = () => {
                 src="https://picsum.photos/450/300"
               />
               <div>
-                <div className="h-36 w-auto grid-cols-2 pb-0 px-4 gap-8 grid">
+                {/* first line */}
+                <div className="grid grid-cols-[60px_20px_minmax(0,_1fr)] justify-items-start align-baseline font-bold font-montserrat w-52">
                   <p className="text font-bold">
                     {formatHour(journey.startDate)}
                   </p>
+                  <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
                   <h4 className="font-bold">{journey.startingPoint}</h4>
-                  <small className="text-default-500">
+                  {/* second line */}
+                  <small className="pl-2 text-default-500 font-normal self-center">
                     {calculateDuration(journey.startDate, journey.endDate)}
                   </small>
-                  <small></small>
-                  <p className="text font-bold">
+                  <div className="h-16  -mt-3 ml-1 w-1 border-solid border-2 border-black "></div>
+                  <div></div>
+                  {/* third line */}
+                  <p className="text font-bold -mt-1.5">
                     {formatHour(journey.endDate)}
                   </p>
-                  <h4 className="font-bold">{journey.arrivalPoint}</h4>
+                  <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
+                  <h4 className="font-bold -mt-1.5">{journey.arrivalPoint}</h4>
                 </div>
                 <Divider className=" my-6" />
                 <div className="flex flex-col">

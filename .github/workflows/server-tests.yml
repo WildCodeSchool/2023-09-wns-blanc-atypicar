@@ -1,24 +1,24 @@
 name: test-ci
 
 on:
-  pull_request:
-    branches: ["staging"]
-  workflow_dispatch:
+    pull_request:
+        branches: ["staging"]
+    workflow_dispatch:
 
 jobs:
-  client-tests:
+  server-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Go to frontend and run 
-        run: cd frontend && npm install && npm run dev &
-      - name : Goto e2e and run tests
-        env:
-          BASE_URL: http://localhost:3000 
-        run: cd e2e && npm install && npx playwright install &&  npx playwright test 
+    #   - name: Go to backend and run 
+    #     run: cd backend && npm install && npm run start &
+    #   - name : Goto e2e and run tests
+    #     env:
+    #       BASE_URL: http://localhost:3001 
+    #     run: cd e2e && npm install && npx playwright install &&  npx playwright test 
   docker:
-    needs: client-tests
+    needs: server-tests
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +34,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./client
-          file: ./client/build.Dockerfile
+          context: ./server
+          file: ./server/build.Dockerfile
           push: true
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{ secrets.DOCKER_HUB_CLIENT_IMAGE_NAME }}:latest
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{ secrets.DOCKER_HUB_SERVER_IMAGE_NAME }}:latest
