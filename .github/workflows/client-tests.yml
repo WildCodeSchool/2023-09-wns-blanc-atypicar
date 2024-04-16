@@ -1,6 +1,9 @@
 name: test-ci
 
-on: pull_request
+on:
+  pull_request:
+    branches: ["staging"]
+  workflow_dispatch:
 
 jobs:
   client-tests:
@@ -31,6 +34,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          context: ./client
+          file: ./client/build.Dockerfile
           push: true
-          context: "{{defaultContext}}:e2e"
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/atypicar:latest
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{ secrets.DOCKER_HUB_CLIENT_IMAGE_NAME }}:latest
