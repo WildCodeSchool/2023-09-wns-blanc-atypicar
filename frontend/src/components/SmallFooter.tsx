@@ -1,5 +1,4 @@
 import styles from "../styles/SmallFooter.module.css";
-import Logo from "../assets/images/Logo.svg";
 
 function SmallFooter() {
   return (

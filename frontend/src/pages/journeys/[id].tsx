@@ -1,13 +1,12 @@
 import { Journey } from "@/types/journey";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { Divider, Image, Button, Avatar } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillTool } from "react-icons/ai";
-import { User } from "@/types/user";
 import { AuthContext } from "@/contexts/authContext";
 
 const GET_JOURNEY_BY_ID = gql`
