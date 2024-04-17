@@ -23,8 +23,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Go to backend and run
-        run: cd backend && npm install && npm run start
     # TODO: Add backend tests
     #   - name : Goto e2e and run tests
     #     env:
