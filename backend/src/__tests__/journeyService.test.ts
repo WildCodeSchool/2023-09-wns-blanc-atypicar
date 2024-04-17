@@ -103,7 +103,12 @@ describe("addJourney", () => {
   });
 
   it("Valid Data", async () => {
-    const result = await addJourney(journeyData, {});
+    const ctx = {
+      user: {
+        id: 1
+      }
+    };
+    const result = await addJourney(journeyData, ctx);
     expect(result).toBeTruthy();
 
     if (result instanceof Error) {

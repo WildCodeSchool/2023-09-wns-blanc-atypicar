@@ -1,14 +1,8 @@
-<<<<<<< HEAD
-import { Between, DeleteResult, MoreThanOrEqual } from "typeorm";
-=======
 import {
   Between,
   DeleteResult,
-  LessThan,
-  Like,
-  MoreThanOrEqual,
+  MoreThanOrEqual
 } from "typeorm";
->>>>>>> 3d29879 (Add unit tests for Journey and Reservation services)
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";

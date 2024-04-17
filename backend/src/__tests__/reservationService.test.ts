@@ -3,7 +3,6 @@ import {
   findReservation,
   addReservation,
   modifyReservation,
-  deleteReservation,
 } from "../services/reservation.service";
 import { Journey } from "../entities/journey";
 import { Reservation } from "../entities/reservation";
