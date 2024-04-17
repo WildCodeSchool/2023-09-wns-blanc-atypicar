@@ -185,7 +185,7 @@ function NewJourney() {
               isInvalidSeats &&
               "Le nombre de places doit être compris entre 1 et 20"
             }
-            onValueChange={setValueInt}
+            onValueChange={() => setValueInt}
           />
         </div>
 
