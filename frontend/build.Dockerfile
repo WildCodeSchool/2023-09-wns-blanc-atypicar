@@ -24,7 +24,7 @@ WORKDIR /app
 
 # Copier les dossiers à partir de l'image précédente
 COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/public /app/public
+# COPY --from=builder /app/public /app/public
 COPY --from=builder /app/.next /app/.next
 
 RUN npm i --production
