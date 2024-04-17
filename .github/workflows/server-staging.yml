@@ -1,25 +1,18 @@
-name: test-ci
+name: server-staging
 
-on: pull_request
+on:
+  pull_request:
+    branches: ["staging"]
+  workflow_dispatch:
 
 jobs:
-  server-tests:
+  server-build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Go to backend and run
-        run: cd backend && npm install && npm run start
-    # TODO: Add backend tests
-    #   - name : Goto e2e and run tests
-    #     env:
-    #       BASE_URL: http://localhost:3001
-    #     run: cd e2e && npm install && npx playwright install &&  npx playwright test
-  docker:
-    needs: server-tests
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
+        run: cd backend && npm install && npm run start &
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -32,6 +25,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          context: ./server
+          file: ./server/build.Dockerfile
           push: true
-          context: "{{defaultContext}}:e2e"
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/atypicar:latest
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_HUB_SERVER_IMAGE_NAME}}:latest
