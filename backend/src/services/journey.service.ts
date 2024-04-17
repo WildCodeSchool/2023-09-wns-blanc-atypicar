@@ -1,4 +1,14 @@
+<<<<<<< HEAD
 import { Between, DeleteResult, MoreThanOrEqual } from "typeorm";
+=======
+import {
+  Between,
+  DeleteResult,
+  LessThan,
+  Like,
+  MoreThanOrEqual,
+} from "typeorm";
+>>>>>>> 3d29879 (Add unit tests for Journey and Reservation services)
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
@@ -60,19 +70,36 @@ export async function addJourney(
   ctx: any
 ): Promise<Journey | Error> {
   try {
+    let errors = [];
+
     if (JourneyData.endDate < JourneyData.startDate) {
-      throw new Error(
-        "La date d'arrivée ne peut pas être inférieur à la date de départ"
+      errors.push(
+        "La date d'arrivée ne peut pas être inférieure à la date de départ."
       );
     }
 
+    if (JourneyData.availableSeats < 1 || JourneyData.availableSeats > 20) {
+      errors.push(
+        "Le nombre de places est limité (doit être compris entre 1 et 20 inclus)."
+      );
+    }
+
+    if (JourneyData.price < 1 ) {
+      errors.push(
+        "Le prix doit être supérieur à 0."
+      );
+    }
+
+    if (errors.length > 0) {
+      throw new Error(errors.join(" "));
+    }
     let journey = new Journey();
     Object.assign(journey, JourneyData);
     journey.driver = ctx.user.id;
 
     return journey.save();
   } catch (error) {
-    return new Error();
+    throw error;
   }
 }
 
