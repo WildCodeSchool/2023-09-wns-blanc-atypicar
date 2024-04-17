@@ -1,22 +1,33 @@
-name: test-ci
+name: server-tests-ci
 
-on:
-    pull_request:
-        branches: ["staging"]
-    workflow_dispatch:
+on: pull_request
 
 jobs:
   server-tests:
     runs-on: ubuntu-latest
+    container: node:lts-alpine
+    services:
+      db:
+        image: postgres
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-    #   - name: Go to backend and run 
-    #     run: cd backend && npm install && npm run start &
+    # TODO: Add backend tests
     #   - name : Goto e2e and run tests
     #     env:
-    #       BASE_URL: http://localhost:3001 
-    #     run: cd e2e && npm install && npx playwright install &&  npx playwright test 
+    #       BASE_URL: http://localhost:3001
+    #     run: cd e2e && npm install && npx playwright install &&  npx playwright test
   docker:
     needs: server-tests
     if: github.event_name == 'pull_request'
@@ -28,13 +39,12 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Login to DockerHub
         uses: docker/login-action@v2
-        with: 
+        with:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_TOKEN}}
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./server
-          file: ./server/build.Dockerfile
           push: true
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{ secrets.DOCKER_HUB_SERVER_IMAGE_NAME }}:latest
+          context: "{{defaultContext}}:e2e"
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/atypicar:latest

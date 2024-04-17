@@ -160,7 +160,7 @@ const JourneyDetail = () => {
                       Modifier
                     </Button>
                     <Button
-                      onClick={deleteJourney}
+                      onClick={() => deleteJourney}
                       className="inline-flex items-center px-2 py-2 bg-danger hover:bg-danger-800 text-white text-sm font-medium rounded-md"
                     >
                       <RiDeleteBinLine />
