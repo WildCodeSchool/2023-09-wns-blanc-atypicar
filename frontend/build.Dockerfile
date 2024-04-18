@@ -7,16 +7,19 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 COPY tsconfig.json tsconfig.json
-# COPY public public
-# COPY next-env.d.ts next-env.d.ts
+COPY public public
+COPY next-env.d.ts next-env.d.ts
 COPY next.config.js next.config.js
 COPY src src
 
 # Génère le dossier node_modules
 RUN npm i
 
+ARG NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+
 # Génère le dossier .next
-RUN npm run build 
+RUN npm run build
 
 FROM node:lts-alpine
 
