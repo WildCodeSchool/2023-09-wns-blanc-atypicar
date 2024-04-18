@@ -4,6 +4,7 @@ import CustomNavbar from "./customnavbar";
 import BigFooter from "./BigFooter";
 import { gql, useQuery } from "@apollo/client";
 import { AuthContext } from "@/contexts/authContext";
+import { User } from "@/types/user";
 
 const GET_USER = gql`
   query Query {
@@ -14,6 +15,7 @@ const GET_USER = gql`
     }
   }
 `;
+
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { setCurrentUser } = useContext(AuthContext);
@@ -40,7 +42,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </Head>
-      <CustomNavbar currentUser={currentUser} />
+      <CustomNavbar />
       <main className="py-24">{children}</main>
       <BigFooter />
     </>
