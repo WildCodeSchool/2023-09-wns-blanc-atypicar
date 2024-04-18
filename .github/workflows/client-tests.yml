@@ -29,8 +29,10 @@ jobs:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_TOKEN}}
       - name: Build and push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: true
-          context: "{{defaultContext}}:e2e"
+          context: "{{defaultContext}}:frontend"
+          file: build.Dockerfile
           tags: ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_HUB_CLIENT_IMAGE_NAME}}:latest
+          build-args: NEXT_PUBLIC_BACKEND_URL=${{secrets.BACKEND_URL}}
