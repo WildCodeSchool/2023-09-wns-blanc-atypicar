@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 COPY tsconfig.json tsconfig.json
-COPY public public
+# COPY public public
 # COPY next-env.d.ts next-env.d.ts
 COPY next.config.js next.config.js
 COPY src src
