@@ -128,7 +128,7 @@ export default function BookJourneyPage() {
                                 </div>
                                 <div>
                                     <p className="text-justify">
-                                        <span className="text-xl font-montserrat font-bold">"</span>Bonjour, je voyage solo j’aurais quelques affaires à prendre, Un petit sac seulement svp !! Pas de valise.<span className="text-xl font-montserrat font-bold">"</span>
+                                        <span className="text-xl font-montserrat font-bold">"</span>{journey.description}<span className="text-xl font-montserrat font-bold">"</span>
                                     </p>
 
                                 </div>

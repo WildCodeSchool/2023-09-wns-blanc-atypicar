@@ -7,6 +7,8 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 COPY tsconfig.json tsconfig.json
+COPY tailwind.config.js tailwind.config.js
+COPY postcss.config.js postcss.config.js
 # COPY public public
 # COPY next-env.d.ts next-env.d.ts
 COPY next.config.js next.config.js

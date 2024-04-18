@@ -17,6 +17,7 @@ const GET_USER = gql`
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { setCurrentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const { loading, error, data } = useQuery(GET_USER);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </Head>
-      <CustomNavbar />
+      <CustomNavbar currentUser={currentUser} />
       <main className="py-24">{children}</main>
       <BigFooter />
     </>
