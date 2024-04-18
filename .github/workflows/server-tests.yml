@@ -47,4 +47,4 @@ jobs:
         with:
           push: true
           context: "{{defaultContext}}:e2e"
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/atypicar:latest
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_HUB_SERVER_IMAGE_NAME}}:latest
