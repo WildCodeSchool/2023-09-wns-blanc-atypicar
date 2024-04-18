@@ -4,7 +4,7 @@ services:
   backend:
     platform: linux/amd64
     image: clairedochez959/backend:latest
-    # env_file: .env.dev
+    env_file: .env.dev
     depends_on:
       db:
         condition: service_healthy
