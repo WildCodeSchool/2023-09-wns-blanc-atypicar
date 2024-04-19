@@ -136,3 +136,5 @@
 2024/04/18 11:55:42 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
 2024/04/18 11:56:42 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
 2024/04/18 11:57:43 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/04/19 12:03:40 [emerg] 75#75: io_setup() failed (38: Function not implemented)
+2024/04/19 12:06:05 [emerg] 56#56: io_setup() failed (38: Function not implemented)

@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 COPY tsconfig.json tsconfig.json
+COPY jest.config.js jest.config.js
 COPY src src
 
 RUN npm i
