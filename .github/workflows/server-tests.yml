@@ -31,11 +31,13 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Goto e2e and run tests
+      - name: Go to backend and run
+        run: cd backend && npm install && npm start
+      - name: Goto backend and run tests
         env:
           BASE_URL: http://localhost:3001
-        run: cd e2e && npm install && npx playwright install &&  npx playwright test
-        
+        run: cd backend && npm install && npm test
+
   docker:
     needs: server-tests
     if: github.event_name == 'pull_request'
