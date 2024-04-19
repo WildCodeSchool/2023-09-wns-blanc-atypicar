@@ -31,6 +31,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+      - name: Goto backend and run tests
+        env:
+          BASE_URL: http://localhost:3001
+        run: cd backend && npm install && npm test
+
   docker:
     needs: server-tests
     if: github.event_name == 'pull_request'
