@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import React, { FormEvent, useState, useMemo } from "react";
 import { Input, Textarea, Button } from "@nextui-org/react";
+import { errorToast, successToast } from "@/components/Toast";
 
 const CREATE_JOURNEY = gql`
   mutation CreateJourney($JourneyData: CreateJourneyInputType!) {
@@ -42,10 +43,12 @@ function NewJourney() {
           },
         },
         onCompleted: (data) => {
+          successToast("Trajet créé avec succès");
           router.push(`/journeys/${data.createJourney.id}`);
         },
       });
     } catch (error) {
+      errorToast("Une erreur est survenue lors de la création du trajet");
       console.error("Incident");
     }
   };

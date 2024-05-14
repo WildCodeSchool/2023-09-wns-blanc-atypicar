@@ -16,7 +16,7 @@ export async function createUser(
     user.creationDate = new Date();
     return user.save();
   } catch (error) {
-    return new Error();
+    throw new Error();
   }
 }
 
