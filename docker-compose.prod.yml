@@ -2,12 +2,15 @@ version: '3'
 
 services:
   backend:
-    image: clairedochez959/backend
-    env_file:
-      - .env.dev
-    ports:
-      - 4000:3001
+    platform: linux/amd64
+    image: clairedochez959/backend:latest
+    env_file: .env.dev
+    depends_on:
+      db:
+        condition: service_healthy
+
   frontend:
+<<<<<<< HEAD
     image: clairedochez959/frontend
     env_file:
       - .env.dev
@@ -23,6 +26,16 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: atypicardb
       PGDATA: customDataFolder
+=======
+    platform: linux/amd64
+    image: clairedochez959/frontend:latest
+    env_file: .env.dev
+
+  db:
+    image: postgres
+    restart: always
+    env_file: .env.db
+>>>>>>> 4021cee3f31f20c5b203be9c16595749d4408640
     volumes:
       - ./dbData:/var/lib/postgresql/data/customDataFolder
     healthcheck:
@@ -30,8 +43,10 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
   nginx:
     image: nginx:1.21.3
+    platform: linux/amd64
     depends_on:
       - backend
       - frontend

@@ -2,6 +2,14 @@ name: server-tests-ci
 
 on: pull_request
 
+env:
+  JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+
 jobs:
   server-tests:
     runs-on: ubuntu-latest
@@ -23,11 +31,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-    # TODO: Add backend tests
-    #   - name : Goto e2e and run tests
-    #     env:
-    #       BASE_URL: http://localhost:3001
-    #     run: cd e2e && npm install && npx playwright install &&  npx playwright test
+      - name: Goto backend and run tests
+        env:
+          BASE_URL: http://localhost:3001
+        run: cd backend && npm install && npm test
+
   docker:
     needs: server-tests
     if: github.event_name == 'pull_request'
@@ -43,8 +51,9 @@ jobs:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_TOKEN}}
       - name: Build and push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: true
-          context: "{{defaultContext}}:e2e"
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/atypicar:latest
+          context: "{{defaultContext}}:backend"
+          file: build.Dockerfile
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_HUB_SERVER_IMAGE_NAME}}:latest

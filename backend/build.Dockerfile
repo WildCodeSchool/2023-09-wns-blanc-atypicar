@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 COPY tsconfig.json tsconfig.json
+COPY jest.config.js jest.config.js
 COPY src src
 
 RUN npm i
@@ -16,7 +17,7 @@ WORKDIR /app
 
 COPY --from=builder /app/package.json /app/package.json
 COPY --from=builder /app/package-lock.json /app/package-lock.json
-COPY --from=builder /app/build /app/build
+COPY --from=builder /app/build /app
 
 RUN npm i --production
 
