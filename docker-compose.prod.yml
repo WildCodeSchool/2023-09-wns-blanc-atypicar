@@ -13,11 +13,16 @@ services:
       - .env.dev
     ports:
       - 3000:3000
+    volumes:
+      - web-client-build:/app/.next
   db:
     image: postgres
     restart: always
-    env_file:
-      - .env.db
+    environment:
+      POSTGRES_USER: atypicar
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: atypicardb
+      PGDATA: customDataFolder
     volumes:
       - ./dbData:/var/lib/postgresql/data/customDataFolder
     healthcheck:
@@ -35,4 +40,7 @@ services:
       - ${GATEWAY_PORT}:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - web-client-build:/web-client-build
       - ./logs:/var/log/nginx
+volumes:
+  web-client-build:
