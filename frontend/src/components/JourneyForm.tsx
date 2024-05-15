@@ -1,24 +1,10 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { Input, Textarea, Button } from "@nextui-org/react";
 import { isInvalidCity, isInvalidSeats } from "@/utils/inputValidation";
 import { JourneyInput } from "@/types/journey";
-
-const CREATE_JOURNEY = gql`
-  mutation CreateJourney($JourneyData: CreateJourneyInputType!) {
-    createJourney(JourneyData: $JourneyData) {
-      id
-      startingPoint
-      arrivalPoint
-      startDate
-      endDate
-      availableSeats
-      price
-      description
-    }
-  }
-`;
+import { formatStringToDate } from "@/utils/formatDates";
 
 interface JourneyFormProps {
   handleSubmit: (e: React.FormEvent) => Promise<void>;
@@ -27,7 +13,6 @@ interface JourneyFormProps {
 
 const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
   const router = useRouter();
-  const [createJourney] = useMutation(CREATE_JOURNEY);
   const [currentJourney, setCurrentJourney] = useState<
     JourneyInput | undefined
   >();
@@ -38,6 +23,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
     }
   }, [journey]);
 
+  console.log(currentJourney);
   return (
     <form
       data-testid="journey-form"
@@ -72,6 +58,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
             classNames={{
               inputWrapper: "bg-white ",
             }}
+            value={currentJourney?.startingPoint}
           />
           <Input
             type="text"
@@ -94,6 +81,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
             classNames={{
               inputWrapper: "bg-white",
             }}
+            value={currentJourney?.arrivalPoint}
           />
         </div>
 
@@ -108,6 +96,17 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
             classNames={{
               inputWrapper: "bg-white",
             }}
+            value={
+              currentJourney?.startDate
+                ? formatStringToDate(currentJourney.startDate)
+                : undefined
+            }
+            onChange={(e) =>
+              setCurrentJourney({
+                ...currentJourney,
+                startDate: e.target.value,
+              })
+            }
           />
           <Input
             type="datetime-local"
@@ -119,6 +118,17 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
             classNames={{
               inputWrapper: "bg-white",
             }}
+            value={
+              currentJourney?.endDate
+                ? formatStringToDate(currentJourney.endDate)
+                : undefined
+            }
+            onChange={(e) =>
+              setCurrentJourney({
+                ...currentJourney,
+                endDate: e.target.value,
+              })
+            }
           />
         </div>
 
@@ -139,7 +149,14 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
                 <span className="text-default-400 text-small">€</span>
               </div>
             }
+            value={currentJourney?.price?.toString()}
             min="0.00"
+            onChange={(e) =>
+              setCurrentJourney({
+                ...currentJourney,
+                price: Number(e.target.value),
+              })
+            }
           />
           <Input
             data-testid="journey-seats"
@@ -177,6 +194,13 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
             inputWrapper: "bg-white ",
           }}
           className="w-full p-4 shadow-sm"
+          value={currentJourney?.description}
+          onChange={(e) =>
+            setCurrentJourney({
+              ...currentJourney,
+              description: e.target.value,
+            })
+          }
         />
 
         <div className="flex flex-col-reverse m-auto w-1/2 md:flex-row justify-end md:w-full gap-4 md:mb-5 mt-5 md:px-7">
