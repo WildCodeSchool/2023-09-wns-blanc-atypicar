@@ -2,26 +2,15 @@ import Head from "next/head";
 import { ReactNode, useContext, useEffect } from "react";
 import CustomNavbar from "./customnavbar";
 import BigFooter from "./BigFooter";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { AuthContext } from "@/contexts/authContext";
-import { User } from "@/types/user";
 import { ToastContainer } from "react-toastify";
-
-const GET_USER = gql`
-  query Query {
-    getUser {
-      id
-      role
-      firstName
-    }
-  }
-`;
-
+import { GET_USER } from "@/graphql/client";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { setCurrentUser } = useContext(AuthContext);
   const { currentUser } = useContext(AuthContext);
-  const { loading, error, data } = useQuery(GET_USER);
+  const { loading, data } = useQuery(GET_USER);
 
   useEffect(() => {
     if (data && !loading) {

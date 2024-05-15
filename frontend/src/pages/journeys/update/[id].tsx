@@ -1,38 +1,9 @@
 import JourneyForm from "@/components/JourneyForm";
+import { GET_ONE_JOURNEY, UPDATE_JOURNEY } from "@/graphql/client";
 import { JourneyInput } from "@/types/journey";
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
-
-const GET_ONE_JOURNEY = gql`
-  query Query($findJourneyId: Float!) {
-    findJourney(id: $findJourneyId) {
-      arrivalPoint
-      availableSeats
-      description
-      endDate
-      id
-      price
-      startDate
-      startingPoint
-    }
-  }
-`;
-
-const UPDATE_JOURNEY = gql`
-  mutation UpdateJourney($journeyData: UpdateJourneyInputType!) {
-    updateJourney(JourneyData: $journeyData) {
-      arrivalPoint
-      availableSeats
-      description
-      endDate
-      price
-      startDate
-      startingPoint
-      id
-    }
-  }
-`;
 
 const UpdateJourney = () => {
   const router = useRouter();

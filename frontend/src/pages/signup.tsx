@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import {
@@ -11,18 +11,7 @@ import {
   Link,
 } from "@nextui-org/react";
 import { errorToast, successToast } from "@/components/Toast";
-
-const SIGN_UP = gql`
-  mutation SignUp($createUserType: CreateUserType!) {
-    signUp(createUserType: $createUserType) {
-      id
-      firstName
-      lastName
-      birthday
-      email
-    }
-  }
-`;
+import { SIGN_UP } from "@/graphql/client";
 
 const verifyPassword = (password: string, confirmPassword: string) =>
   password === confirmPassword;
@@ -53,7 +42,6 @@ export default function SignUpPage() {
     },
   });
 
-
   const handleSignUp = async () => {
     if (!verifyPassword(password, confirmPassword)) {
       errorToast("Les mots de passe ne sont pas identiques.");
@@ -67,7 +55,7 @@ export default function SignUpPage() {
       console.error(error);
       errorToast("Une erreur s'est produite lors de l'inscription.");
     }
-  }
+  };
   return (
     <form
       data-testid="signup-form"
