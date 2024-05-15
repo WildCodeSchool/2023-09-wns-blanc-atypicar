@@ -5,6 +5,7 @@ import BigFooter from "./BigFooter";
 import { gql, useQuery } from "@apollo/client";
 import { AuthContext } from "@/contexts/authContext";
 import { User } from "@/types/user";
+import { ToastContainer } from "react-toastify";
 
 const GET_USER = gql`
   query Query {
@@ -44,6 +45,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </Head>
       <CustomNavbar />
       <main className="py-24">{children}</main>
+      <ToastContainer />
       <BigFooter />
     </>
   );

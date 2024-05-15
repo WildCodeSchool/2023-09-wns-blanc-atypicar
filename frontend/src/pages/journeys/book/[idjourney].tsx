@@ -1,3 +1,4 @@
+import { errorToast, successToast } from "@/components/Toast";
 import { AuthContext } from "@/contexts/authContext";
 import { Journey } from "@/types/journey";
 import { User } from "@/types/user";
@@ -80,7 +81,12 @@ export default function BookJourneyPage() {
             },
             "bookJourneyId": Number(journey?.id)
         },
+        onError: (error) => {
+            console.error(error);
+            errorToast("Une erreur s'est produite lors de la réservation")
+        },
         onCompleted: (data => {
+            successToast("Réservation effectuée avec succès")
             router.push('/reservations')
 
         })

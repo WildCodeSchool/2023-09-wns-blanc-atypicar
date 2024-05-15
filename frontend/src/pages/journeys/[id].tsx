@@ -9,6 +9,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillTool } from "react-icons/ai";
 import { User } from "@/types/user";
 import { AuthContext } from "@/contexts/authContext";
+import Link from "next/link";
 
 const GET_JOURNEY_BY_ID = gql`
   query findJourney($findJourneyId: Float!) {
@@ -56,7 +57,7 @@ const JourneyDetail = () => {
 
   const [deleteJourney] = useMutation(DELETE_JOURNEY, {
     variables: {
-      id: Number(id),
+      id,
     },
     onCompleted: () => {
       router.push("/journeys");
@@ -65,7 +66,7 @@ const JourneyDetail = () => {
 
   if (loading) return <p>Chargement...Veuillez patienter</p>;
   if (error) return <p>Erreur 🤯</p>;
-  if (journey)
+  if (journey) {
     return (
       <div>
         <nav className="flex pt-16 justify-center" aria-label="Breadcrumb">
@@ -153,13 +154,13 @@ const JourneyDetail = () => {
                 <Divider className=" my-6" />
                 {journey.driver.id == currentUser?.id && (
                   <div className="flex justify-between">
-                    <Button
-                      isDisabled
-                      className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md"
-                    >
-                      <AiFillTool />
-                      Modifier
-                    </Button>
+                    <Link href={`/journeys/update/${id}`}>
+                      <Button className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md">
+                        <AiFillTool />
+                        Modifier
+                      </Button>
+                    </Link>
+
                     <Button
                       onClick={() => deleteJourney}
                       className="inline-flex items-center px-2 py-2 bg-danger hover:bg-danger-800 text-white text-sm font-medium rounded-md"
@@ -203,6 +204,7 @@ const JourneyDetail = () => {
         </div>
       </div>
     );
+  }
 };
 
 export default JourneyDetail;

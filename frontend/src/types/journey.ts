@@ -25,6 +25,17 @@ export type Journey = {
       lastName: string;
       picture: string;
       description: string;
-    }
-  }
+    };
+  };
+};
+
+export type JourneyInput = {
+  arrivalPoint?: string;
+  availableSeats?: number;
+  description?: string;
+  endDate?: string;
+  id?: number;
+  price?: number;
+  startDate?: string;
+  startingPoint?: string;
 };
