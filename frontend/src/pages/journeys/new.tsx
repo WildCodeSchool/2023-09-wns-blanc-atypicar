@@ -54,6 +54,9 @@ function NewJourney() {
     }
   };
 
+
+
+
   return <JourneyForm handleSubmit={handleSubmit} />;
 }
 

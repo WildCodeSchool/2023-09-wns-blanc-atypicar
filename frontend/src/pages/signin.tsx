@@ -1,7 +1,7 @@
 import { AuthContext } from "@/contexts/authContext";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -12,6 +12,7 @@ import {
 } from "@nextui-org/react";
 import { errorToast, successToast } from "@/components/Toast";
 
+
 const SIGN_IN = gql`
   mutation Login($password: String!, $email: String!) {
     login(password: $password, email: $email)
@@ -19,34 +20,36 @@ const SIGN_IN = gql`
 `;
 
 export default function SignInPage() {
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const { setAuthenticated, setCurrentUser, currentUser } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const token = localStorage.getItem("token");
+
 
   useEffect(() => {
     if (token) {
       router.push("/");
     }
   });
-
   const [signIn] = useMutation(SIGN_IN, {
     variables: {
       email,
       password,
     },
     onError(error) {
-      // Gérez l'erreur ici sans qu'elle soit propagée
+
       console.error("Erreur lors de la connexion :", error.message);
-      // Affichez un toast ou effectuez toute autre action de gestion d'erreur
+
       errorToast("Une erreur est survenue lors de la connexion.");
     },
     onCompleted(data: any) {
+
       localStorage.setItem("token", data.login);
       setAuthenticated(true);
       successToast("Vous êtes connecté.");
       router.push("/");
+
     },
   });
 

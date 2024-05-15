@@ -5,11 +5,14 @@ import { CiSearch, CiCirclePlus } from "react-icons/ci";
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from "next/router";
 import { AuthContext } from "@/contexts/authContext";
+import { successToast } from "./Toast";
 
 export default function CustomNavbar() {
   const router = useRouter();
   const [token, setToken] = useState(localStorage.getItem("token"));
   const { currentUser } = useContext(AuthContext);
+
+
   useEffect(() => {
     if (!token) {
       setToken(localStorage.getItem("token"));
@@ -19,6 +22,7 @@ export default function CustomNavbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
+    successToast("Vous êtes déconnecté");
     router.push("/")
   };
 
@@ -40,10 +44,12 @@ export default function CustomNavbar() {
             <CiSearch className="h-auto text-2xl" />
             Rechercher
           </a >
-          <a href="/journeys/new" className=" gap-2 mr-0 2xl:mr-8 hidden xl:flex">
-            <CiCirclePlus className="h-auto text-2xl" />
-            Publier un trajet
-          </a>
+          {token &&
+            <a href="/journeys/new" className=" gap-2 mr-0 2xl:mr-8 hidden xl:flex">
+              <CiCirclePlus className="h-auto text-2xl" />
+              Publier un trajet
+            </a>
+          }
           <Dropdown>
             <NavbarItem>
               <DropdownTrigger>
@@ -62,7 +68,7 @@ export default function CustomNavbar() {
                 color="secondary"
                 onAction={(actionKey) => console.log(actionKey)}
               >
-                <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem>
+                {/* <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem> */}
 
                 <DropdownItem key="profile">Profil</DropdownItem>
                 <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
