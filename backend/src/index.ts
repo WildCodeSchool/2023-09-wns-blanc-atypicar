@@ -9,6 +9,7 @@ import { UserResolver } from "./resolvers/user.resolver";
 import { verifyToken } from "./services/auth.service";
 import { getUserByEmail } from "./services/user.service";
 import { CategoryResolver } from "./resolvers/category.resolver";
+import { VehicleResolver } from "./resolvers/vehicles.resolver";
 
 const port: number = 3001;
 
@@ -22,6 +23,7 @@ const start = async () => {
       ReservationResolver,
       UserResolver,
       CategoryResolver,
+      VehicleResolver,
     ],
     validate: { forbidUnknownValues: false },
     authChecker: async ({ context }, roles) => {
