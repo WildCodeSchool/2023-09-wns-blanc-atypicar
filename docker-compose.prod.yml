@@ -37,7 +37,4 @@ services:
       - ${GATEWAY_PORT}:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - web-client-build:/web-client-build
       - ./logs:/var/log/nginx
-volumes:
-  web-client-build:
