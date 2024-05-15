@@ -38,6 +38,7 @@ const start = async () => {
 
         return true;
       } catch (error) {
+        console.error('Échec de l\'authentification :', error);
         return false;
       }
     },

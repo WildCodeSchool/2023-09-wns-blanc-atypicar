@@ -3,12 +3,8 @@ import { User } from "../entities/user";
 import { CreateUserType } from "../types/CreateUserType";
 import { UpdateUserType } from "../types/UpdateUserType";
 
-export async function getUserByEmail(email: string): Promise<User | null> {
-  try {
-    return await User.findOneBy({ email });
-  } catch {
-    return null;
-  }
+export function getUserByEmail(email: string): Promise<User> {
+  return User.findOneByOrFail({ email });
 }
 
 export async function createUser(
