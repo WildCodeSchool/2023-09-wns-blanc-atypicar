@@ -10,6 +10,7 @@ import {
   CardHeader,
   Input,
 } from "@nextui-org/react";
+import { errorToast, successToast } from "@/components/Toast";
 
 const SIGN_IN = gql`
   mutation Login($password: String!, $email: String!) {
@@ -35,9 +36,16 @@ export default function SignInPage() {
       email,
       password,
     },
+    onError(error) {
+      // Gérez l'erreur ici sans qu'elle soit propagée
+      console.error("Erreur lors de la connexion :", error.message);
+      // Affichez un toast ou effectuez toute autre action de gestion d'erreur
+      errorToast("Une erreur est survenue lors de la connexion.");
+    },
     onCompleted(data: any) {
       localStorage.setItem("token", data.login);
       setAuthenticated(true);
+      successToast("Vous êtes connecté.");
       router.push("/");
     },
   });
