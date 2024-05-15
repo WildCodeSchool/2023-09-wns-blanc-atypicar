@@ -42,3 +42,26 @@ export const formattedDate = (dateString: string) => {
 
   return newDate;
 };
+
+export const calculateAge = (birthdate: string): number => {
+  const birth = new Date(birthdate);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+      age--;
+  }
+
+  return age;
+}
+
+export function formatBirthDate(dateString: string): string {
+  const date = new Date(dateString);
+
+  const day = String(date.getDate()).padStart(2, '0'); 
+  const month = String(date.getMonth() + 1).padStart(2, '0'); 
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
