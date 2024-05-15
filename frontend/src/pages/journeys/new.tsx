@@ -23,6 +23,7 @@ const CREATE_JOURNEY = gql`
 function NewJourney() {
   const router = useRouter();
   const [createJourney] = useMutation(CREATE_JOURNEY);
+  const [endDate, setEndDate] = useState<string>("0000-00-00T00:00");
 
   const handleSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
@@ -37,7 +38,7 @@ function NewJourney() {
             startingPoint: formDataJson.startingPoint,
             arrivalPoint: formDataJson.arrivalPoint,
             startDate: formDataJson.startDate,
-            endDate: formDataJson.endDate,
+            endDate: endDate,
             availableSeats: parseInt(formDataJson.availableSeats as string),
             price: parseInt(formDataJson.price as string),
             description: formDataJson.description,
@@ -57,7 +58,7 @@ function NewJourney() {
 
 
 
-  return <JourneyForm handleSubmit={handleSubmit} />;
+  return <JourneyForm handleSubmit={handleSubmit} endDate={endDate} setEndDate={setEndDate} />;
 }
 
 export default NewJourney;

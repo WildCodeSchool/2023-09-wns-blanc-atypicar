@@ -1,33 +1,20 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { Input, Textarea, Button } from "@nextui-org/react";
 import { isInvalidCity, isInvalidSeats } from "@/utils/inputValidation";
 import { JourneyInput } from "@/types/journey";
-
-const CREATE_JOURNEY = gql`
-  mutation CreateJourney($JourneyData: CreateJourneyInputType!) {
-    createJourney(JourneyData: $JourneyData) {
-      id
-      startingPoint
-      arrivalPoint
-      startDate
-      endDate
-      availableSeats
-      price
-      description
-    }
-  }
-`;
+import { formatStringToDate } from "@/utils/formatDates";
 
 interface JourneyFormProps {
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   journey?: JourneyInput;
+  endDate?: string;
+  setEndDate?: any;
 }
 
-const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
+const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDate, setEndDate }) => {
   const router = useRouter();
-  const [createJourney] = useMutation(CREATE_JOURNEY);
   const [currentJourney, setCurrentJourney] = useState<
     JourneyInput | undefined
   >();
@@ -41,7 +28,6 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
   }, [journey]);
   const [coordinatesStart, setCoordinatesStart] = useState<string>();
   const [coordinatesEnd, setCoordinatesEnd] = useState<string>();
-  const [arrivalDate, setArrivalDate] = useState<any>("0000-00-00T00:00");
 
 
   const getCitySuggestions = async (input: any) => {
@@ -51,7 +37,6 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
 
       }
       const data = await response.json();
-      console.log("data", data);
       setCitySuggestionsStart(data);
       return data;
     } catch (error) {
@@ -64,7 +49,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
     try {
       const response = await fetch(`https://us1.locationiq.com/v1/autocomplete?q=${encodeURIComponent(input)}&key=pk.41ec9155202c25b414d024e5ca533173&limit=5&dedupe=1&countrycodes=FR`);
       if (!response.ok) {
-        console.log("error");
+        console.error("error");
       }
       const data = await response.json();
 
@@ -80,7 +65,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
     const response = await fetch(`https://us1.locationiq.com/v1/directions/driving/${coordinatesStart};${coordinatesEnd}?key=pk.41ec9155202c25b414d024e5ca533173&steps=true&alternatives=true&geometries=polyline&overview=full&`);
 
     if (!response.ok) {
-      console.log('Failed to fetch journey duration');
+      console.error('Failed to fetch journey duration');
     }
 
     const data = await response.json();
@@ -97,10 +82,8 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
       fetchJourneyDuration();
     }
   }, [coordinatesStart, coordinatesEnd]);
-
   useEffect(() => {
     if (currentJourney?.startDate && journeyDuration) {
-      console.log(currentJourney?.startDate)
       const seconds = (new Date(currentJourney.startDate)).getTime() / 1000;
       const arrivalDateSecond = seconds + journeyDuration;
       const milliseconds = arrivalDateSecond * 1000;
@@ -111,7 +94,9 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
       const hours = ('0' + arrivalDateMS.getHours()).slice(-2);
       const minutes = ('0' + arrivalDateMS.getMinutes()).slice(-2);
       const formattedDate = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
-      setArrivalDate(formattedDate);
+
+      setEndDate(formattedDate);
+
     }
   }, [currentJourney?.startDate, journeyDuration]);
   return (
@@ -235,7 +220,8 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
             name="endDate"
             label="Date d'arrivée (estimée)"
             labelPlacement="outside"
-            value={arrivalDate}
+            value={endDate}
+
             className="shadow-sm"
             classNames={{
               inputWrapper: "bg-white",
@@ -261,7 +247,14 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
                 <span className="text-default-400 text-small">€</span>
               </div>
             }
+            value={currentJourney?.price?.toString()}
             min="0.00"
+            onChange={(e) =>
+              setCurrentJourney({
+                ...currentJourney,
+                price: Number(e.target.value),
+              })
+            }
           />
           <Input
             data-testid="journey-seats"
@@ -299,6 +292,13 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
             inputWrapper: "bg-white ",
           }}
           className="w-full p-4 shadow-sm"
+          value={currentJourney?.description}
+          onChange={(e) =>
+            setCurrentJourney({
+              ...currentJourney,
+              description: e.target.value,
+            })
+          }
         />
 
         <div className="flex flex-col-reverse m-auto w-1/2 md:flex-row justify-end md:w-full gap-4 md:mb-5 mt-5 md:px-7">

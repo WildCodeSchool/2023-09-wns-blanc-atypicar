@@ -40,7 +40,6 @@ export default function SearchBar({
 
       }
       const data = await response.json();
-      console.log("data", data);
       setCitySuggestionsStart(data);
       return data;
     } catch (error) {
@@ -53,7 +52,7 @@ export default function SearchBar({
     try {
       const response = await fetch(`https://us1.locationiq.com/v1/autocomplete?q=${encodeURIComponent(input)}&key=pk.41ec9155202c25b414d024e5ca533173&limit=5&dedupe=1&countrycodes=FR`);
       if (!response.ok) {
-        console.log("error");
+        console.error("error");
       }
       const data = await response.json();
 

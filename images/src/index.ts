@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../uploads"));
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
   }
 });
@@ -28,7 +28,7 @@ app.post("/upload", upload.single("file"), (req: any, res: any) => {
   fs.readFile(req.file.path, (err) => {
     if (err) {
       console.log("Error:", err);
-      res.status(500).json({error: err});
+      res.status(500).json({ error: err });
     } else {
       res
         .status(201)
@@ -45,16 +45,16 @@ app.get("/files/:filename", (req: any, res: any) => {
   console.log("file", filePath);
   fs.readFile(filePath, (err, content) => {
     if (err) {
-      res.writeHead(404, {"Content-Type": "text"});
+      res.writeHead(404, { "Content-Type": "text" });
       res.write("File not found");
       res.end();
     } else {
-      res.writeHead(200, {"Content-Type": "image/jpeg"});
+      res.writeHead(200, { "Content-Type": "image/jpeg" });
       res.write(content);
       res.end();
     }
   })
-  
+
 });
 
 app.listen(port, () => {
