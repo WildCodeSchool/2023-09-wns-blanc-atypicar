@@ -23,7 +23,6 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit }) => {
     }
   }, [journey]);
 
-  console.log(currentJourney);
   return (
     <form
       data-testid="journey-form"
