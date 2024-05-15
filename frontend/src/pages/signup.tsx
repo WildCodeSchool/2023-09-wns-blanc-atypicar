@@ -10,6 +10,7 @@ import {
   Input,
   Link,
 } from "@nextui-org/react";
+import { errorToast, successToast } from "@/components/Toast";
 
 const SIGN_UP = gql`
   mutation SignUp($createUserType: CreateUserType!) {
@@ -52,17 +53,21 @@ export default function SignUpPage() {
     },
   });
 
+
   const handleSignUp = async () => {
     if (!verifyPassword(password, confirmPassword)) {
-      console.error("Les mots de passe ne sont pas identiques.");
+      errorToast("Les mots de passe ne sont pas identiques.");
+      return;
     }
+
     try {
-      await signUp();
+      signUp();
+      successToast("Inscription réussie.");
     } catch (error) {
       console.error(error);
+      errorToast("Une erreur s'est produite lors de l'inscription.");
     }
-  };
-
+  }
   return (
     <form
       data-testid="signup-form"
