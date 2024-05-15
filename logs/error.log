@@ -571,3 +571,25 @@
 2024/04/19 12:03:40 [emerg] 75#75: io_setup() failed (38: Function not implemented)
 2024/04/19 12:06:05 [emerg] 56#56: io_setup() failed (38: Function not implemented)
 >>>>>>> 4021cee3f31f20c5b203be9c16595749d4408640
+2024/05/14 13:24:34 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:24:34 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:24:35 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:24:36 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:24:37 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:24:39 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:24:43 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:24:49 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:25:02 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:25:28 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:26:20 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:27:20 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/14 13:28:22 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:07 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:07 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:08 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:09 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:11 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:13 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:16 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:23 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10
+2024/05/15 08:29:36 [emerg] 1#1: host not found in upstream "backend" in /etc/nginx/nginx.conf:10

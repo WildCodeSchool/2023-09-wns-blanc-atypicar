@@ -5,14 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev ./src/index.ts",
-<<<<<<< HEAD
-    "start": "node build/src/index.js",
-    "test": "jest"
-=======
     "start": "node index.js",
     "test": "jest",
     "build": "tsc"
->>>>>>> 4021cee3f31f20c5b203be9c16595749d4408640
   },
   "author": "",
   "license": "ISC",
