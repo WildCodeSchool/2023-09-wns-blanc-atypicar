@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useQuery } from "@apollo/client";
 import JourneyCard from "@/components/JourneyCard";
 import Link from "next/link";
 import { Journey } from "@/types/journey";
@@ -11,29 +10,7 @@ import SearchBar from "@/components/SearchBar";
 import { formattedDate } from "@/utils/formatDates";
 import { GoArrowRight } from "react-icons/go";
 import { Button } from "@nextui-org/react";
-const SEARCH_JOURNEY = gql`
-  query Journeys(
-    $start: String
-    $arrival: String
-    $date: DateTime
-    $seats: Float
-  ) {
-    getJourneys(start: $start, arrival: $arrival, date: $date, seats: $seats) {
-      id
-      startingPoint
-      arrivalPoint
-      description
-      startDate
-      endDate
-      availableSeats
-      price
-      driver {
-        firstName
-        picture
-      }
-    }
-  }
-`;
+import { SEARCH_JOURNEY } from "@/graphql/client";
 
 export default function SearchPage() {
   const [journeys, setJourneys] = useState<Journey[]>([]);
