@@ -139,7 +139,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
             {citySuggestionsStart?.length > 0 && (
               <div className="absolute top-[19rem] md:top-[21.5rem] bg-white border border-gray-200 rounded-b-xl  w-96 z-50">
                 {citySuggestionsStart.map((city: any, index: number) => (
-                  <div key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
+                  <div data-testid="select-city-start" key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
                     setCurrentJourney({
                       ...currentJourney,
                       startingPoint: city.address.name
@@ -182,7 +182,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
           {citySuggestionsEnd?.length > 0 && (
             <div className="absolute top-96 md:top-[21.5rem] bg-white border border-gray-200 rounded-b-xl  w-96 z-50 md:right-[21rem]">
               {citySuggestionsEnd.map((city: any, index: number) => (
-                <div key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
+                <div data-testid="select-city-end" key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
                   setCurrentJourney({ ...currentJourney, arrivalPoint: city.address.name }); setCoordinatesEnd(city.lon + ',' + city.lat);
                   ; setCitySuggestionsEnd([])
                 }}>

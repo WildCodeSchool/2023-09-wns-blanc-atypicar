@@ -14,9 +14,13 @@ test("should add a new journey and redirect to journeys page", async ({
 }) => {
   await page.getByLabel("Ville de départ").click();
   await page.getByLabel("Ville de départ").fill("Paris");
+  await page.getByTestId("select-city-start").selectOption({ index: 0 });
+
 
   await page.getByLabel("Ville d'arrivée").click();
-  await page.getByLabel("Ville d'arrivée").fill("Lyon");
+  await page.getByLabel("Ville d'arrivée").fill("Lyo");
+  await page.getByTestId("select-city-start").selectOption({ index: 0 });
+
 
   await page.getByLabel("Date de départ").click();
   await page.getByLabel("Date de départ").fill("2024-02-14T12:00");
