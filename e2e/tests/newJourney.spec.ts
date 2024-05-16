@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto(`${process.env.BASE_URL}/journeys/new`);
+  await page.goto(`localhost:3000/journeys/new`);
 });
 
 test("should display the new journey form", async ({ page }) => {
@@ -12,17 +12,20 @@ test("should display the new journey form", async ({ page }) => {
 test("should add a new journey and redirect to journeys page", async ({
   page,
 }) => {
-  await page.getByLabel("Ville de départ").click();
-  await page.getByLabel("Ville de départ").fill("Paris");
+  await page.getByTestId('journey-starting-point').click();
+  await page.getByTestId('journey-starting-point').fill('Paris');
 
-  await page.getByLabel("Ville d'arrivée").click();
-  await page.getByLabel("Ville d'arrivée").fill("Lyon");
+
+
+  await page.getByLabel('Ville d\'arrivée').click();
+  await page.getByLabel('Ville d\'arrivée').fill('Montpellier');
+
 
   await page.getByLabel("Date de départ").click();
   await page.getByLabel("Date de départ").fill("2024-02-14T12:00");
 
-  await page.getByLabel("Date d'arrivée (estimée)").click();
-  await page.getByLabel("Date d'arrivée (estimée)").fill("2024-02-14T22:30");
+
+
 
   await page.getByTestId("journey-price").click();
   await page.getByTestId("journey-price").fill("80");

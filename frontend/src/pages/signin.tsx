@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -19,28 +19,30 @@ export default function SignInPage() {
   const router = useRouter();
   const token = localStorage.getItem("token");
 
+
   useEffect(() => {
     if (token) {
       router.push("/");
     }
   });
-
   const [signIn] = useMutation(SIGN_IN, {
     variables: {
       email,
       password,
     },
     onError(error) {
-      // Gérez l'erreur ici sans qu'elle soit propagée
+
       console.error("Erreur lors de la connexion :", error.message);
-      // Affichez un toast ou effectuez toute autre action de gestion d'erreur
+
       errorToast("Une erreur est survenue lors de la connexion.");
     },
     onCompleted(data: any) {
+
       localStorage.setItem("token", data.login);
       setAuthenticated(true);
       successToast("Vous êtes connecté.");
       router.push("/");
+
     },
   });
 
