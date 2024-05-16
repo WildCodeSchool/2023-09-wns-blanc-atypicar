@@ -14,10 +14,9 @@ const UploadPage = () => {
           formData.append("file", file, file.name);
           try {
             const response = await axios.post(url, formData);
-            console.log(response.data.filename);
             setImageURL(response.data.filename);
-          } catch(err) {
-            console.log("error", err);
+          } catch (err) {
+            console.error("error", err);
           }
         } else {
           alert("Select a file");
