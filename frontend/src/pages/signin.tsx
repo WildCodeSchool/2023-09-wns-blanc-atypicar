@@ -13,7 +13,7 @@ import { errorToast, successToast } from "@/components/Toast";
 import { SIGN_IN } from "@/graphql/client";
 
 export default function SignInPage() {
-  const { setAuthenticated, setCurrentUser, currentUser } = useContext(AuthContext);
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import JourneyForm from "@/components/JourneyForm";
 import { errorToast, successToast } from "@/components/Toast";
 import { CREATE_JOURNEY } from "@/graphql/client";
