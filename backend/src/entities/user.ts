@@ -11,6 +11,7 @@ import {
 import { Tag } from "./tag";
 import { Vehicle } from "./vehicles";
 import { Journey } from "./journey";
+import { Conversation } from "./conversations";
 
 @ObjectType()
 @Entity()
@@ -71,6 +72,10 @@ export class User extends BaseEntity {
   vehicle?: number;
 
   @Field(() => [Journey])
-  @OneToMany(() => Journey, journey => journey.driver)
+  @OneToMany(() => Journey, (journey) => journey.driver)
   journey: Journey[];
+
+  @Field(() => [Conversation])
+  @ManyToMany(() => Conversation, (conversation) => conversation.participants)
+  conversations: Conversation[];
 }

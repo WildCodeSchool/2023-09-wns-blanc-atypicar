@@ -1,24 +1,9 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import React, { FormEvent, useState, useMemo } from "react";
-import { Input, Textarea, Button } from "@nextui-org/react";
+import React, { FormEvent } from "react";
 import JourneyForm from "@/components/JourneyForm";
 import { errorToast, successToast } from "@/components/Toast";
-
-const CREATE_JOURNEY = gql`
-  mutation CreateJourney($JourneyData: CreateJourneyInputType!) {
-    createJourney(JourneyData: $JourneyData) {
-      id
-      startingPoint
-      arrivalPoint
-      startDate
-      endDate
-      availableSeats
-      price
-      description
-    }
-  }
-`;
+import { CREATE_JOURNEY } from "@/graphql/client";
 
 function NewJourney() {
   const router = useRouter();

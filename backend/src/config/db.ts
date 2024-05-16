@@ -6,6 +6,8 @@ import { Reservation } from "../entities/reservation";
 import { Tag } from "../entities/tag";
 import { User } from "../entities/user";
 import { Vehicle } from "../entities/vehicles";
+import { Message } from "../entities/message";
+import { Conversation } from "../entities/conversations";
 
 dotenv.config();
 
@@ -16,7 +18,16 @@ export const dataSource = new DataSource({
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
-  entities: [Category, Journey, Reservation, Tag, User, Vehicle],
+  entities: [
+    Category,
+    Journey,
+    Reservation,
+    Tag,
+    User,
+    Vehicle,
+    Message,
+    Conversation,
+  ],
   logging: true,
   synchronize: true,
 });
