@@ -1,43 +1,15 @@
 import { Journey } from "@/types/journey";
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { Divider, Image, Button, Avatar } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillTool } from "react-icons/ai";
-import { User } from "@/types/user";
 import { AuthContext } from "@/contexts/authContext";
 import Link from "next/link";
-
-const GET_JOURNEY_BY_ID = gql`
-  query findJourney($findJourneyId: Float!) {
-    findJourney(id: $findJourneyId) {
-      id
-      startingPoint
-      arrivalPoint
-      description
-      startDate
-      endDate
-      availableSeats
-      price
-      driver {
-        id
-        firstName
-        lastName
-        picture
-        description
-      }
-    }
-  }
-`;
-
-const DELETE_JOURNEY = gql`
-  mutation deleteJourney($id: Float!) {
-    deleteJourney(id: $id)
-  }
-`;
+import { DELETE_JOURNEY, GET_JOURNEY_BY_ID } from "@/graphql/client";
 
 const JourneyDetail = () => {
   const router = useRouter();

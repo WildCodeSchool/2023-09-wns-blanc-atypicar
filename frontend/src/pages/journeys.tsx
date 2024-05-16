@@ -1,34 +1,17 @@
 import JourneyCard from "@/components/JourneyCard";
 import React, { useContext, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Journey } from "@/types/journey";
 import Link from "next/link";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { AuthContext } from "@/contexts/authContext";
+import { FIND_JOURNEY_BY_DRIVER } from "@/graphql/client";
 
-const GET_ALL_JOURNEYS = gql`
-  query FindJourneysByDriver($driverId: Float!) {
-    findJourneysByDriver(driverId: $driverId) {
-      id
-      startingPoint
-      arrivalPoint
-      description
-      startDate
-      endDate
-      availableSeats
-      price
-      driver {
-        picture
-        firstName
-      }
-    }
-  }
-`;
 export const MyJourneys = () => {
   const [journeys, setJourneys] = useState<Journey[]>([]);
   const { currentUser } = useContext(AuthContext);
 
-  const { loading, error, data } = useQuery(GET_ALL_JOURNEYS, {
+  const { loading, error, data } = useQuery(FIND_JOURNEY_BY_DRIVER, {
     variables: {
       driverId: currentUser?.id,
     },

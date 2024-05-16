@@ -1,4 +1,3 @@
-import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { Input, Textarea, Button } from "@nextui-org/react";

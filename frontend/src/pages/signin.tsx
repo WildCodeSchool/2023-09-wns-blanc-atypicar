@@ -1,5 +1,4 @@
-import { AuthContext } from "@/contexts/authContext";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
@@ -11,12 +10,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import { errorToast, successToast } from "@/components/Toast";
-
-const SIGN_IN = gql`
-  mutation Login($password: String!, $email: String!) {
-    login(password: $password, email: $email)
-  }
-`;
+import { SIGN_IN } from "@/graphql/client";
 
 export default function SignInPage() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
