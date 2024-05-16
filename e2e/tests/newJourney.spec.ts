@@ -21,9 +21,6 @@ test("should add a new journey and redirect to journeys page", async ({
   await page.getByLabel("Date de départ").click();
   await page.getByLabel("Date de départ").fill("2024-02-14T12:00");
 
-  await page.getByLabel("Date d'arrivée (estimée)").click();
-  await page.getByLabel("Date d'arrivée (estimée)").fill("2024-02-14T22:30");
-
   await page.getByTestId("journey-price").click();
   await page.getByTestId("journey-price").fill("80");
 
