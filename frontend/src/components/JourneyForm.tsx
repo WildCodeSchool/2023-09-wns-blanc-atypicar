@@ -111,8 +111,9 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
           </h1>
         </div>
         <div className="flex flex-col w-full gap-4 md:gap-16 md:flex-row md:p-5">
-          <div className="flex flex-col w-full gap-4">
+          <div className="flex flex-col w-full gap-0">
             <Input
+              data-testid="journey-starting-point"
               type="text"
               name="startingPoint"
               label="Ville de départ"
@@ -137,9 +138,9 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
               }}
             />
             {citySuggestionsStart?.length > 0 && (
-              <div className="absolute top-[19rem] md:top-[21.5rem] bg-white border border-gray-200 rounded-b-xl  w-96 z-50">
+              <div data-testid="select-city-start" className="  bg-white border border-gray-200 rounded-b-xl  w-full z-50">
                 {citySuggestionsStart.map((city: any, index: number) => (
-                  <div data-testid="select-city-start" key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
+                  <div key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
                     setCurrentJourney({
                       ...currentJourney,
                       startingPoint: city.address.name
@@ -147,50 +148,55 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
                     setCitySuggestionsStart([]);
                     setCoordinatesStart(city.lon + ',' + city.lat);
                   }}>
+
                     {city.display_name}
+
                   </div>
                 ))}
               </div>
             )}
           </div>
+          <div className="flex flex-col w-full gap-0">
+            <Input
+              type="text"
+              name="arrivalPoint"
+              label="Ville d'arrivée"
+              labelPlacement="outside"
+              placeholder=" "
+              value={currentJourney?.arrivalPoint}
+              isInvalid={isInvalidCity(currentJourney?.arrivalPoint)}
+              errorMessage={
+                isInvalidCity(currentJourney?.arrivalPoint) &&
+                "Rentrez une ville existante"
+              }
+              onChange={(e) => {
+                setCurrentJourney({
+                  ...currentJourney,
+                  arrivalPoint: e.target.value,
+                });
+                getCitySuggestionsEnd(e.target.value);
 
-          <Input
-            type="text"
-            name="arrivalPoint"
-            label="Ville d'arrivée"
-            labelPlacement="outside"
-            placeholder=" "
-            value={currentJourney?.arrivalPoint}
-            isInvalid={isInvalidCity(currentJourney?.arrivalPoint)}
-            errorMessage={
-              isInvalidCity(currentJourney?.arrivalPoint) &&
-              "Rentrez une ville existante"
-            }
-            onChange={(e) => {
-              setCurrentJourney({
-                ...currentJourney,
-                arrivalPoint: e.target.value,
-              });
-              getCitySuggestionsEnd(e.target.value);
+              }}
+              className="shadow-sm"
+              classNames={{
+                inputWrapper: "bg-white",
+              }}
+            />
+            {citySuggestionsEnd?.length > 0 && (
+              <div className=" bg-white border border-gray-200 rounded-b-xl  w-full z-50 md:right-[21rem]">
+                {citySuggestionsEnd.map((city: any, index: number) => (
+                  <div data-testid="select-city-end" key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
+                    setCurrentJourney({ ...currentJourney, arrivalPoint: city.address.name }); setCoordinatesEnd(city.lon + ',' + city.lat);
+                    ; setCitySuggestionsEnd([])
+                  }}>
 
-            }}
-            className="shadow-sm"
-            classNames={{
-              inputWrapper: "bg-white",
-            }}
-          />
-          {citySuggestionsEnd?.length > 0 && (
-            <div className="absolute top-96 md:top-[21.5rem] bg-white border border-gray-200 rounded-b-xl  w-96 z-50 md:right-[21rem]">
-              {citySuggestionsEnd.map((city: any, index: number) => (
-                <div data-testid="select-city-end" key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
-                  setCurrentJourney({ ...currentJourney, arrivalPoint: city.address.name }); setCoordinatesEnd(city.lon + ',' + city.lat);
-                  ; setCitySuggestionsEnd([])
-                }}>
-                  {city.display_name}
-                </div>
-              ))}
-            </div>
-          )}
+                    {city.display_name}
+
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col w-full lg:flex-row md:gap-16 gap-4 md:p-5 ">
@@ -310,6 +316,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
           </Button>
           <Button
             type="submit"
+
             color="primary"
             className="text-white md:px-10"
             radius="full"

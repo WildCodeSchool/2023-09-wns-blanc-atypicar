@@ -1,7 +1,9 @@
 import { test, expect } from "playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto(`${process.env.BASE_URL}/signup`);
+  // await page.goto(`${process.env.BASE_URL}/signup`);
+  await page.goto(`localhost:3000/signup`);
+
 });
 
 test("should display the signup form", async ({ page }) => {
