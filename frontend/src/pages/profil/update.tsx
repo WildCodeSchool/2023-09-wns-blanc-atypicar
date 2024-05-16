@@ -100,7 +100,7 @@ const UpdateProfilePage = () => {
 
     return (
         <div className="flex flex-col gap-10 mt-8 text-center">
-            <h2>Mes informations</h2>
+            <h2>Modifier mes informations</h2>
             <div className="flex justify-center gap-20">
                 <Input
                     radius="full"
