@@ -56,7 +56,7 @@ export const MyJourneys = () => {
         >
           Tous mes trajets publiés
         </h1>
-        <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
+        <div className="flex justify-evenly max-w-screen-lg mx-auto w-full flex-wrap gap-8 ">
           {journeys.map((journey) => (
             <Link data-testid="journey-card" href={`/journeys/${journey.id}`}>
               <JourneyCard key={journey.id} journey={journey} />

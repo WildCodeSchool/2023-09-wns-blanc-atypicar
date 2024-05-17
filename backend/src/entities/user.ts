@@ -12,6 +12,7 @@ import { Tag } from "./tag";
 import { Vehicle } from "./vehicles";
 import { Journey } from "./journey";
 import { Conversation } from "./conversations";
+import { Message } from "./message";
 
 @ObjectType()
 @Entity()
@@ -78,4 +79,8 @@ export class User extends BaseEntity {
   @Field(() => [Conversation])
   @ManyToMany(() => Conversation, (conversation) => conversation.participants)
   conversations: Conversation[];
+
+  @Field(() => [Message])
+  @OneToMany(() => Message, (message) => message.sentBy)
+  messages: Message[];
 }

@@ -6,8 +6,8 @@ import { Context } from "apollo-server-core";
 @Resolver(Conversation)
 export class ConversationResolver {
   @Query(() => [Conversation])
-  getUserConversations(@Ctx() ctx: Context): Promise<Conversation[] | Error> {
-    return ConversationService.getUserConversations(ctx);
+  getUserConversations(@Arg("id") id: number): Promise<Conversation[] | Error> {
+    return ConversationService.getUserConversations(id);
   }
 
   @Mutation(() => Conversation)

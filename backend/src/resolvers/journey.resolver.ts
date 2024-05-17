@@ -39,18 +39,14 @@ export class JourneyResolver {
   @Mutation(() => Journey)
   @Authorized()
   updateJourney(
-    @Arg("JourneyData") JourneyData: UpdateJourneyInputType,
-    @Ctx() ctx: Context
+    @Arg("JourneyData") JourneyData: UpdateJourneyInputType
   ): Promise<Journey | Error> {
     return journeyService.updateJourney(JourneyData.id, { ...JourneyData });
   }
 
   @Mutation(() => String)
   @Authorized()
-  async deleteJourney(
-    @Arg("id") id: number,
-    @Ctx() ctx: Context
-  ): Promise<string> {
+  async deleteJourney(@Arg("id") id: number): Promise<string> {
     const result = await journeyService.deleteJourney(id);
     if (result.affected === 0) {
       return "No journey found";

@@ -178,3 +178,48 @@ export const GET_ALL_RESERVATIONS = gql`
     }
   }
 `;
+
+export const GET_USER_CONVERSATIONS = gql`
+  query Query($getUserConversationsId: Float!) {
+    getUserConversations(id: $getUserConversationsId) {
+      messages {
+        content
+        id
+        sentBy {
+          id
+          picture
+        }
+        timestamp
+      }
+      participants {
+        id
+        firstName
+        picture
+      }
+      id
+    }
+  }
+`;
+
+export const SEND_MESSAGE = gql`
+  mutation Mutation(
+    $conversationId: Float!
+    $sendMessageInput: String!
+    $userId: Float!
+  ) {
+    sendMessage(
+      conversationId: $conversationId
+      sendMessageInput: $sendMessageInput
+      userId: $userId
+    ) {
+      content
+      id
+      sentBy {
+        id
+        picture
+        firstName
+      }
+      timestamp
+    }
+  }
+`;
