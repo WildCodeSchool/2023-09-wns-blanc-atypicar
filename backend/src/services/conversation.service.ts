@@ -14,7 +14,12 @@ export const getUserConversations = async (
 
   const conversations = await Conversation.find({
     where: { id: In(ids) },
-    relations: ["participants", "messages"],
+    relations: ["participants", "messages", "messages.sentBy"],
+    order: {
+      messages: {
+        timestamp: "ASC",
+      },
+    },
   });
 
   return conversations;

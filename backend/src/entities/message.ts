@@ -4,9 +4,11 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Conversation } from "./conversations";
+import { User } from "./user";
 
 @ObjectType()
 @Entity()
@@ -23,7 +25,10 @@ export class Message extends BaseEntity {
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   timestamp: Date;
 
-  @Field(() => Conversation)
   @ManyToOne(() => Conversation, (conversation) => conversation.messages)
   conversation: Conversation;
+
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User, (user) => user.messages)
+  sentBy: User;
 }
