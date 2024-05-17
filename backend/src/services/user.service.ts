@@ -42,6 +42,7 @@ if(userToUpdate){
     userToUpdate.firstName = user.firstName;
     userToUpdate.lastName = user.lastName;
     userToUpdate.picture = user.picture;
+    userToUpdate.birthday = user.birthday;
 }
 
 return userToUpdate.save();
