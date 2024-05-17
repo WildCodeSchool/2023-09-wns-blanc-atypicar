@@ -1,8 +1,8 @@
 import React, { useState, FormEvent, useEffect } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { Category } from "@/types/category";
-import { errorToast, successToast } from "@/components/Toast";
-import { formattedDate } from "@/utils/formatDates";
+import { Category } from "../types/item";
+import { errorToast, successToast } from "../components/Toast";
+import { formattedDate } from "../utils/formatDates";
 import { FaTrash } from "react-icons/fa";
 import {
   Button,
@@ -67,6 +67,18 @@ const CategoryPage = () => {
     },
   });
 
+  // REFETCH
+  const [isCategoryCreated, setIsCategoryCreated] = useState(false);
+
+  useEffect(() => {
+    if (isCategoryCreated) {
+      refetch().then(({ data }) => {
+        setCategories(data.getCategories);
+        setIsCategoryCreated(false);
+      });
+    }
+  }, [isCategoryCreated, refetch]);
+
   loading && <p>Chargement...Veuillez patienter</p>;
   error && <p>Erreur 🤯</p>;
 
@@ -76,9 +88,7 @@ const CategoryPage = () => {
   const handleDeleteCategory = async (deleteCategoryId: number) => {
     try {
       await deleteCategory({ variables: { deleteCategoryId } });
-      setCategories(
-        categories.filter((category) => category.id !== deleteCategoryId)
-      );
+      setIsCategoryCreated(true);
       successToast("La catégorie a été supprimée avec succès.");
     } catch (error) {
       console.error("Erreur sur la suppression de la catégorie:", error);
@@ -91,7 +101,6 @@ const CategoryPage = () => {
 
   const handleCreateCategory = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
-    console.log(event);
     const form: EventTarget = event.target;
     const formData = new FormData(form as HTMLFormElement);
     const formDataJson = Object.fromEntries(formData.entries());
@@ -102,13 +111,14 @@ const CategoryPage = () => {
           wording: formDataJson.wording,
         },
       });
-      await refetch();
+      // window.location.reload();
+      setIsCategoryCreated(true);
       successToast("Catégorie créée avec succès");
     } catch (error) {
-      const errorMessage = (error as Error).message || "Une erreur est survenue lors de la création de la catégorie.";
-      errorToast(
-      errorMessage
-      );
+      const errorMessage =
+        (error as Error).message ||
+        "Une erreur est survenue lors de la création de la catégorie.";
+      errorToast(errorMessage);
     }
   };
 
@@ -120,14 +130,13 @@ const CategoryPage = () => {
   const handleUpdateCategory = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
     try {
-      console.log(newWording, currentCategoryId);
       await updateCategory({
         variables: {
           wording: newWording,
           updateCategoryId: currentCategoryId,
         },
       });
-      await refetch();
+      setIsCategoryCreated(true);
       successToast("Catégorie modifiée avec succès");
     } catch (error) {
       errorToast(
@@ -138,7 +147,7 @@ const CategoryPage = () => {
 
   //PAGINATION
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
   const pages = Math.ceil(categories.length / rowsPerPage);
 
@@ -162,12 +171,14 @@ const CategoryPage = () => {
             type="text"
             id="wording"
             name="wording"
+            aria-label="Libellé de la nouvelle catégorie"
           />
           <Button
             size="lg"
             color="success"
             className="text-white ml-8"
             type="submit"
+            aria-label="Créer la nouvelle catégorie"
           >
             Créer
           </Button>
@@ -176,6 +187,7 @@ const CategoryPage = () => {
 
       <h1 className="text-center text-lg mb-3">Catégories existantes: </h1>
       <Table
+        aria-label="Example table with client side pagination"
         bottomContent={
           <div className="flex w-full justify-center">
             <Pagination
@@ -189,29 +201,34 @@ const CategoryPage = () => {
             />
           </div>
         }
+        classNames={{
+          wrapper: "min-h-[222px]",
+        }}
       >
         <TableHeader>
-          <TableColumn className="text-lg">Libellé</TableColumn>
-          <TableColumn className="text-lg">Date de création</TableColumn>
-          <TableColumn className="text-lg">Action</TableColumn>
+          <TableColumn key="name">NAME</TableColumn>
+          <TableColumn key="role">ROLE</TableColumn>
+          <TableColumn key="status">STATUS</TableColumn>
         </TableHeader>
         <TableBody items={items}>
-          {categories.map((category) => (
-            <TableRow key={category.id}>
+          {items.map((item) => (
+            <TableRow key={item.id}>
               <TableCell>
                 <Link
                   onPress={() => {
-                    setCurrentCategoryId(category.id);
+                    setCurrentCategoryId(item.id);
                     onOpen();
                   }}
                   color="primary"
+                  aria-label={`Lien vers la catégorie ${item.wording}`}
                 >
-                  {category.wording}
+                  {item.wording}
                 </Link>
                 <Modal
                   isOpen={isOpen}
                   onOpenChange={onOpenChange}
                   placement="top-center"
+                  aria-label={`Modifier le libellé de la catégorie ${item.wording}`}
                 >
                   <ModalContent>
                     {(onClose) => (
@@ -229,6 +246,7 @@ const CategoryPage = () => {
                               onChange={(event) =>
                                 setNewWording(event.target.value)
                               }
+                              aria-label="Nouveau libellé de la catégorie"
                             />
                           </ModalBody>
                           <ModalFooter>
@@ -236,6 +254,7 @@ const CategoryPage = () => {
                               color="primary"
                               onPress={onClose}
                               type="submit"
+                              aria-label="Valider la modification du libellé"
                             >
                               Modifier
                             </Button>
@@ -247,14 +266,20 @@ const CategoryPage = () => {
                 </Modal>
               </TableCell>
               <TableCell>
-                {formattedDate(category.creationDate.toLocaleString())}
+                {formattedDate(item.creationDate.toLocaleString())}
               </TableCell>
               <TableCell>
-                <Tooltip color="danger" content="Supprimer la catégorie">
+                <Tooltip
+                  color="danger"
+                  content="Supprimer la catégorie"
+                  aria-label="Supprimer la catégorie"
+                  disableAnimation
+                >
                   <span
                     color="danger"
-                    onClick={() => handleDeleteCategory(category.id)}
+                    onClick={() => handleDeleteCategory(item.id)}
                     className="text-lg text-danger cursor-pointer active:opacity-50"
+                    aria-label={`Supprimer la catégorie ${item.wording}`}
                   >
                     <FaTrash />
                   </span>

@@ -45,8 +45,8 @@ function BigFooter() {
         <div>
           {categories.length > 0 ? (
             <div>
-              {categories.map((category) => (
-                <div key={category.id}>{category.wording}</div>
+              {categories.map((category, index) => (
+                <div key={index}>{category.wording}</div>
               ))}
             </div>
           ) : (
