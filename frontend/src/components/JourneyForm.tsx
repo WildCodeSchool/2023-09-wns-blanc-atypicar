@@ -4,6 +4,7 @@ import { Input, Textarea, Button } from "@nextui-org/react";
 import { isInvalidCity, isInvalidSeats } from "@/utils/inputValidation";
 import { JourneyInput } from "@/types/journey";
 import { formatStringToDate } from "@/utils/formatDates";
+import { get } from "http";
 
 interface JourneyFormProps {
   handleSubmit: (e: React.FormEvent) => Promise<void>;
@@ -22,7 +23,12 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
   const [journeyDuration, setJourneyDuration] = useState<number>()
   useEffect(() => {
     if (journey) {
-      setCurrentJourney(journey);
+      setCurrentJourney({
+        ...journey,
+        startDate: journey.startDate ? formatStringToDate(journey.startDate) : "",
+      });
+      getCitySuggestions(journey?.startingPoint);
+      getCitySuggestionsEnd(journey?.arrivalPoint);
     }
   }, [journey]);
   const [coordinatesStart, setCoordinatesStart] = useState<string>();
@@ -69,13 +75,18 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
 
     const data = await response.json();
 
-    const duration = data.routes[0].duration;
-
-
-    setJourneyDuration(duration);
+    if (data && data.routes && data.routes.length > 0) {
+      const duration = data.routes[0].duration;
+      if (duration) {
+        setJourneyDuration(duration);
+      } else {
+        console.error('Duration is undefined or null.');
+      }
+    } else {
+      console.error('Routes are undefined or empty.');
+    }
 
   };
-
   useEffect(() => {
     if (coordinatesStart && coordinatesEnd) {
       fetchJourneyDuration();
@@ -225,6 +236,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
             name="endDate"
             label="Date d'arrivée (estimée)"
             labelPlacement="outside"
+
             value={endDate}
 
             className="shadow-sm"
@@ -310,7 +322,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
           <Button
             className="bg-[#054652] text-white md:px-10"
             radius="full"
-            onClick={() => router.push("/")}
+            onClick={() => router.back()}
           >
             Annuler
           </Button>
