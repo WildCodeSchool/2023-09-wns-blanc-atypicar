@@ -60,7 +60,25 @@ const config = {
         },
       },
     }),
-  ],
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.fade-out': {
+          position: 'relative',
+        },
+        '.fade-out::after': {
+          content: '""',
+          position: 'absolute',
+          top: '0',
+          right: '0',
+          bottom: '0',
+          width: '1em',
+          background: 'linear-gradient(to left, white, transparent)',
+          pointerEvents: 'none',
+        },
+      };
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    },
+  ]
 };
 
 export default config;

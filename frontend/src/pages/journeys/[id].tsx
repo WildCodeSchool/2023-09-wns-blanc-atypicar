@@ -30,7 +30,7 @@ const JourneyDetail = () => {
 
   const [deleteJourney] = useMutation(DELETE_JOURNEY, {
     variables: {
-      id: parseInt(id)
+      id: parseInt(id?.toString() ?? "")
     },
     onCompleted: () => {
       router.push("/journeys");
@@ -82,14 +82,14 @@ const JourneyDetail = () => {
             {formatDate(journey.startDate)}
           </h2>
           <div className="flex flex-col items-center justify-center gap-4">
-            <section className=" flex flex-col md:flex-row gap-8 justify-center items-center">
+            <section className=" flex flex-col md:flex-row gap-8 justify-center items-center  w-2/3">
               <Image
                 alt="Card background"
                 src="https://picsum.photos/450/300"
               />
               <div>
                 {/* first line */}
-                <div className="grid grid-cols-[60px_20px_minmax(0,_1fr)] justify-items-start align-baseline font-bold font-montserrat w-52">
+                <div className=" grid grid-cols-[60px_20px_minmax(0,_1fr)] justify-items-start align-baseline font-bold font-montserrat w-80">
                   <p className="text font-bold">
                     {formatHour(journey.startDate)}
                   </p>
@@ -126,7 +126,7 @@ const JourneyDetail = () => {
 
                 <Divider className=" my-6" />
                 {journey.driver.id == currentUser?.id && (
-                  <div className="flex justify-between">
+                  <div className="flex justify-center gap-4">
                     <Link href={`/journeys/update/${id}`}>
                       <Button className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md">
                         <AiFillTool />
