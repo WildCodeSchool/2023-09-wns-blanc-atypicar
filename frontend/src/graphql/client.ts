@@ -178,3 +178,21 @@ export const GET_ALL_RESERVATIONS = gql`
     }
   }
 `;
+
+export const GET_USER_CONVERSATIONS = gql`
+  query Message($getUserConversationsId: Float!) {
+    getUserConversations(id: $getUserConversationsId) {
+      messages {
+        content
+        id
+        timestamp
+      }
+      id
+      participants {
+        firstName
+        picture
+        id
+      }
+    }
+  }
+`;

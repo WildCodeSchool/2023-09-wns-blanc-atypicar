@@ -22,7 +22,7 @@ export class Conversation extends BaseEntity {
   @JoinTable()
   participants: User[];
 
-  @Field(() => [Message])
+  @Field(() => [Message], { nullable: true })
   @OneToMany(() => Message, (message) => message.conversation)
-  message: Message[];
+  messages?: Message[];
 }

@@ -24,6 +24,6 @@ export class Message extends BaseEntity {
   timestamp: Date;
 
   @Field(() => Conversation)
-  @ManyToOne(() => Conversation, (conversation) => conversation.message)
+  @ManyToOne(() => Conversation, (conversation) => conversation.messages)
   conversation: Conversation;
 }

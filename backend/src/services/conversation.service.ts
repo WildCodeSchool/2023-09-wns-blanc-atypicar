@@ -3,19 +3,21 @@ import { Conversation } from "../entities/conversations";
 import { User } from "../entities/user";
 
 export const getUserConversations = async (
-  ctx: any
+  id: number
 ): Promise<Conversation[] | Error> => {
-  const userId = ctx.user.id;
-  const user = await User.findOneOrFail({
-    where: { id: userId },
-    relations: ["conversations"],
+  const conversationIds = await Conversation.find({
+    where: { participants: { id } },
+    relations: ["participants"],
   });
 
-  if (!user) {
-    throw new Error(`Utilisateur introuvable`);
-  }
+  const ids = conversationIds.map((conversation) => conversation.id);
 
-  return user.conversations;
+  const conversations = await Conversation.find({
+    where: { id: In(ids) },
+    relations: ["participants", "messages"],
+  });
+
+  return conversations;
 };
 
 export const createConversation = async (
