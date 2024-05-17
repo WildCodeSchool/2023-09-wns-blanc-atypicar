@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto(`localhost:3000/journeys/new`);
+  await page.goto(`${process.env.BASE_URL}/journeys/new`);
 });
 
 test("should display the new journey form", async ({ page }) => {

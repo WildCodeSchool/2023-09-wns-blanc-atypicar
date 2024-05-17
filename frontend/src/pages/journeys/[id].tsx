@@ -10,6 +10,7 @@ import { AiFillTool } from "react-icons/ai";
 import { AuthContext } from "@/contexts/authContext";
 import Link from "next/link";
 import { DELETE_JOURNEY, GET_JOURNEY_BY_ID } from "@/graphql/client";
+import { parse } from "path";
 
 const JourneyDetail = () => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const JourneyDetail = () => {
 
   const [deleteJourney] = useMutation(DELETE_JOURNEY, {
     variables: {
-      id,
+      id: parseInt(id)
     },
     onCompleted: () => {
       router.push("/journeys");
@@ -134,7 +135,7 @@ const JourneyDetail = () => {
                     </Link>
 
                     <Button
-                      onClick={() => deleteJourney}
+                      onClick={() => deleteJourney()}
                       className="inline-flex items-center px-2 py-2 bg-danger hover:bg-danger-800 text-white text-sm font-medium rounded-md"
                     >
                       <RiDeleteBinLine />
