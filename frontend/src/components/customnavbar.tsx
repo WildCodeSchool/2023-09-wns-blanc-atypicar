@@ -70,7 +70,7 @@ export default function CustomNavbar() {
               >
                 {/* <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem> */}
 
-                <DropdownItem key="profile">Profil</DropdownItem>
+                <DropdownItem key="profile" href="/profil/infos">Profil</DropdownItem>
                 <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
                 <DropdownItem key="myreservations" href="/reservations">Mes réservations</DropdownItem>
                 <DropdownItem key="search" href="/search" className="block xl:hidden">
