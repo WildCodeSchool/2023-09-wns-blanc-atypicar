@@ -1,4 +1,4 @@
-import {
+ import {
   BaseEntity,
   Column,
   Entity,
@@ -41,7 +41,7 @@ export class Vehicle extends BaseEntity {
   @OneToOne(() => User, (user) => user.id)
   user: number;
 
-  @Field(() => Category)
-  @ManyToMany(() => Category, (category) => category.id)
-  category: number;
+  @Field(() => [Category])
+  @ManyToMany(() => Category)
+  categories: Category[];
 }
