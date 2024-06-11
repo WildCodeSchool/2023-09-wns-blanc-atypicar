@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Button,
   Card,
@@ -12,50 +12,61 @@ import {
 } from "@nextui-org/react";
 import { errorToast, successToast } from "@/components/Toast";
 import { SIGN_UP } from "@/graphql/client";
-
-const verifyPassword = (password: string, confirmPassword: string) =>
-  password === confirmPassword;
+import { UserInput } from "@/types/user";
 
 export default function SignUpPage() {
   const router = useRouter();
 
-  const [lastName, setLastName] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [newUser, setNewUser] = useState<UserInput | undefined>();
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [birthday, setBirthday] = useState<string>("");
+  const isInvalidEmail = (value: string | undefined) => {
+    if (value) {
+      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      return !regex.test(value);
+    }
+    return false;
+  };
+  const isInvalidPassword = useMemo(() => {
+    if (newUser?.password && newUser.password && confirmPassword) {
+      return newUser.password !== confirmPassword;
+    }
+  }, [newUser?.password, confirmPassword]);
 
   const [signUp] = useMutation(SIGN_UP, {
     variables: {
       createUserType: {
-        lastName: lastName,
-        firstName: firstName,
-        email: email,
-        password: password,
-        birthday: birthday,
+        lastName: newUser?.lastName,
+        firstName: newUser?.firstName,
+        email: newUser?.email,
+        password: newUser?.password,
+        birthday: newUser?.birthday,
         creationDate: new Date(),
       },
     },
     onCompleted() {
+      successToast("Inscription réussie.");
       router.push("/signin");
+    },
+    onError(error) {
+      console.error("Erreur:", error);
+      errorToast("Une erreur s'est produite lors de l'inscription.");
     },
   });
 
-  const handleSignUp = async () => {
-    if (!verifyPassword(password, confirmPassword)) {
-      errorToast("Les mots de passe ne sont pas identiques.");
-      return;
-    }
-
-    try {
-      signUp();
-      successToast("Inscription réussie.");
-    } catch (error) {
-      console.error(error);
-      errorToast("Une erreur s'est produite lors de l'inscription.");
-    }
+  const isFormValid = () => {
+    return (
+      newUser?.firstName &&
+      newUser?.lastName &&
+      newUser?.email &&
+      newUser?.password &&
+      newUser?.birthday &&
+      !isInvalidPassword &&
+      !isInvalidEmail(newUser?.email)
+    );
   };
+
+  const handleSignUp = async () => signUp();
+
   return (
     <form
       data-testid="signup-form"
@@ -79,9 +90,11 @@ export default function SignUpPage() {
               radius="full"
               type="text"
               label="Prénom"
+              value={newUser?.firstName}
               onChange={(e) => {
-                setFirstName(e.target.value);
+                setNewUser({ ...newUser, firstName: e.target.value });
               }}
+              isRequired
             />
             <Input
               data-testid="last-name"
@@ -89,8 +102,10 @@ export default function SignUpPage() {
               type="text"
               label="Nom de famille"
               onChange={(e) => {
-                setLastName(e.target.value);
+                setNewUser({ ...newUser, lastName: e.target.value });
               }}
+              value={newUser?.lastName}
+              isRequired
             />
           </div>
           <div className="flex w-full flex-wrap md:flex-nowrap gap-12">
@@ -100,17 +115,28 @@ export default function SignUpPage() {
               type="password"
               label="Mot de passe"
               onChange={(e) => {
-                setPassword(e.target.value);
+                setNewUser({ ...newUser, password: e.target.value });
               }}
+              isRequired
+              isInvalid={!!newUser?.password && newUser?.password?.length < 8}
+              errorMessage={
+                newUser?.password &&
+                newUser?.password?.length < 8 &&
+                "Le mot de passe doit contenir au moins 8 caractères."
+              }
+              value={newUser?.password}
             />
             <Input
               data-testid="password-confirmation"
               radius="full"
               type="password"
               label="Confirmation du mot de passe"
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-              }}
+              isInvalid={isInvalidPassword}
+              errorMessage={
+                isInvalidPassword && "Les mots de passe ne correspondent pas."
+              }
+              onValueChange={setConfirmPassword}
+              isRequired
             />
           </div>
           <div className="flex w-full flex-wrap md:flex-nowrap gap-12">
@@ -118,10 +144,15 @@ export default function SignUpPage() {
               data-testid="email"
               radius="full"
               type="email"
+              isInvalid={isInvalidEmail(newUser?.email)}
+              errorMessage={
+                isInvalidEmail(newUser?.email) && "Adresse email invalide."
+              }
               label="Adresse email"
               onChange={(e) => {
-                setEmail(e.target.value);
+                setNewUser({ ...newUser, email: e.target.value });
               }}
+              isRequired
             />
             <Input
               data-testid="birthday-input"
@@ -131,8 +162,9 @@ export default function SignUpPage() {
               label="Date de naissance"
               placeholder="dd - mm - yyyy"
               onChange={(e) => {
-                setBirthday(e.target.value);
+                setNewUser({ ...newUser, birthday: e.target.value });
               }}
+              isRequired
             />
           </div>
         </CardBody>
@@ -151,6 +183,7 @@ export default function SignUpPage() {
             color="primary"
             className="text-white md:px-10"
             radius="full"
+            isDisabled={!isFormValid()}
           >
             S'inscrire
           </Button>
