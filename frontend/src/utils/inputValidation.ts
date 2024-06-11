@@ -1,5 +1,5 @@
 export const validateCity = (value: string) =>
-  /^[A-Za-z\s\u00C0-\u00FF'’]+$/u.test(value);
+  /^[A-Za-z\s\u00C0-\u00FF'’,-]+$/u.test(value);
 
 export const isInvalidCity = (value = "") =>
   value !== "" && !validateCity(value);

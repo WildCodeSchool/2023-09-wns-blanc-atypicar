@@ -1,8 +1,7 @@
 import { test, expect, ElementHandle } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  // await page.goto(`${process.env.BASE_URL}/journeys`);
-  await page.goto(`localhost:3000/journeys`);
+  await page.goto(`${process.env.BASE_URL}/journeys`);
 
 });
 

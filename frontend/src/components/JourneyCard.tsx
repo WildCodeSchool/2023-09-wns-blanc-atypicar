@@ -32,7 +32,8 @@ const JourneyCard = ({ journey }: JourneyCardProps) => {
           <CardHeader className="grid grid-cols-[60px_20px_minmax(0,_1fr)] justify-items-start font-bold font-montserrat w-52">
             <p>{formatHour(journey.startDate)}</p>
             <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
-            <h4>{journey.startingPoint}</h4>
+
+            <h4 className={`whitespace-nowrap overflow-hidden max-w-[8ch] md:max-w-[11ch] ${journey.startingPoint.length > 8 ? "fade-out" : ""} md:${journey.startingPoint.length > 11 ? "fade-out" : ""}`}>{journey.startingPoint}</h4>
 
             <small className="pl-2 text-default-500 font-normal">
               {calculateDuration(journey.startDate, journey.endDate)}
@@ -42,7 +43,8 @@ const JourneyCard = ({ journey }: JourneyCardProps) => {
 
             <p>{formatHour(journey.endDate)}</p>
             <div className="w-3 h-3 border-solid border-2 border-black rounded-full"></div>
-            <h4>{journey.arrivalPoint}</h4>
+            <h4 className={`whitespace-nowrap overflow-hidden max-w-[8ch] md:max-w-[11ch] ${journey.arrivalPoint.length > 8 ? "fade-out" : ""} md:${journey.arrivalPoint.length > 11 ? "fade-out" : ""}`}>{journey.arrivalPoint}</h4>
+
           </CardHeader>
           <CardBody className="py-1 ml-0 md:ml-4 md:p-3 w-auto">
             <h4>{journey.price}€</h4>

@@ -1,4 +1,5 @@
 import { UserUpdate } from "@/types/userUpdate";
+import { formatStringToDate } from "@/utils/formatDates";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Button, Input } from "@nextui-org/react";
 import { useRouter } from "next/router";
@@ -49,7 +50,7 @@ const UpdateProfilePage = () => {
             setEditableFields({
                 firstName: userInfos.firstName,
                 lastName: userInfos.lastName,
-                birthday: userInfos.birthday as string,
+                birthday: userInfos.birthday,
                 email: userInfos.email,
                 picture: userInfos.picture,
                 description: userInfos.description
@@ -88,7 +89,7 @@ const UpdateProfilePage = () => {
             ...prevState,
             [name]: value
         }));
-    };
+    };    
 
     const handleSubmit = async () => {
         try {

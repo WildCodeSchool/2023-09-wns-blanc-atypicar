@@ -9,7 +9,7 @@ const UpdateJourney = () => {
   const router = useRouter();
   const { id } = router.query;
   const [journey, setJourney] = useState<JourneyInput>();
-
+  const [endDate, setEndDate] = useState<string>("0000-00-00T00:00");
   const [updateJourney] = useMutation(UPDATE_JOURNEY);
   const [findJourney, { loading, error }] = useLazyQuery(GET_ONE_JOURNEY, {
     variables: {
@@ -41,7 +41,7 @@ const UpdateJourney = () => {
             startingPoint: formDataJson.startingPoint,
             arrivalPoint: formDataJson.arrivalPoint,
             startDate: formDataJson.startDate,
-            endDate: formDataJson.endDate,
+            endDate: endDate,
             availableSeats: parseInt(formDataJson.availableSeats as string),
             price: parseInt(formDataJson.price as string),
             description: formDataJson.description,
@@ -59,7 +59,7 @@ const UpdateJourney = () => {
 
   loading && <div>Chargement...</div>;
   error && <div>Une erreur est survenue</div>;
-  return <JourneyForm journey={journey} handleSubmit={handleSubmit} />;
+  return <JourneyForm journey={journey} handleSubmit={handleSubmit} endDate={endDate} setEndDate={setEndDate} />;
 };
 
 export default UpdateJourney;
