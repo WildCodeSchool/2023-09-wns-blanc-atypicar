@@ -4,6 +4,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  BeforeInsert
 } from "typeorm";
 import { Field, ObjectType } from "type-graphql";
 import { User } from "./user";
@@ -35,4 +36,9 @@ export class Reservation extends BaseEntity {
   @Field()
   @Column()
   seatNumber: number;
+
+  @BeforeInsert()
+  updateCreationDate() {
+      this.creationDate = new Date();
+  }
 }

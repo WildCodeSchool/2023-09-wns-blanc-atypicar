@@ -3,8 +3,12 @@ import { User } from "../entities/user";
 import { CreateUserType } from "../types/CreateUserType";
 import { UpdateUserType } from "../types/UpdateUserType";
 
-export function getUserByEmail(email: string): Promise<User> {
-  return User.findOneByOrFail({ email });
+export async function getUserByEmail(email: string): Promise<User | null> {
+  try {
+    return await User.findOneBy({ email });
+  } catch {
+    return null;
+  }
 }
 
 export async function createUser(
@@ -14,10 +18,9 @@ export async function createUser(
     let user = new User();
     Object.assign(user, createUserType);
     user.password = await argon2.hash(createUserType.password);
-    user.creationDate = new Date();
     return user.save();
   } catch (error) {
-    throw new Error();
+    throw new Error(`Erreur lors de la création de l'utilisateur.`);
   }
 }
 

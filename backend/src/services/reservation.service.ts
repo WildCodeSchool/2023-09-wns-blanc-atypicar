@@ -21,7 +21,7 @@ export async function findReservation(id: number): Promise<Reservation | null> {
 }
 
 export async function addReservation(
-  ReservationData: CreateReservationInputType,
+  reservationData: CreateReservationInputType,
   id: number
 ): Promise<Reservation | Error> {
   try {
@@ -36,23 +36,25 @@ export async function addReservation(
     });
 
     if (!journey) {
-      throw new Error("Journey not found");
-    } else if (journey.availableSeats === 0) {
-      throw new Error("No seats available");
+      throw new Error("Trajet introuvable");
     }
 
-    if (journey.driver.id === ReservationData.passenger) {
-      throw new Error("You can't book your own journey");
+    if (journey.availableSeats === 0) {
+      throw new Error("Aucune place disponible");
     }
+
+    if (journey.driver.id === reservationData.passenger) {
+      throw new Error("Vous ne pouvez pas réserver votre propre trajet");
+    }
+
     let reservation = new Reservation();
     reservation.journey = journey;
-    Object.assign(reservation, ReservationData);
+    Object.assign(reservation, reservationData);
 
     if (journey.availableSeats < reservation.seatNumber) {
-      throw new Error(
-        "You booked too much seat, please reduce the number of seats"
-      );
+      throw new Error("Nombre de sièges insuffisant, veuillez réduire");
     }
+
     journey.availableSeats -= reservation.seatNumber;
     journey.save();
 
@@ -63,26 +65,27 @@ export async function addReservation(
 }
 
 export async function modifyReservation(
-  ReservationData: CreateReservationInputType,
+  reservationData: CreateReservationInputType,
   id: number
 ): Promise<Reservation | Error> {
   const reservationToUpdate = await findReservation(id);
 
   if (!reservationToUpdate) {
-    throw new Error("Reservation not found");
+    throw new Error("Réservation introuvable");
   }
+
   // TODO : Rajouter une condition qui permet de bloquer la modification si le nombre de places dispo dans le trajet n'est pas suffisant
-  if (reservationToUpdate.seatNumber < ReservationData.seatNumber) {
-    let diff = reservationToUpdate.seatNumber - ReservationData.seatNumber;
+  if (reservationToUpdate.seatNumber < reservationData.seatNumber) {
+    let diff = reservationToUpdate.seatNumber - reservationData.seatNumber;
     reservationToUpdate.journey.availableSeats += diff;
     reservationToUpdate.journey.save();
-  } else if (reservationToUpdate.seatNumber > ReservationData.seatNumber) {
-    let diff = ReservationData.seatNumber - reservationToUpdate.seatNumber;
+  } else if (reservationToUpdate.seatNumber > reservationData.seatNumber) {
+    let diff = reservationData.seatNumber - reservationToUpdate.seatNumber;
     reservationToUpdate.journey.availableSeats -= diff;
     reservationToUpdate.journey.save();
   }
 
-  reservationToUpdate.seatNumber = ReservationData.seatNumber;
+  reservationToUpdate.seatNumber = reservationData.seatNumber;
 
   return reservationToUpdate.save();
 }
@@ -91,13 +94,14 @@ export async function deleteReservation(
   id: number
 ): Promise<DeleteResult | string> {
   const reservation = await findReservation(id);
+
   if (!reservation) {
-    return "No reservation find";
+    return "Aucune réservation trouvée";
   }
 
   reservation.journey.availableSeats += reservation.seatNumber;
   await reservation.journey.save();
   Reservation.delete({ id });
 
-  return "Your reservation has been canceled !";
+  return "Votre réservation a été annulée !";
 }

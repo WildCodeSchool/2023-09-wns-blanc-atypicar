@@ -7,6 +7,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  BeforeInsert
 } from "typeorm";
 import { Tag } from "./tag";
 import { Vehicle } from "./vehicles";
@@ -78,4 +79,9 @@ export class User extends BaseEntity {
   @Field(() => [Conversation])
   @ManyToMany(() => Conversation, (conversation) => conversation.participants)
   conversations: Conversation[];
+
+  @BeforeInsert()
+  updateCreationDate() {
+      this.creationDate = new Date();
+  }
 }

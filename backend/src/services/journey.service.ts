@@ -28,7 +28,7 @@ export async function searchJourney(
   const journeys = await Journey.find(searchFilter);
 
   if (!journeys || journeys.length === 0) {
-    return [];
+    throw new Error("Aucun voyage trouvé.");
   }
 
   return journeys;
@@ -56,18 +56,18 @@ export function findJourney(id: number): Promise<Journey | null> {
 }
 
 export async function addJourney(
-  JourneyData: CreateJourneyInputType,
+  journeyData: CreateJourneyInputType,
   ctx: any
 ): Promise<Journey | Error> {
   try {
-    if (JourneyData.endDate < JourneyData.startDate) {
+    if (journeyData.endDate < journeyData.startDate) {
       throw new Error(
         "La date d'arrivée ne peut pas être inférieur à la date de départ"
       );
     }
 
     let journey = new Journey();
-    Object.assign(journey, JourneyData);
+    Object.assign(journey, journeyData);
     journey.driver = ctx.user.id;
 
     return journey.save();
@@ -78,23 +78,40 @@ export async function addJourney(
 
 export async function updateJourney(
   id: number,
-  JourneyData: UpdateJourneyInputType
-): Promise<Journey | Error> {
+  journeyData: UpdateJourneyInputType
+): Promise<Journey> {
+  if (!journeyData) {
+    throw new Error("Les données de mise à jour ne peuvent pas être vides.");
+  }
+
+  if (journeyData.endDate < journeyData.startDate) {
+    throw new Error("La date de fin ne peut pas être antérieure à la date de début.");
+  }
+
+  if (journeyData.availableSeats < 1) {
+    throw new Error("Le nombre de places disponibles doit être supérieur ou égal à 1.");
+  }
+
   const journeyToUpdate = await findJourney(id);
 
   if (!journeyToUpdate) {
-    throw new Error("Journey not found");
+    throw new Error("Voyage non trouvé.");
   }
 
-  journeyToUpdate.startingPoint = JourneyData.startingPoint;
-  journeyToUpdate.arrivalPoint = JourneyData.arrivalPoint;
-  journeyToUpdate.description = JourneyData.description;
-  journeyToUpdate.startDate = JourneyData.startDate;
-  journeyToUpdate.endDate = JourneyData.endDate;
-  journeyToUpdate.availableSeats = JourneyData.availableSeats;
-  journeyToUpdate.price = JourneyData.price;
+  journeyToUpdate.startingPoint = journeyData.startingPoint;
+  journeyToUpdate.arrivalPoint = journeyData.arrivalPoint;
+  journeyToUpdate.description = journeyData.description;
+  journeyToUpdate.startDate = journeyData.startDate;
+  journeyToUpdate.endDate = journeyData.endDate;
+  journeyToUpdate.availableSeats = journeyData.availableSeats;
+  journeyToUpdate.price = journeyData.price;
 
-  return journeyToUpdate.save();
+  try {
+    const updatedJourney = await journeyToUpdate.save();
+    return updatedJourney;
+  } catch (error) {
+    throw new Error('Erreur lors de la mise à jour du voyage.');
+  }
 }
 
 export function deleteJourney(id: number): Promise<DeleteResult> {
