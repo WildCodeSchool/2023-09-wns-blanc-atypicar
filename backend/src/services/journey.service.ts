@@ -47,10 +47,7 @@ export function searchJourneysByDriver(driverId: number): Promise<Journey[]> {
 
 export function findJourney(id: number): Promise<Journey | null> {
   return Journey.findOne({
-    relations: {
-      driver: true,
-      reservation: true,
-    },
+    relations: ['driver', 'reservation', 'reservation.passenger'],
     where: { id },
   });
 }

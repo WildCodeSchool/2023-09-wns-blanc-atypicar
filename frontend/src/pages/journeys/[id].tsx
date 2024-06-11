@@ -11,6 +11,8 @@ import { AuthContext } from "@/contexts/authContext";
 import Link from "next/link";
 import { DELETE_JOURNEY, GET_JOURNEY_BY_ID } from "@/graphql/client";
 import { parse } from "path";
+import { MdAirlineSeatReclineExtra } from "react-icons/md";
+
 
 const JourneyDetail = () => {
   const router = useRouter();
@@ -40,6 +42,7 @@ const JourneyDetail = () => {
   if (loading) return <p>Chargement...Veuillez patienter</p>;
   if (error) return <p>Erreur 🤯</p>;
   if (journey) {
+    console.log(journey);
     return (
       <div>
         <nav className="flex pt-16 justify-center" aria-label="Breadcrumb">
@@ -124,6 +127,7 @@ const JourneyDetail = () => {
                   )}
                 </div>
 
+
                 <Divider className=" my-6" />
                 {journey.driver.id == currentUser?.id && (
                   <div className="flex justify-center gap-4">
@@ -158,6 +162,26 @@ const JourneyDetail = () => {
             <Divider className=" w-2/5" />
             <p className="pt-8 px-4">{journey.description}</p>
 
+            <Divider className=" w-2/5" />
+            <p className="text-xl font-bold underline underline-offset-4 pt-8 px-4">Utilisteurs ayant réservés</p>
+            {journey.reservation.map((reservation) => (
+              <div key={reservation.id} className="flex flex-row gap-4 items-center self-start w-2/5 mx-auto">
+                <Avatar
+                  isBordered
+                  as="button"
+                  color="success"
+                  size="md"
+                  src={journey.driver.picture}
+                />
+                <span>{reservation.passenger.firstName} {reservation.passenger.lastName}</span>
+                {[...Array(reservation.seatNumber)].map((_, index) => (
+                  <MdAirlineSeatReclineExtra key={index} />
+                ))}
+              </div>
+            ))}
+
+
+
             {journey &&
               currentUser &&
               journey.driver.id !== currentUser.id &&
@@ -175,7 +199,7 @@ const JourneyDetail = () => {
               ))}
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 };

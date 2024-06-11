@@ -5,9 +5,7 @@ import { CreateReservationInputType } from "../types/CreateReservationInputType"
 
 export async function searchReservations(): Promise<Reservation[]> {
   return Reservation.find({
-    relations: {
-      journey: true,
-    },
+    relations: ["journey", "journey.driver"],
   });
 }
 
