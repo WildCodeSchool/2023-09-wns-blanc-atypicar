@@ -2,11 +2,10 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
+  BeforeInsert,
 } from "typeorm";
 import { Field, ObjectType } from "type-graphql";
-import { Vehicle } from "./vehicles";
 
 @Entity()
 @ObjectType()
@@ -19,7 +18,12 @@ export class Category extends BaseEntity {
   @Column()
   wording: string;
 
-  @Field(() => Vehicle)
-  @ManyToMany(() => Vehicle, (vehicle) => vehicle.id)
-  vehicle: number;
+  @Field()
+  @Column()
+  creationDate: Date;
+
+  @BeforeInsert()
+  updateCreationDate() {
+    this.creationDate = new Date();
+  }
 }
