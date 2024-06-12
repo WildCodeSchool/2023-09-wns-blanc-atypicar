@@ -35,7 +35,7 @@ export default function CustomNavbar() {
       >
         <Link href="/">
           <NavbarBrand className="flex items-center justify-end xl:justify-start" >
-            <Image src={Logo} alt="logo" height={35} />
+            <Image src={Logo} alt="logo représentant Atypi'Car" height={35} />
             <p className="pl-2 text-3xl  hidden xl:flex font-bold text-default font-montserrat ">Atypi'Car</p>
           </NavbarBrand>
         </Link>

@@ -16,6 +16,11 @@ export class ReservationResolver {
         return ReservationService.findReservation(id);
     }
 
+    @Query(() => Reservation)
+    getReservationByUser(@Arg("passengerId") passengerId: number): Promise<Reservation[] | null> {
+        return ReservationService.findUserReservation(passengerId);
+    }
+
     @Mutation(() => Reservation)
     bookJourney(
         @Arg("ReservationData") ReservationData: CreateReservationInputType,
