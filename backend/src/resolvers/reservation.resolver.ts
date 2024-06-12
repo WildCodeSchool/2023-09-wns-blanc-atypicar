@@ -12,10 +12,10 @@ export class ReservationResolver {
     }
 
     @Query(() => Reservation)
-    getReservationById(@Arg("id") id: number): Promise<Reservation | null>{
+    getReservationById(@Arg("id") id: number): Promise<Reservation | null> {
         return ReservationService.findReservation(id);
     }
-    
+
     @Mutation(() => Reservation)
     bookJourney(
         @Arg("ReservationData") ReservationData: CreateReservationInputType,
@@ -28,12 +28,12 @@ export class ReservationResolver {
     updateReservation(
         @Arg("ReservationData") ReservationData: CreateReservationInputType,
         @Arg("id") id: number
-    ): Promise<Reservation | Error>{
+    ): Promise<Reservation | Error> {
         return ReservationService.modifyReservation(ReservationData, id);
     }
 
     @Mutation(() => String)
     async deleteReservation(@Arg("id") id: number): Promise<DeleteResult | String> {
-        return ReservationService.deleteReservation(id);         
+        return ReservationService.deleteReservation(id);
     }
 }
