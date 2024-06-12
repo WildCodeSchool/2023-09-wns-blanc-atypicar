@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, useEffect } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { Category } from "../types/item";
+import { Category } from "../types/category";
 import { errorToast, successToast } from "../components/Toast";
 import { formattedDate } from "../utils/formatDates";
 import { FaTrash } from "react-icons/fa";
