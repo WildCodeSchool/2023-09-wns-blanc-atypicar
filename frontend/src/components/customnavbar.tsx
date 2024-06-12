@@ -14,21 +14,21 @@ import Image from "next/image";
 import Logo from "../assets/images/Logo.svg";
 import { CiSearch, CiCirclePlus } from "react-icons/ci";
 import { IoIosSettings } from "react-icons/io";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { AuthContext } from "@/contexts/authContext";
 import { successToast } from "./Toast";
 
-export default function CustomNavbar() {
+export default function CustomNavbar({ currentUser }: any) {
   const router = useRouter();
-  const [token, setToken] = useState(localStorage.getItem("token"));
-  const { currentUser } = useContext(AuthContext);
+  const [token, setToken] = useState<string | null>();
+
+  const storedToken = localStorage.getItem("token");
 
   useEffect(() => {
-    if (!token) {
+    if (storedToken) {
       setToken(localStorage.getItem("token"));
     }
-  }, [localStorage.getItem("token")]);
+  }, [storedToken]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -37,6 +37,9 @@ export default function CustomNavbar() {
     router.push("/");
   };
 
+  if (currentUser) {
+    console.log(currentUser);
+  }
   return (
     <div className="flex justify-center w-full	fixed z-50">
       <Navbar
@@ -100,7 +103,9 @@ export default function CustomNavbar() {
                 color="secondary"
                 onAction={(actionKey) => console.log(actionKey)}
               >
-                {/* <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem> */}
+                <DropdownItem className="mx-auto" showDivider>
+                  Bonjour {currentUser?.firstName}
+                </DropdownItem>
 
                 <DropdownItem key="profile" href="/profil/infos">
                   Profil
