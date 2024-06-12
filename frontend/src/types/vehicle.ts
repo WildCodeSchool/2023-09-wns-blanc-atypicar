@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export type Vehicle = {
     id: number;
     model: string;
@@ -6,5 +8,4 @@ export type Vehicle = {
     seats: number;
     picture?: string;
     user?: User;
-    category: Category;
 }
