@@ -10,9 +10,10 @@ export async function findVehicleById(id: number): Promise<Vehicle | null> {
     return Vehicle.findOne({ where: { id } });
 }
 
-export async function createVehicle(vehicleData: CreateVehicleInputType): Promise<Vehicle | Error> {
+export async function createVehicle(vehicleData: CreateVehicleInputType, ctx: any): Promise<Vehicle | Error> {
     try {
         const vehicle = Vehicle.create(vehicleData);
+        vehicle.user = ctx.user.id;
         await vehicle.save();
         return vehicle;
     } catch (error: any) {

@@ -2,7 +2,9 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -33,13 +35,14 @@ export class Vehicle extends BaseEntity {
   @Column()
   seats: number;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   picture: string;
 
-  @Field(() => User)
-  @OneToOne(() => User, (user) => user.id)
-  user: number;
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User, user => user.vehicle, { nullable: true })
+  user: User;
+
 
   @Field(() => Category)
   @ManyToMany(() => Category, (category) => category.id)

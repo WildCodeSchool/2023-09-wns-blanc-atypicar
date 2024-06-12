@@ -14,12 +14,12 @@ export class CreateVehicleInputType {
     @Field()
     seats: number;
 
-    @Field()
+    @Field({ nullable: true })
     picture: string;
 
     @Field()
     userId: number;
 
-    @Field(() => [Int])
+    @Field(() => [Int], { nullable: true })
     categoryIds: number[];
 }

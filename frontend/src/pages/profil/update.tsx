@@ -97,7 +97,7 @@ const UpdateProfilePage = () => {
             console.error("Erreur lors de la mise à jour des informations:", error);
         }
     };
-
+    console.log(editableFields)
     return (
         <div className="flex flex-col gap-10 mt-8 text-center">
             <h2>Modifier mes informations</h2>
@@ -129,6 +129,7 @@ const UpdateProfilePage = () => {
                     type="date"
                     label="Date de naissance"
                     name="birthday"
+
                     value={editableFields.birthday}
                     onChange={(e) => {
                         handleInputChange(e)
@@ -175,7 +176,7 @@ const UpdateProfilePage = () => {
                     className="flex justify-center text-white w-60"
                     radius="full"
                     onClick={() => router.push('/profil/infos')}>
-                        Annuler
+                    Annuler
                 </Button>
                 <Button
                     type="submit"

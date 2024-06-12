@@ -3,6 +3,7 @@ import { User } from "../entities/user";
 import { CreateUserType } from "../types/CreateUserType";
 import { UpdateUserType } from "../types/UpdateUserType";
 
+
 export function getUserByEmail(email: string): Promise<User> {
   return User.findOneByOrFail({ email });
 }
@@ -28,22 +29,37 @@ export function getUser(id: number): Promise<User> {
 export async function modifyUser(
   user: UpdateUserType,
   id: number
-){
+) {
   const userToUpdate = await getUser(id);
 
-  if(!userToUpdate){
+  if (!userToUpdate) {
     throw new Error("user not found");
-}
+  }
 
 
-if(userToUpdate){
+  if (userToUpdate) {
     userToUpdate.email = user.email;
     userToUpdate.description = user.description;
     userToUpdate.firstName = user.firstName;
     userToUpdate.lastName = user.lastName;
     userToUpdate.picture = user.picture;
+  }
+
+  return userToUpdate.save();
+
 }
 
-return userToUpdate.save();
 
+export async function getUserProfileInfos(id: number): Promise<User> {
+  const user = await User.findOne({
+    where: { id: id },
+    relations: ['vehicle']
+  });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  return user;
 }
+
