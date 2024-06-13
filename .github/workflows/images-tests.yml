@@ -26,6 +26,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: "{{defaultContext}}:frontend"
+          context: "{{defaultContext}}:images"
           file: build.Dockerfile
           tags: ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_HUB_UPLOADIMAGES_IMAGE_NAME}}:latest
