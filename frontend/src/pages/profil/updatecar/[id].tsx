@@ -3,8 +3,10 @@ import { Category } from "@/types/category";
 import { Vehicle } from "@/types/vehicle";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Button, Image, Input, Select, SelectItem } from "@nextui-org/react";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { FormEvent, useContext, useEffect, useState } from "react";
+import { FaImage } from "react-icons/fa";
 import { RiCoinsLine } from "react-icons/ri";
 
 
@@ -58,6 +60,8 @@ export default function UpdateCarPage() {
     const [updateVehicle] = useMutation(UPDATE_VEHICLE);
     const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
     const [categories, setCategories] = useState<Category[]>([]);
+    const [file, setFile] = useState<File>();
+    const [imageUrl, setImageUrl] = useState<string>();
     const { loading, error, data, refetch } = useQuery(GET_VEHICLE_INFOS, {
         variables: { getVehicleByIdId2: Number(id) },
         onCompleted: (data) => {
@@ -74,6 +78,23 @@ export default function UpdateCarPage() {
 
     });
 
+    const loadPicture = async (e: any) => {
+        e.preventDefault();
+        const url = "http://localhost:8000/upload";
+
+        if (file) {
+            const formData = new FormData();
+            formData.append("file", file, file?.name);
+            try {
+                const response = await axios.post(url, formData);
+                setImageUrl(response.data.filename);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    };
+
+
     const handleSubmit = async (event: FormEvent): Promise<void> => {
         event.preventDefault();
 
@@ -85,9 +106,9 @@ export default function UpdateCarPage() {
                         brand: vehicleInfos?.brand,
                         model: vehicleInfos?.model,
                         seats: parseInt(vehicleInfos?.seats?.toString() ?? ''),
-                        picture: vehicleInfos?.picture,
+                        picture: imageUrl,
                         userId: currentUser?.id,
-                        categoryIds: selectedCategory
+                        categoryIds: selectedCategory,
                     },
                     updateVehicleId: Number(id)
                 },
@@ -112,13 +133,29 @@ export default function UpdateCarPage() {
         <>
             <div className="flex flex-col w-full mt-8 gap-10">
                 <h2 className="text-2xl font-black text-center">Modifier mon véhicule</h2>
-                <div className="flex flex-col md:flex-row justify-center items-center px-4 md:px-20 gap-6 md:gap-10">
-                    <div className="w-auto md:w-1/2">
+                <div className="flex flex-col md:flex-row justify-center items-center px-4 md:px-20 gap-6 md:gap-12">
+                    <div className="w-auto  flex flex-col gap-10 items-center justify-center ">
                         <Image
-                            className="rounded-md object-cover w-full"
+                            className="rounded-md object-cover w-full h-[25vh]"
                             alt="Card background"
-                            src="https://picsum.photos/500/300"
+                            src={imageUrl ? imageUrl : vehicleInfos?.picture}
                         />
+
+                        <Input
+                            radius="sm"
+                            type="file"
+                            className="w-full"
+                            name="picture"
+                            onChange={(e) => e.target.files && setFile(e.target.files[0])}
+                        />
+                        <Button
+                            color="primary"
+                            onClick={loadPicture}
+                            className="text-white w-14 h-14  p-0"
+                        >
+                            <FaImage className="w-5 h-5" />
+                        </Button>
+
                     </div>
                     <div className="w-full md:w-[45vw] flex flex-col md:flex-row md:flex-wrap justify-center gap-6">
 

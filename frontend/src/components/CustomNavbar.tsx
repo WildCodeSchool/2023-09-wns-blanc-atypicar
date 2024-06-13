@@ -27,6 +27,7 @@ export default function CustomNavbar({ currentUser }: any) {
   useEffect(() => {
     if (storedToken) {
       setToken(localStorage.getItem("token"));
+
     }
   }, [storedToken]);
 
