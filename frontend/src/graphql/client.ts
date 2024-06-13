@@ -69,8 +69,9 @@ export const SEARCH_JOURNEY = gql`
     $arrival: String
     $date: DateTime
     $seats: Float
+    $categoryIds: [Float!]
   ) {
-    getJourneys(start: $start, arrival: $arrival, date: $date, seats: $seats) {
+    getJourneys(start: $start, arrival: $arrival, date: $date, seats: $seats, categoryIds: $categoryIds) {
       id
       startingPoint
       arrivalPoint
@@ -193,4 +194,13 @@ export const GET_ALL_RESERVATIONS = gql`
       seatNumber
     }
   }
+`;
+export const GET_CATEGORIES = gql`
+query Query {
+  getCategories {
+    id
+    wording
+    creationDate
+  }
+}
 `;
