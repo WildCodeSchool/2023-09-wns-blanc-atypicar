@@ -22,7 +22,6 @@ import {
   TableCell,
   Tooltip,
   Pagination,
-  getKeyValue,
 } from "@nextui-org/react";
 
 const GET_CATEGORIES = gql`
@@ -91,7 +90,6 @@ const CategoryPage = () => {
       setIsCategoryCreated(true);
       successToast("La catégorie a été supprimée avec succès.");
     } catch (error) {
-      console.error("Erreur sur la suppression de la catégorie:", error);
       errorToast("Erreur sur la suppression de la catégorie.");
     }
   };
@@ -111,7 +109,6 @@ const CategoryPage = () => {
           wording: formDataJson.wording,
         },
       });
-      // window.location.reload();
       setIsCategoryCreated(true);
       successToast("Catégorie créée avec succès");
     } catch (error) {

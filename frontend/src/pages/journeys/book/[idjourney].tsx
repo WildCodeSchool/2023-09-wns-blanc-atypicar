@@ -90,9 +90,13 @@ export default function BookJourneyPage() {
                 </div>
                 <div>
                   <p className="text-justify">
-                    <span className="text-xl font-montserrat font-bold">"</span>
+                    <span className="text-xl font-montserrat font-bold">
+                      &quot;
+                    </span>
                     {journey.description}
-                    <span className="text-xl font-montserrat font-bold">"</span>
+                    <span className="text-xl font-montserrat font-bold">
+                      &quot;
+                    </span>
                   </p>
                 </div>
               </div>

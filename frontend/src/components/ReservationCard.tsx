@@ -17,7 +17,6 @@ type ReservationCardProps = {
 const ReservationCard = ({ reservation }: ReservationCardProps) => {
   const { journey } = reservation;
   const totalPrice = journey.price * reservation.seatNumber;
-
   return (
     <Card isPressable className="flex flex-row">
       <Image

@@ -15,12 +15,12 @@ export default function Layout({ children }: { children: ReactNode }) {
     if (data && !loading) {
       setCurrentUser({ ...data.getUser });
     }
-  }, [data, loading]);
+  }, [data, loading, setCurrentUser]);
 
   return (
     <>
       <Head>
-        <title>Atypi'Car</title>
+        <title>Atypi&apos;Car</title>
         <meta name="" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="favicon.ico" />

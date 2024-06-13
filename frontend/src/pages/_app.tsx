@@ -63,7 +63,7 @@ function App({ Component, pageProps }: AppProps) {
     if (token) {
       setAuthenticated(true);
     }
-  }, []);
+  }, [token]);
 
   return (
     <NextUIProvider className={MontserratAlternates.className}>
