@@ -98,9 +98,8 @@ export default function CustomNavbar() {
               <DropdownMenu
                 aria-label="User menu actions"
                 color="secondary"
-                onAction={(actionKey) => console.log(actionKey)}
               >
-                <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem>
+                {/* <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem> */}
 
                 <DropdownItem key="profile" href="/profil/infos">
                   Profil
@@ -137,9 +136,6 @@ export default function CustomNavbar() {
               <DropdownMenu
                 aria-label="User menu actions"
                 color="secondary"
-                onAction={(actionKey) =>
-                  console.log({ actionKey: String(actionKey) })
-                }
               >
                 <DropdownItem key="signup" href="/signup">
                   S'inscrire

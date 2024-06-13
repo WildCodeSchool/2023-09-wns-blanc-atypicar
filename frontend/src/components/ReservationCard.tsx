@@ -19,7 +19,6 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
 
   const totalPrice = journey.price * reservation.seatNumber;
 
-  console.log(journey);
   return (
     <Card isPressable className="flex flex-row">
       <Image

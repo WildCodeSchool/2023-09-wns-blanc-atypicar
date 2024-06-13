@@ -73,7 +73,6 @@ export default function UpdateCarPage() {
         }
 
     });
-    console.log("selectedCategory", selectedCategory)
 
     const handleSubmit = async (event: FormEvent): Promise<void> => {
         event.preventDefault();

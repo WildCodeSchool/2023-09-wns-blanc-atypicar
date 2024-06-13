@@ -81,7 +81,6 @@ export default function AddCar() {
 
         };
     }
-    console.log("selectedCategory", selectedCategory)
 
     useEffect(() => {
         if (newVehicle.seats > 20) {

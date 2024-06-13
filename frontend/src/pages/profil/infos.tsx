@@ -53,7 +53,6 @@ const ProfilPage = () => {
             setUserInfos(data.getUserProfileInfos);
         },
     });
-    console.log(userInfos)
 
     useEffect(() => {
         refetch();
