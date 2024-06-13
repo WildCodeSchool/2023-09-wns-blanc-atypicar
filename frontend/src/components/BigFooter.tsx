@@ -50,7 +50,7 @@ function BigFooter() {
               ))}
             </div>
           ) : (
-            <p>Pas de catégories pour l'instant </p>
+            <p>Pas de catégories pour l&apos;instant </p>
           )}
         </div>
       </div>
@@ -121,7 +121,6 @@ function BigFooter() {
         </Accordion>
         {icons}
       </div>
-
       <div className={styles.desktop}>
         {content}
         {content2}

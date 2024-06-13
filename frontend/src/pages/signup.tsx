@@ -47,8 +47,7 @@ export default function SignUpPage() {
       successToast("Inscription réussie.");
       router.push("/signin");
     },
-    onError(error) {
-      console.error("Erreur:", error);
+    onError() {
       errorToast("Une erreur s'est produite lors de l'inscription.");
     },
   });
@@ -185,7 +184,7 @@ export default function SignUpPage() {
             radius="full"
             isDisabled={!isFormValid()}
           >
-            S'inscrire
+            S&apos;inscrire
           </Button>
         </CardFooter>
       </Card>

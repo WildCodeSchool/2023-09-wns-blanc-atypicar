@@ -2,17 +2,14 @@ import { Journey } from "@/types/journey";
 import { useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState, useContext } from "react";
-import { Divider, Image, Button, Avatar } from "@nextui-org/react";
+import { Divider, Image, Button, Avatar, Link } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillTool } from "react-icons/ai";
 import { AuthContext } from "@/contexts/authContext";
-import Link from "next/link";
 import { DELETE_JOURNEY, GET_JOURNEY_BY_ID } from "@/graphql/client";
-import { parse } from "path";
 import { MdAirlineSeatReclineExtra } from "react-icons/md";
-
 
 const JourneyDetail = () => {
   const router = useRouter();
@@ -32,7 +29,7 @@ const JourneyDetail = () => {
 
   const [deleteJourney] = useMutation(DELETE_JOURNEY, {
     variables: {
-      id: parseInt(id?.toString() ?? "")
+      id: parseInt(id?.toString() ?? ""),
     },
     onCompleted: () => {
       router.push("/journeys");
@@ -47,22 +44,22 @@ const JourneyDetail = () => {
         <nav className="flex pt-16 justify-center" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li className="inline-flex items-center">
-              <a
+              <Link
                 href="/"
                 className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-secondary dark:text-gray-400 dark:hover:text-white"
               >
                 <IoIosHome className="text-lg mb-1" /> &nbsp; Accueil
-              </a>
+              </Link>
             </li>
             <li>
               <div className="flex items-center">
                 <IoIosArrowForward />
-                <a
+                <Link
                   href="/journeys"
                   className="ms-1 text-sm font-medium text-gray-700 hover:text-secondary md:ms-2 dark:text-gray-400 dark:hover:text-white"
                 >
                   Mes trajets
-                </a>
+                </Link>
               </div>
             </li>
             <li>
@@ -126,7 +123,6 @@ const JourneyDetail = () => {
                   )}
                 </div>
 
-
                 <Divider className=" my-6" />
                 {journey.driver.id == currentUser?.id && (
                   <div className="flex justify-center gap-4">
@@ -162,9 +158,14 @@ const JourneyDetail = () => {
             <p className="pt-8 px-4">{journey.description}</p>
 
             <Divider className=" w-2/5" />
-            <p className="text-xl font-bold underline underline-offset-4 pt-8 px-4">Utilisteurs ayant réservés</p>
+            <p className="text-xl font-bold underline underline-offset-4 pt-8 px-4">
+              Utilisteurs ayant réservés
+            </p>
             {journey.reservation.map((reservation) => (
-              <div key={reservation.id} className="flex flex-row gap-4 items-center self-start w-2/5 mx-auto">
+              <div
+                key={reservation.id}
+                className="flex flex-row gap-4 items-center self-start w-2/5 mx-auto"
+              >
                 <Avatar
                   isBordered
                   as="button"
@@ -172,14 +173,15 @@ const JourneyDetail = () => {
                   size="md"
                   src={journey.driver.picture}
                 />
-                <span>{reservation.passenger.firstName} {reservation.passenger.lastName}</span>
+                <span>
+                  {reservation.passenger.firstName}{" "}
+                  {reservation.passenger.lastName}
+                </span>
                 {[...Array(reservation.seatNumber)].map((_, index) => (
                   <MdAirlineSeatReclineExtra key={index} />
                 ))}
               </div>
             ))}
-
-
 
             {journey &&
               currentUser &&
@@ -198,7 +200,7 @@ const JourneyDetail = () => {
               ))}
           </div>
         </div>
-      </div >
+      </div>
     );
   }
 };
