@@ -18,12 +18,14 @@ export class Category extends BaseEntity {
 
   @Field()
   @Column()
-  @OneToMany(() => Vehicle, vehicle => vehicle.category, { nullable: true })
   wording: string;
 
   @Field()
   @Column()
   creationDate: Date;
+
+  @OneToMany(() => Vehicle, vehicle => vehicle.category, { onDelete: 'SET NULL' })
+  vehicles: Vehicle[];
 
   @BeforeInsert()
   updateCreationDate() {

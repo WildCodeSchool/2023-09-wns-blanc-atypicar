@@ -111,16 +111,16 @@ const ProfilPage = () => {
             </div>
 
             <Divider className="mt-10 w-2/4 mx-auto" />
-            <div className="flex flex-col w-full mt-8 gap-10">
+            <div className="flex flex-col w-full mt-8 gap-10 px-4">
                 <h2 className="text-2xl font-black text-center">Informations sur mon véhicule</h2>
                 {userInfos?.vehicle ? (
                     <>
-                        <div className="flex flex-col md:flex-row justify-center items-center px-4 md:px-20 gap-6 md:gap-10">
-                            <div className="w-auto md:w-1/2">
+                        <div className="flex flex-col md:flex-row justify-center items-center px-4 md:px-10 gap-6 md:gap-4">
+                            <div className="w-auto ">
                                 <Image
                                     className="rounded-md object-cover w-full"
                                     alt="Card background"
-                                    src="https://picsum.photos/450/300"
+                                    src={userInfos?.vehicle?.picture}
                                 />
                             </div>
                             <div className="w-full md:w-[45vw] flex flex-col md:flex-row md:flex-wrap justify-center gap-6">
@@ -164,16 +164,16 @@ const ProfilPage = () => {
                             <Button
                                 type="submit"
                                 color="primary"
-                                className="flex justify-center text-white w-full md:w-96"
+                                className="flex justify-center text-white w-60"
                                 radius="full"
                                 onClick={() => router.push(`/profil/updatecar/${userInfos?.vehicle?.id}`)}
                             >
-                                Modifier les informations de mon véhicule
+                                Modifier mon véhicule
                             </Button>
                             <Button
                                 type="submit"
                                 color="danger"
-                                className="flex justify-center text-white w-full md:w-96"
+                                className="flex justify-center text-white w-60"
                                 radius="full"
                                 onClick={() => deleteCard()}
                             >
@@ -188,7 +188,7 @@ const ProfilPage = () => {
                         <Button
                             type="submit"
                             color="primary"
-                            className="flex justify-center text-white w-full md:w-56 mx-auto  mt-4"
+                            className="flex justify-center text-white w-60 mx-auto  mt-4"
                             radius="full"
                             onClick={() => router.push(`/profil/addcar`)}
                         >
