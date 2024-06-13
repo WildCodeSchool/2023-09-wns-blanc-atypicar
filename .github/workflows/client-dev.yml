@@ -1,12 +1,12 @@
-name: server-staging
+name: client-dev
 
 on:
   pull_request:
-    branches: ["staging"]
+    branches: ["dev"]
   workflow_dispatch:
 
 jobs:
-  server-build:
+  client-build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -21,7 +21,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
-          file: ./backend/build.Dockerfile
+          context: ./frontend
+          file: ./frontend/build.Dockerfile
           push: true
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_HUB_SERVER_IMAGE_NAME}}:latest
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_HUB_CLIENT_IMAGE_NAME}}:latest
