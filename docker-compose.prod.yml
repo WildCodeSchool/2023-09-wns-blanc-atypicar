@@ -14,6 +14,10 @@ services:
     image: clairedochez959/frontend:latest
     env_file: .env.dev
 
+  images:
+    platform: linux/amd64
+    image: clairedochez959/images:latest
+
   db:
     image: postgres
     restart: always
