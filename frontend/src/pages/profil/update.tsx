@@ -94,104 +94,142 @@ const UpdateProfilePage = () => {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     try {
       await updateProfile({ variables: editableFields });
     } catch (error) {
       console.error("Erreur lors de la mise à jour des informations:", error);
     }
   };
-  console.log(editableFields)
+
+  const loadPicture = async (e: any) => {
+    console.log("load picture");
+    e.preventDefault();
+    const url = "http://localhost:8000/upload";
+
+    if (file) {
+      const formData = new FormData();
+      console.log("file", file);
+      formData.append("file", file, file?.name);
+      console.log("form data", formData);
+      try {
+        const response = await axios.post(url, formData);
+        setImageUrl(response.data.filename);
+        console.log("image url", imageUrl);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-10 mt-8 text-center">
+    <div className="flex flex-col gap-10 mt-8 px-6 text-center">
       <h2>Modifier mes informations</h2>
-      <div className="flex justify-center gap-20">
-        <Input
-          radius="full"
-          type="text"
-          label="Prénom"
-          name="firstName"
-          value={editableFields.firstName}
-          onChange={(e) => {
-            handleInputChange(e)
-          }}
-        />
-        <Input
-          radius="full"
-          type="text"
-          label="Nom"
-          name="lastName"
-          value={editableFields.lastName}
-          onChange={(e) => {
-            handleInputChange(e)
-          }}
-        />
-      </div>
-      <div className="flex justify-center gap-20 text-left">
-        <Input
-          radius="full"
-          type="date"
-          label="Date de naissance"
-          name="birthday"
+      <form className="flex justify-between gap-14">
+        {
+          <Avatar
+            className="min-w-32 min-h-32"
+            src={imageUrl ? imageUrl : userInfos?.picture}
+          />
+        }
+        <div className="flex flex-col gap-10 text-center w-full">
+          <div className="flex justify-center gap-20">
+            <Input
+              radius="full"
+              type="text"
+              label="Prénom"
+              name="firstName"
+              value={editableFields.firstName}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+            />
+            <Input
+              radius="full"
+              type="text"
+              label="Nom"
+              name="lastName"
+              value={editableFields.lastName}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+            />
+          </div>
+          <div className="flex justify-center gap-20 text-left">
+            <Input
+              radius="full"
+              type="date"
+              label="Date de naissance"
+              name="birthday"
+              value={editableFields.birthday}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+            />
+            <Input
+              radius="full"
+              type="email"
+              label="Email"
+              name="email"
+              value={editableFields.email}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+            />
+          </div>
+          <div className="flex justify-center gap-20 text-left">
+            <div className="w-full">
+              <Input
+                radius="full"
+                type="text"
+                label="Description"
+                name="description"
+                value={editableFields.description}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+              />
+            </div>
+            <div className="w-full flex flex-row gap-4 items-center">
+              <Input
+                radius="full"
+                type="file"
+                name="picture"
+                onChange={(e) => e.target.files && setFile(e.target.files[0])}
+              />
+              <Button
+                color="primary"
+                onClick={loadPicture}
+                className="text-white w-14 h-14 rounded-full p-0"
+              >
+                <FaImage className="w-5 h-5" />
+              </Button>
+            </div>
+          </div>
 
-          value={editableFields.birthday}
-          onChange={(e) => {
-            handleInputChange(e)
-          }}
-        />
-        <Input
-          radius="full"
-          type="email"
-          label="Email"
-          name="email"
-          value={editableFields.email}
-          onChange={(e) => {
-            handleInputChange(e)
-          }}
-        />
-      </div>
-      <div className="flex justify-center gap-20 text-left">
-        <Input
-          radius="full"
-          type="text"
-          label="Description"
-          name="description"
-          value={editableFields.description}
-          onChange={(e) => {
-            handleInputChange(e)
-          }}
-        />
-        <Input
-          radius="full"
-          type="text"
-          label="Photo de profil"
-          name="picture"
-          value={editableFields.picture}
-          onChange={(e) => {
-            handleInputChange(e)
-          }}
-        />
-      </div>
-
-      <div className="flex flex-row justify-center gap-8">
-        <Button
-          type="submit"
-          color="default"
-          className="flex justify-center text-white w-60"
-          radius="full"
-          onClick={() => router.push('/profil/infos')}>
-          Annuler
-        </Button>
-        <Button
-          type="submit"
-          color="primary"
-          className="flex justify-center text-white w-60"
-          radius="full"
-          onClick={handleSubmit}
-        >
-          Valider
-        </Button>
-      </div>
+          <div className="flex flex-row justify-center gap-8">
+            <Button
+              type="submit"
+              color="default"
+              className="flex justify-center text-white w-60"
+              radius="full"
+              onClick={() => router.push("/profil/infos")}
+            >
+              Annuler
+            </Button>
+            <Button
+              type="submit"
+              color="primary"
+              className="flex justify-center text-white w-60"
+              radius="full"
+              onClick={handleSubmit}
+            >
+              Valider
+            </Button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };
