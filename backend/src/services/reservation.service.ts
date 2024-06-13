@@ -24,17 +24,14 @@ export async function findUserReservation(id: number): Promise<Reservation[] | n
   const reservation = await Reservation.find(
     {
       relations: ["journey", "passenger"],
-      where: { passenger: id },
+      where: { 
+        passenger: { id } 
+      },
     }
   );
 
-  if (!reservation || reservation.length === 0) {
-    return [];
-  }
-
   return reservation;
 }
-
 
 export async function addReservation(
   ReservationData: CreateReservationInputType,

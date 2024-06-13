@@ -16,9 +16,9 @@ export class ReservationResolver {
         return ReservationService.findReservation(id);
     }
 
-    @Query(() => Reservation)
-    getReservationByUser(@Arg("passengerId") passengerId: number): Promise<Reservation[] | null> {
-        return ReservationService.findUserReservation(passengerId);
+    @Query(() => [Reservation])
+    getReservationByUser(@Arg("id") id: number): Promise<Reservation[] | null> {
+        return ReservationService.findUserReservation(id);
     }
 
     @Mutation(() => Reservation)
