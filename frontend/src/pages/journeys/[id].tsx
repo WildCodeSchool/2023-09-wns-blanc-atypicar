@@ -42,7 +42,6 @@ const JourneyDetail = () => {
   if (loading) return <p>Chargement...Veuillez patienter</p>;
   if (error) return <p>Erreur 🤯</p>;
   if (journey) {
-    console.log(journey);
     return (
       <div>
         <nav className="flex pt-16 justify-center" aria-label="Breadcrumb">

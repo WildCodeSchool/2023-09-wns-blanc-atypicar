@@ -3,13 +3,14 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Tag } from "./tag";
-import { Vehicle } from "./vehicles";
+import { Vehicle } from "./vehicle";
 import { Journey } from "./journey";
 import { Conversation } from "./conversations";
 
@@ -67,12 +68,12 @@ export class User extends BaseEntity {
   @ManyToMany(() => Tag, (tag) => tag.id)
   tag: number;
 
-  @Field(() => Vehicle)
-  @OneToOne(() => Vehicle, (vehicle) => vehicle.id)
-  vehicle?: number;
+  @Field(() => Vehicle, { nullable: true })
+  @OneToOne(() => Vehicle, vehicle => vehicle.user, { nullable: true })
+  vehicle?: Vehicle;
 
   @Field(() => [Journey])
-  @OneToMany(() => Journey, (journey) => journey.driver)
+  @OneToOne(() => Journey, (journey) => journey.driver)
   journey: Journey[];
 
   @Field(() => [Conversation])

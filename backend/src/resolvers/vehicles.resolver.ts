@@ -1,5 +1,6 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { Vehicle } from "../entities/vehicles";
+import { Context } from 'apollo-server-core';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Vehicle } from "../entities/vehicle";
 import * as VehicleService from "../services/vehicles.service";
 import { CreateVehicleInputType } from "../types/CreateVehicleInputType";
 import { DeleteResult } from "typeorm";
@@ -17,10 +18,12 @@ export class VehicleResolver {
     }
 
     @Mutation(() => Vehicle)
+    @Authorized()
     async createVehicle(
-        @Arg("vehicleData") vehicleData: CreateVehicleInputType
+        @Arg("vehicleData") vehicleData: CreateVehicleInputType,
+        @Ctx() ctx: Context
     ): Promise<Vehicle | Error> {
-        return VehicleService.createVehicle(vehicleData);
+        return VehicleService.createVehicle(vehicleData, ctx);
     }
 
     @Mutation(() => Vehicle)

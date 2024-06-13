@@ -104,19 +104,15 @@ const UpdateProfilePage = () => {
   };
 
   const loadPicture = async (e: any) => {
-    console.log("load picture");
     e.preventDefault();
     const url = "http://localhost:8000/upload";
 
     if (file) {
       const formData = new FormData();
-      console.log("file", file);
       formData.append("file", file, file?.name);
-      console.log("form data", formData);
       try {
         const response = await axios.post(url, formData);
         setImageUrl(response.data.filename);
-        console.log("image url", imageUrl);
       } catch (error) {
         console.error(error);
       }

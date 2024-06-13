@@ -137,6 +137,7 @@ const CategoryPage = () => {
         },
       });
       setIsCategoryCreated(true);
+      setNewWording("");
       successToast("Catégorie modifiée avec succès");
     } catch (error) {
       errorToast(

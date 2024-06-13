@@ -5,7 +5,7 @@ import { Journey } from "../entities/journey";
 import { Reservation } from "../entities/reservation";
 import { Tag } from "../entities/tag";
 import { User } from "../entities/user";
-import { Vehicle } from "../entities/vehicles";
+import { Vehicle } from "../entities/vehicle";
 import { Message } from "../entities/message";
 import { Conversation } from "../entities/conversations";
 
