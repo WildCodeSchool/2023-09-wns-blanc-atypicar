@@ -1,6 +1,6 @@
 import { Context } from 'apollo-server-core';
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { Vehicle } from "../entities/vehicles";
+import { Vehicle } from "../entities/vehicle";
 import * as VehicleService from "../services/vehicles.service";
 import { CreateVehicleInputType } from "../types/CreateVehicleInputType";
 import { DeleteResult } from "typeorm";

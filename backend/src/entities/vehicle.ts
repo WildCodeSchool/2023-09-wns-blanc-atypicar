@@ -5,12 +5,14 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Field, ObjectType } from "type-graphql";
 import { User } from "./user";
 import { Category } from "./category";
+
 
 @ObjectType()
 @Entity()
@@ -44,7 +46,8 @@ export class Vehicle extends BaseEntity {
   user: User;
 
 
-  @Field(() => Category)
-  @ManyToMany(() => Category, (category) => category.id)
-  category: number;
+
+  @Field(() => Category, { nullable: true })
+  @ManyToOne(() => Category, category => category.wording, { nullable: true })
+  category: Category;
 }

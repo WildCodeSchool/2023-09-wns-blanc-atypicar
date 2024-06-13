@@ -1,7 +1,8 @@
 import { AuthContext } from "@/contexts/authContext";
+import { Category } from "@/types/category";
 import { Vehicle } from "@/types/vehicle";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Button, Image, Input } from "@nextui-org/react";
+import { Button, Image, Input, Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { RiCoinsLine } from "react-icons/ri";
@@ -16,7 +17,11 @@ query Query($getVehicleByIdId2: Float!) {
     name
     seats
     picture
-
+category{
+    id
+    wording
+    creationDate
+}
   }
 }
 `;
@@ -35,22 +40,41 @@ mutation Mutation($vehicleData: CreateVehicleInputType!, $updateVehicleId: Float
 }
 `;
 
+export const GET_CATEGORIES = gql`
+query Query {
+  getCategories {
+    id
+    wording
+    creationDate
+  }
+}
+`;
+
 export default function UpdateCarPage() {
     const router = useRouter();
     const { id } = router.query;
-    const [vehicleInfos, setVehicleInfos] = useState<Vehicle>();
+    const [vehicleInfos, setVehicleInfos] = useState<Vehicle | undefined>(undefined);
     const { currentUser } = useContext(AuthContext);
-
+    const [updateVehicle] = useMutation(UPDATE_VEHICLE);
+    const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
     const { loading, error, data, refetch } = useQuery(GET_VEHICLE_INFOS, {
         variables: { getVehicleByIdId2: Number(id) },
         onCompleted: (data) => {
             setVehicleInfos(data.getVehicleById);
+            setSelectedCategory(data.getVehicleById.category.id);
         }
     });
 
+    const { loading: loadingCategories, error: errorCategories, data: dataCategories } = useQuery(GET_CATEGORIES, {
+        onCompleted: (data) => {
 
-    const [updateVehicle] = useMutation(UPDATE_VEHICLE);
-    console.log(vehicleInfos)
+            setCategories(data.getCategories);
+        }
+
+    });
+    console.log("selectedCategory", selectedCategory)
+
     const handleSubmit = async (event: FormEvent): Promise<void> => {
         event.preventDefault();
 
@@ -63,7 +87,8 @@ export default function UpdateCarPage() {
                         model: vehicleInfos?.model,
                         seats: parseInt(vehicleInfos?.seats?.toString() ?? ''),
                         picture: vehicleInfos?.picture,
-                        userId: currentUser?.id
+                        userId: currentUser?.id,
+                        categoryIds: selectedCategory
                     },
                     updateVehicleId: Number(id)
                 },
@@ -87,44 +112,56 @@ export default function UpdateCarPage() {
     return (
         <>
             <div className="flex flex-col w-full mt-8 gap-10">
-                <h2 className="text-2xl font-black text-center">Modi sur mon véhicule</h2>
-                <div className="flex flex-col md:flex-row justify-center items-center px-20">
-                    <div className="w-1/2">
+                <h2 className="text-2xl font-black text-center">Modifier mon véhicule</h2>
+                <div className="flex flex-col md:flex-row justify-center items-center px-4 md:px-20 gap-6 md:gap-10">
+                    <div className="w-auto md:w-1/2">
                         <Image
-                            className="rounded-md object-cover w-full "
+                            className="rounded-md object-cover w-full"
                             alt="Card background"
                             src="https://picsum.photos/500/300"
                         />
                     </div>
-                    <div className="w-1/2 flex flex-col md:flex-wrap justify-center gap-20">
-                        <div className="flex flex-wrap -mx-2">
-                            <Input
-                                label="Nom"
-                                value={vehicleInfos?.name}
-                                onChange={(e) => setVehicleInfos({ ...vehicleInfos, name: e.target.value })}
-                                className="w-1/2 px-2"
-                            />
-                            <Input
-                                label="Marque"
-                                value={vehicleInfos?.brand}
-                                onChange={(e) => setVehicleInfos({ ...vehicleInfos, brand: e.target.value })}
-                                className="w-1/2 px-2"
-                            />
-                        </div>
-                        <div className="flex flex-wrap -mx-2 mt-4">
-                            <Input
-                                label="Modèle"
-                                value={vehicleInfos?.model}
-                                className="w-1/2 px-2"
-                                onChange={(e) => setVehicleInfos({ ...vehicleInfos, model: e.target.value })}
-                            />
-                            <Input
-                                label="Nombre de places"
-                                value={vehicleInfos?.seats.toString()}
-                                className="w-1/2 px-2"
-                                onChange={(e) => setVehicleInfos({ ...vehicleInfos, seats: e.target.value })}
-                            />
-                        </div>
+                    <div className="w-full md:w-[45vw] flex flex-col md:flex-row md:flex-wrap justify-center gap-6">
+
+                        <Input
+                            label="Nom"
+                            value={vehicleInfos?.name}
+                            onChange={(e) => setVehicleInfos({ ...vehicleInfos!, name: e.target.value })}
+                            className="w-full md:w-[45%]"
+                        />
+                        <Input
+                            label="Marque"
+                            value={vehicleInfos?.brand}
+                            onChange={(e) => setVehicleInfos({ ...vehicleInfos!, brand: e.target.value })}
+                            className="w-full md:w-[45%]"
+                        />
+
+
+                        <Input
+                            label="Modèle"
+                            value={vehicleInfos?.model}
+                            className="w-full md:w-[45%]"
+                            onChange={(e) => setVehicleInfos({ ...vehicleInfos!, model: e.target.value })}
+                        />
+                        <Input
+                            label="Nombre de places"
+                            value={vehicleInfos?.seats.toString()}
+                            className="w-full md:w-[45%]"
+                            onChange={(e) => setVehicleInfos({ ...vehicleInfos!, seats: Number(e.target.value) })}
+                        />
+
+                        <Select
+                            label="Type de véhicule"
+                            className="w-full px-2"
+                            selectedKeys={selectedCategory?.toString()}
+                            onChange={(value) => setSelectedCategory(Number(value.target.value))}
+                        >
+                            {categories.map((category) => (
+                                <SelectItem key={category.id} value={category.id.toString()}>
+                                    {category.wording}
+                                </SelectItem>
+                            ))}
+                        </Select>
                     </div>
                 </div>
                 <Button

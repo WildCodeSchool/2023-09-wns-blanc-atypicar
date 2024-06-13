@@ -1,8 +1,20 @@
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
+import {
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Link,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+} from "@nextui-org/react";
 import Image from "next/image";
 import Logo from "../assets/images/Logo.svg";
 import { CiSearch, CiCirclePlus } from "react-icons/ci";
-import { useState, useEffect, useContext } from 'react';
+import { IoIosSettings } from "react-icons/io";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/contexts/authContext";
 import { successToast } from "./Toast";
@@ -11,7 +23,6 @@ export default function CustomNavbar() {
   const router = useRouter();
   const [token, setToken] = useState(localStorage.getItem("token"));
   const { currentUser } = useContext(AuthContext);
-
 
   useEffect(() => {
     if (!token) {
@@ -23,7 +34,7 @@ export default function CustomNavbar() {
     localStorage.removeItem("token");
     setToken(null);
     successToast("Vous êtes déconnecté");
-    router.push("/")
+    router.push("/");
   };
 
   return (
@@ -34,22 +45,43 @@ export default function CustomNavbar() {
         className="md:w-4/6 w-11/12 mt-8 shadow-lg rounded-full p-0"
       >
         <Link href="/">
-          <NavbarBrand className="flex items-center justify-end xl:justify-start" >
+          <NavbarBrand className="flex items-center justify-end xl:justify-start">
             <Image src={Logo} alt="logo" height={35} />
-            <p className="pl-2 text-3xl  hidden xl:flex font-bold text-default font-montserrat ">Atypi'Car</p>
+            <p className="pl-2 text-3xl  hidden xl:flex font-bold text-default font-montserrat ">
+              Atypi'Car
+            </p>
           </NavbarBrand>
         </Link>
         <NavbarContent className="flex navbar-content">
+          {token && currentUser?.role === "ADMIN" && (
+            <Dropdown>
+              <DropdownTrigger>
+                <button>
+                  <IoIosSettings className="text-4xl" />
+                </button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Administrator menu ">
+                <DropdownItem key="categories" href="/categories">
+                  Modifier les catégories
+                </DropdownItem>
+                <DropdownItem key="categories">A venir</DropdownItem>
+                <DropdownItem key="categories">A venir !</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
           <a href="/search" className=" gap-2 mr-4 hidden xl:flex">
             <CiSearch className="h-auto text-2xl" />
             Rechercher
-          </a >
-          {token &&
-            <a href="/journeys/new" className=" gap-2 mr-0 2xl:mr-8 hidden xl:flex">
+          </a>
+          {token && (
+            <a
+              href="/journeys/new"
+              className=" gap-2 mr-0 2xl:mr-8 hidden xl:flex"
+            >
               <CiCirclePlus className="h-auto text-2xl" />
               Publier un trajet
             </a>
-          }
+          )}
           <Dropdown>
             <NavbarItem>
               <DropdownTrigger>
@@ -62,31 +94,52 @@ export default function CustomNavbar() {
                 />
               </DropdownTrigger>
             </NavbarItem>
-            {token ?
+            {token ? (
               <DropdownMenu
                 aria-label="User menu actions"
                 color="secondary"
                 onAction={(actionKey) => console.log(actionKey)}
               >
-                {/* <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem> */}
+                <DropdownItem className="mx-auto" showDivider>Bonjour {currentUser?.firstName}</DropdownItem>
 
-                <DropdownItem key="profile" href="/profil/infos">Profil</DropdownItem>
-                <DropdownItem key="myjourneys" href="/journeys">Mes trajets</DropdownItem>
-                <DropdownItem key="myreservations" href="/reservations">Mes réservations</DropdownItem>
-                <DropdownItem key="search" href="/search" className="block xl:hidden">
+                <DropdownItem key="profile" href="/profil/infos">
+                  Profil
+                </DropdownItem>
+                <DropdownItem key="myjourneys" href="/journeys">
+                  Mes trajets
+                </DropdownItem>
+                <DropdownItem key="myreservations" href="/reservations">
+                  Mes réservations
+                </DropdownItem>
+                <DropdownItem
+                  key="search"
+                  href="/search"
+                  className="block xl:hidden"
+                >
                   Rechercher
                 </DropdownItem>
-                <DropdownItem key="journeys/new" href="/journeys/new" className="block xl:hidden">Publier un trajet</DropdownItem>
-                <DropdownItem key="logout" color="secondary" onClick={handleLogout}>
-
+                <DropdownItem
+                  key="journeys/new"
+                  href="/journeys/new"
+                  className="block xl:hidden"
+                >
+                  Publier un trajet
+                </DropdownItem>
+                <DropdownItem
+                  key="logout"
+                  color="secondary"
+                  onClick={handleLogout}
+                >
                   Se déconnecter
                 </DropdownItem>
               </DropdownMenu>
-              :
+            ) : (
               <DropdownMenu
                 aria-label="User menu actions"
                 color="secondary"
-                onAction={(actionKey) => console.log({ actionKey: String(actionKey) })}
+                onAction={(actionKey) =>
+                  console.log({ actionKey: String(actionKey) })
+                }
               >
                 <DropdownItem key="signup" href="/signup">
                   S'inscrire
@@ -95,11 +148,10 @@ export default function CustomNavbar() {
                   Se connecter
                 </DropdownItem>
               </DropdownMenu>
-
-            }
+            )}
           </Dropdown>
         </NavbarContent>
       </Navbar>
-    </div >
+    </div>
   );
 }

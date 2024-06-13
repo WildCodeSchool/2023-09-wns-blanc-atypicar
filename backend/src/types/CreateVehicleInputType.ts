@@ -20,6 +20,6 @@ export class CreateVehicleInputType {
     @Field()
     userId: number;
 
-    @Field(() => [Int], { nullable: true })
+    @Field(() => [Int])
     categoryIds: number[];
 }

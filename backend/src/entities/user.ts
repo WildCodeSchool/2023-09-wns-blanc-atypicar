@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Tag } from "./tag";
-import { Vehicle } from "./vehicles";
+import { Vehicle } from "./vehicle";
 import { Journey } from "./journey";
 import { Conversation } from "./conversations";
 

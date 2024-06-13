@@ -1,30 +1,43 @@
-import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { Category } from "../entities/category";
-import * as categoryService from "../services/category.service";
+import { CategoryService } from "../services/category.service";
 
 @Resolver(Category)
 export class CategoryResolver {
+  private categoryService: CategoryService;
+
+  constructor() {
+    this.categoryService = new CategoryService();
+  }
+
   @Query(() => [Category])
-  getCategories(): Promise<Category[]> {
-    return categoryService.findCategories();
+  async getCategories(): Promise<Category[]> {
+    return this.categoryService.findCategories();
   }
 
   @Mutation(() => Category)
-  createCategory(@Arg("wording") wording: string): Promise<Category> {
-    return categoryService.createCategory(wording);
+  async createCategory(
+    @Arg("wording") wording: string
+  ): Promise<Category | Error> {
+    return this.categoryService.createCategory(wording);
   }
 
   @Mutation(() => Category)
-  updateCategory(
+  async updateCategory(
     @Arg("id") id: number,
     @Arg("wording") wording: string
   ): Promise<Category | Error> {
-    return categoryService.updateCategory(id, wording);
+    return this.categoryService.updateCategory(id, wording);
   }
 
-  @Mutation(() => String)
-  async deleteCategory(@Arg("id") id: number): Promise<string> {
-    const result = await categoryService.deleteCategory(id);
-    return "OK";
+  @Mutation(() => Boolean)
+  async deleteCategory(@Arg("id") id: number): Promise<boolean> {
+    await this.categoryService.deleteCategory(id);
+    return true;
+  }
+
+  @Query(() => [Category])
+  async getRandomCategories(): Promise<Category[]> {
+    return this.categoryService.getRandomCategories();
   }
 }

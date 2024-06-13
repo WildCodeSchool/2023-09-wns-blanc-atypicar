@@ -43,6 +43,7 @@ export async function modifyUser(
     userToUpdate.firstName = user.firstName;
     userToUpdate.lastName = user.lastName;
     userToUpdate.picture = user.picture;
+    userToUpdate.birthday = user.birthday;
   }
 
   return userToUpdate.save();
@@ -53,7 +54,7 @@ export async function modifyUser(
 export async function getUserProfileInfos(id: number): Promise<User> {
   const user = await User.findOne({
     where: { id: id },
-    relations: ['vehicle']
+    relations: ['vehicle', 'vehicle.category']
   });
 
   if (!user) {

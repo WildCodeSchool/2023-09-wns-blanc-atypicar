@@ -1,6 +1,7 @@
 import { AuthContext } from "@/contexts/authContext";
-import { gql, useMutation } from "@apollo/client";
-import { Button, Input, user } from "@nextui-org/react";
+import { Category } from "@/types/category";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { Button, Input, Select, SelectItem, user } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { FormEvent, useContext, useEffect, useState } from "react";
 
@@ -14,14 +15,21 @@ mutation CreateVehicle($vehicleData: CreateVehicleInputType!) {
     name
     picture
     seats
+    category{
+        id
+        wording
+        creationDate
   }
 }
+}
 `;
-
-
-export const DELETE_VEHCILE = gql`
-mutation DeleteVehicle($deleteVehicleId: Float!) {
-  deleteVehicle(id: $deleteVehicleId)
+export const GET_CATEGORIES = gql`
+query Query {
+  getCategories {
+    id
+    wording
+    creationDate
+  }
 }
 `;
 
@@ -36,16 +44,12 @@ export default function AddCar() {
     const [createVehicle] = useMutation(CREATE_VEHICLE);
     const router = useRouter();
     const { currentUser } = useContext(AuthContext);
-
-
-
-    const [deleteCard] = useMutation(DELETE_VEHCILE, {
-        variables: {
-            deleteVehicleId: parseInt(currentUser?.vehicle?.id.toString() ?? "")
+    const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const { data } = useQuery(GET_CATEGORIES, {
+        onCompleted: (data) => {
+            setCategories(data.getCategories);
         },
-        onCompleted: () => {
-            router.push("/journeys");
-        }
     });
 
 
@@ -62,7 +66,8 @@ export default function AddCar() {
                         model: newVehicle.model,
                         seats: parseInt(newVehicle.seats.toString()),
                         picture: newVehicle.picture,
-                        userId: currentUser?.id
+                        userId: currentUser?.id,
+                        categoryIds: selectedCategory
                     },
                 },
                 onCompleted: (data) => {
@@ -76,6 +81,7 @@ export default function AddCar() {
 
         };
     }
+    console.log("selectedCategory", selectedCategory)
 
     useEffect(() => {
         if (newVehicle.seats > 20) {
@@ -158,6 +164,20 @@ export default function AddCar() {
                     className="md:w-1/3 w-full px-2"
 
                 />
+                <Select
+                    label="Type de véhicule"
+                    selectedKeys={selectedCategory?.toString()}
+                    onChange={(value) => {
+                        setSelectedCategory(parseInt(value.target.value));
+                    }}
+                    className="md:w-1/3 w-full px-2"
+                >
+                    {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id.toString()}>
+                            {category.wording}
+                        </SelectItem>
+                    ))}
+                </Select>
                 <Input
                     label="Photo"
                     type="file"

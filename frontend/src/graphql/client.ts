@@ -104,6 +104,14 @@ export const GET_JOURNEY_BY_ID = gql`
         picture
         description
       }
+      reservation {
+        passenger {
+          id
+          firstName
+          lastName
+        }
+        seatNumber
+      }
     }
   }
 `;
@@ -172,6 +180,13 @@ export const GET_ALL_RESERVATIONS = gql`
         endDate
         availableSeats
         price
+        driver {
+          id
+          firstName
+          lastName
+          picture
+          description
+        }
       }
       creationDate
       seatNumber

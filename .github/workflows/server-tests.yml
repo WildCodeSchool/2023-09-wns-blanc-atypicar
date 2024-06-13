@@ -1,7 +1,13 @@
 name: server-tests-ci
 
-on: pull_request
-
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      
 env:
   JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
   POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -38,7 +44,7 @@ jobs:
 
   docker:
     needs: server-tests
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU

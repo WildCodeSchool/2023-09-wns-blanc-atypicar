@@ -2,7 +2,7 @@ export type UserUpdate = {
   firstName: string;
   lastName: string;
   email: string;
-  birthday: Date | string;
+  birthday: string;
   picture: string;
   description: string;
   vehicle: {
@@ -12,5 +12,10 @@ export type UserUpdate = {
     name: string;
     seats: number;
     picture: string;
+    category: {
+      id: number;
+      wording: string;
+      creationDate: string;
+    }
   }
 }

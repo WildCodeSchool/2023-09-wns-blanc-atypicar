@@ -8,4 +8,9 @@ export type Vehicle = {
     seats: number;
     picture?: string;
     user?: User;
+    category: {
+        id: number;
+        wording: string;
+        creationDate: Date;
+    };
 }

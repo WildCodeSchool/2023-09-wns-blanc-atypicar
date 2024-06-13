@@ -1,3 +1,5 @@
+import { Reservation } from "./reservation";
+
 export type Journey = {
   arrivalPoint: string;
   availableSeats: number;
@@ -14,19 +16,7 @@ export type Journey = {
     picture: string;
     description: string;
   };
-  reservation: {
-    id: number;
-    status: string;
-    creationDate: string;
-    seatNumber: number;
-    passenger: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      picture: string;
-      description: string;
-    };
-  };
+  reservation: Reservation[]
 };
 
 export type JourneyInput = {
