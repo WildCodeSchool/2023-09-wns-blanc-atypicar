@@ -37,7 +37,7 @@ export async function searchJourney(
 export function searchJourneysByDriver(driverId: number): Promise<Journey[]> {
   try {
     return Journey.find({
-      relations: ["driver"],
+      relations: ["driver", "driver.vehicle", "driver.vehicle.category"],
       where: { driver: { id: driverId } },
     });
   } catch (error) {
@@ -47,7 +47,13 @@ export function searchJourneysByDriver(driverId: number): Promise<Journey[]> {
 
 export function findJourney(id: number): Promise<Journey | null> {
   return Journey.findOne({
-    relations: ['driver', 'reservation', 'reservation.passenger'],
+    relations: [
+      "driver",
+      "reservation",
+      "reservation.passenger",
+      "driver.vehicle",
+      "driver.vehicle.category",
+    ],
     where: { id },
   });
 }

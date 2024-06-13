@@ -1,12 +1,9 @@
-import React, { useState } from "react";
 import ReservationCard from "@/components/ReservationCard";
 import { useQuery } from "@apollo/client";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
-import { Reservation } from "@/types/reservation";
 import { GET_ALL_RESERVATIONS } from "@/graphql/client";
 
 const ReservationsPage = () => {
-  const [reservations, setReservations] = useState<Reservation[]>([]);
   const { loading, error, data } = useQuery(GET_ALL_RESERVATIONS);
 
   if (loading) return <p>Loading...</p>;
@@ -49,7 +46,7 @@ const ReservationsPage = () => {
         </h1>
         <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
           {getReservations.map((reservation: any) => (
-            <ReservationCard key={reservation._id} reservation={reservation} />
+            <ReservationCard key={reservation.id} reservation={reservation} />
           ))}
         </div>
       </div>

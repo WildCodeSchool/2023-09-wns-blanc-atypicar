@@ -1,4 +1,5 @@
 import { Reservation } from "./reservation";
+import { Vehicle } from "./vehicle";
 
 export type Journey = {
   arrivalPoint: string;
@@ -15,8 +16,9 @@ export type Journey = {
     lastName: string;
     picture: string;
     description: string;
+    vehicle: Vehicle;
   };
-  reservation: Reservation[]
+  reservation: Reservation[];
 };
 
 export type JourneyInput = {

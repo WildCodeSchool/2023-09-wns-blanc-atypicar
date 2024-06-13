@@ -104,6 +104,16 @@ export const GET_JOURNEY_BY_ID = gql`
         lastName
         picture
         description
+        vehicle {
+          name
+          model
+          picture
+          brand
+          category {
+            wording
+            id
+          }
+        }
       }
       reservation {
         passenger {
@@ -187,10 +197,57 @@ export const GET_ALL_RESERVATIONS = gql`
           lastName
           picture
           description
+          vehicle {
+            name
+            model
+            picture
+            brand
+            category {
+              wording
+              id
+            }
+          }
         }
       }
       creationDate
       seatNumber
     }
+  }
+`;
+
+export const GET_USER_PROFILE_INFOS = gql`
+  query Query {
+    getUserProfileInfos {
+      id
+      firstName
+      lastName
+      birthday
+      email
+      role
+      creationDate
+      verifiedLicense
+      verifiedEmail
+      picture
+      description
+      vehicle {
+        id
+        model
+        brand
+        name
+        seats
+        picture
+        category {
+          id
+          wording
+          creationDate
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_VEHICLE = gql`
+  mutation DeleteVehicle($deleteVehicleId: Float!) {
+    deleteVehicle(id: $deleteVehicleId)
   }
 `;

@@ -2,7 +2,7 @@ import { Journey } from "@/types/journey";
 import { useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState, useContext } from "react";
-import { Divider, Image, Button, Avatar } from "@nextui-org/react";
+import { Divider, Image, Button, Avatar, Chip } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -10,9 +10,7 @@ import { AiFillTool } from "react-icons/ai";
 import { AuthContext } from "@/contexts/authContext";
 import Link from "next/link";
 import { DELETE_JOURNEY, GET_JOURNEY_BY_ID } from "@/graphql/client";
-import { parse } from "path";
 import { MdAirlineSeatReclineExtra } from "react-icons/md";
-
 
 const JourneyDetail = () => {
   const router = useRouter();
@@ -32,7 +30,7 @@ const JourneyDetail = () => {
 
   const [deleteJourney] = useMutation(DELETE_JOURNEY, {
     variables: {
-      id: parseInt(id?.toString() ?? "")
+      id: parseInt(id?.toString() ?? ""),
     },
     onCompleted: () => {
       router.push("/journeys");
@@ -78,8 +76,25 @@ const JourneyDetail = () => {
             </li>
           </ol>
         </nav>
+        {journey.driver.id == currentUser?.id && (
+          <div className="flex justify-end gap-4 px-12 mt-12">
+            <Link href={`/journeys/update/${id}`}>
+              <Button className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md">
+                <AiFillTool />
+                Modifier
+              </Button>
+            </Link>
 
-        <div>
+            <Button
+              onClick={() => deleteJourney()}
+              className="inline-flex items-center px-2 py-2 bg-danger hover:bg-danger-800 text-white text-sm font-medium rounded-md"
+            >
+              <RiDeleteBinLine />
+              Supprimer
+            </Button>
+          </div>
+        )}
+        <div className="-mt-10">
           <h2 className="flex justify-center pt-10 pb-5 text-xl font-bold font-montserrat">
             {formatDate(journey.startDate)}
           </h2>
@@ -87,7 +102,7 @@ const JourneyDetail = () => {
             <section className=" flex flex-col md:flex-row gap-8 justify-center items-center  w-2/3">
               <Image
                 alt="Card background"
-                src="https://picsum.photos/450/300"
+                src={journey.driver.vehicle.picture}
               />
               <div>
                 {/* first line */}
@@ -125,46 +140,20 @@ const JourneyDetail = () => {
                     </p>
                   )}
                 </div>
-
-
                 <Divider className=" my-6" />
-                {journey.driver.id == currentUser?.id && (
-                  <div className="flex justify-center gap-4">
-                    <Link href={`/journeys/update/${id}`}>
-                      <Button className="inline-flex items-center px-2 py-2 bg-success hover:bg-success-800 text-white text-sm font-medium rounded-md">
-                        <AiFillTool />
-                        Modifier
-                      </Button>
-                    </Link>
-
-                    <Button
-                      onClick={() => deleteJourney()}
-                      className="inline-flex items-center px-2 py-2 bg-danger hover:bg-danger-800 text-white text-sm font-medium rounded-md"
-                    >
-                      <RiDeleteBinLine />
-                      Supprimer
-                    </Button>
-                  </div>
-                )}
+                <div className="flex justify-between">
+                  <span>
+                    {journey.driver.vehicle.brand}{" "}
+                    {journey.driver.vehicle.model}
+                  </span>
+                  <Chip className="text-white">
+                    {journey.driver.vehicle.category.wording}
+                  </Chip>
+                </div>
               </div>
             </section>
-            <div className="flex flex-row gap-4 items-center self-start w-2/5 mx-auto">
-              <Avatar
-                isBordered
-                as="button"
-                color="success"
-                size="md"
-                src={journey.driver.picture}
-              />
-              <h4>{journey.driver.firstName} </h4>
-            </div>
-            <Divider className=" w-2/5" />
-            <p className="pt-8 px-4">{journey.description}</p>
-
-            <Divider className=" w-2/5" />
-            <p className="text-xl font-bold underline underline-offset-4 pt-8 px-4">Utilisteurs ayant réservés</p>
-            {journey.reservation.map((reservation) => (
-              <div key={reservation.id} className="flex flex-row gap-4 items-center self-start w-2/5 mx-auto">
+            <section className="flex flex-col pt-12 justify-start align-start">
+              <div className="flex flex-row gap-4 items-center">
                 <Avatar
                   isBordered
                   as="button"
@@ -172,14 +161,35 @@ const JourneyDetail = () => {
                   size="md"
                   src={journey.driver.picture}
                 />
-                <span>{reservation.passenger.firstName} {reservation.passenger.lastName}</span>
+                <h4>{journey.driver.firstName} </h4>
+              </div>
+              <p className="pt-8 px-4 text-right">{journey.description}</p>
+            </section>
+            <Divider className=" w-2/5" />
+            <p className="text-xl font-bold underline underline-offset-4 pt-8 px-4">
+              Utilisateurs ayant réservé
+            </p>
+            {journey.reservation.map((reservation) => (
+              <div
+                key={reservation.id}
+                className="flex flex-row gap-4 items-center self-start w-2/5 mx-auto"
+              >
+                <Avatar
+                  isBordered
+                  as="button"
+                  color="success"
+                  size="md"
+                  src={journey.driver.picture}
+                />
+                <span>
+                  {reservation.passenger.firstName}{" "}
+                  {reservation.passenger.lastName}
+                </span>
                 {[...Array(reservation.seatNumber)].map((_, index) => (
                   <MdAirlineSeatReclineExtra key={index} />
                 ))}
               </div>
             ))}
-
-
 
             {journey &&
               currentUser &&
@@ -198,7 +208,7 @@ const JourneyDetail = () => {
               ))}
           </div>
         </div>
-      </div >
+      </div>
     );
   }
 };

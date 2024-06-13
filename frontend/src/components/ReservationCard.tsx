@@ -16,7 +16,6 @@ type ReservationCardProps = {
 
 const ReservationCard = ({ reservation }: ReservationCardProps) => {
   const { journey } = reservation;
-
   const totalPrice = journey.price * reservation.seatNumber;
 
   return (
@@ -24,7 +23,7 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
       <Image
         className="h-52 w-32 max-w-none rounded-r-none object-cover"
         alt="Card background"
-        src="https://www.largus.fr/images/images/bmw-m3-competition-2020-3.jpg"
+        src={journey.driver.vehicle.picture}
       />
       <div className="flex flex-col justify-between items-center p-2 h-52">
         <div className="flex flex-col md:flex-row">
@@ -45,12 +44,13 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
           </CardHeader>
           <CardBody className="py-1 ml-0 md:ml-4 md:p-3 w-auto">
             <button
-              className={`px-4 py-1 text-white rounded-full ${reservation.status === "VALIDATED"
-                ? "bg-green-500"
-                : reservation.status === "CANCELED"
-                  ? "bg-red-500"
-                  : ""
-                }`}
+              className={`px-4 py-1 text-white rounded-full ${
+                reservation.status === "VALIDATED"
+                  ? "bg-green-500"
+                  : reservation.status === "CANCELED"
+                    ? "bg-red-500"
+                    : ""
+              }`}
             >
               {reservation.status === "VALIDATED"
                 ? "Validé"
@@ -72,7 +72,7 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
             as="button"
             color="success"
             size="md"
-            src="https://i.pravatar.cc/300"
+            src={reservation.journey.driver.picture}
           />
           <h4>{journey.driver.firstName}</h4>
           <h4 className="ml-auto">{totalPrice}€</h4>

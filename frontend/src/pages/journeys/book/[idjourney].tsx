@@ -13,7 +13,6 @@ export default function BookJourneyPage() {
   const id = router.query.idjourney;
   const [numberSeats, setNumberSeats] = useState<number>(1);
   const [journey, setJourney] = useState<Journey>();
-  const [userEmail, setUserEmail] = useState<string>("");
   const { currentUser } = useContext(AuthContext);
 
   const { loading, error } = useQuery(GET_JOURNEY_BY_ID, {
@@ -57,7 +56,10 @@ export default function BookJourneyPage() {
         <div className="flex flex-col  gap-4 md:items-center md:mb-[4rem] w-4/5 md:w-3/5 rounded-xl bg-[#EFF0F6] md:shadow-xl px-4 md:px-1 py-10 md:py-4">
           <p className="mx-auto"> {formatDate(journey.endDate ?? "")}</p>
           <div className="flex flex-col md:flex-row w-full gap-3 items-center justify-center">
-            <Image alt="Card background" src="https://picsum.photos/400/300" />
+            <Image
+              alt="Véhicule du covoiturage"
+              src={journey.driver.vehicle.picture}
+            />
             <div className="md:w-2/4 md:px-10">
               <div className="h-36 w-full grid-cols-2 pb-0 px-4 gap-8 grid">
                 <p className="text font-bold">

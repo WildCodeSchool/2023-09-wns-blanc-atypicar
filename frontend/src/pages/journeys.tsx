@@ -11,7 +11,7 @@ export const MyJourneys = () => {
   const [journeys, setJourneys] = useState<Journey[]>([]);
   const { currentUser } = useContext(AuthContext);
 
-  const { loading, error, data } = useQuery(FIND_JOURNEY_BY_DRIVER, {
+  const { loading, error } = useQuery(FIND_JOURNEY_BY_DRIVER, {
     variables: {
       driverId: currentUser?.id,
     },
@@ -57,11 +57,12 @@ export const MyJourneys = () => {
           Tous mes trajets publiés
         </h1>
         <div className="flex justify-evenly max-w-screen-lg  mx-auto w-full flex-wrap gap-8 ">
-          {journeys.map((journey) => (
-            <Link data-testid="journey-card" href={`/journeys/${journey.id}`}>
-              <JourneyCard key={journey.id} journey={journey} />
-            </Link>
-          ))}
+          {journeys &&
+            journeys.map((journey) => (
+              <Link data-testid="journey-card" href={`/journeys/${journey.id}`}>
+                <JourneyCard key={journey.id} journey={journey} />
+              </Link>
+            ))}
         </div>
         {journeys.length < 1 && (
           <div className="p-8 text-center">Aucun trajet disponible.</div>
