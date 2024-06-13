@@ -37,9 +37,6 @@ export default function CustomNavbar({ currentUser }: any) {
     router.push("/");
   };
 
-  if (currentUser) {
-    console.log(currentUser);
-  }
   return (
     <div className="flex justify-center w-full	fixed z-50">
       <Navbar
