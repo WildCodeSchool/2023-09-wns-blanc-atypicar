@@ -3,5 +3,5 @@ node_modules
 */.env
 .env.*
 backend/build
-/logs
+*/logs
 images/uploads
