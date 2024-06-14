@@ -26,7 +26,7 @@ export class Reservation extends BaseEntity {
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.id)
-  passenger?: number;
+  passenger?: User;
 
   @Field()
   @Column()

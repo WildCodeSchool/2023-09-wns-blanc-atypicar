@@ -5,9 +5,10 @@ import { CreateReservationInputType } from "../types/CreateReservationInputType"
 
 export async function searchReservations(): Promise<Reservation[]> {
   return Reservation.find({
-    relations: ["journey", "journey.driver"],
+    relations: ["journey", "journey.driver", "passenger"],
   });
 }
+
 
 export async function findReservation(id: number): Promise<Reservation | null> {
   return Reservation.findOne({
@@ -16,6 +17,20 @@ export async function findReservation(id: number): Promise<Reservation | null> {
     },
     where: { id },
   });
+}
+
+export async function findUserReservation(id: number): Promise<Reservation[] | null> {
+
+  const reservation = await Reservation.find(
+    {
+      relations: ["journey", "journey.driver", "passenger"],
+      where: {
+        passenger: { id }
+      },
+    }
+  );
+
+  return reservation;
 }
 
 export async function addReservation(
