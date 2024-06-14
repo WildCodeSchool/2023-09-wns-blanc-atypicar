@@ -71,7 +71,6 @@ const ProfilPage = () => {
     });
 
 
-  if (userInfos) {
     return (
         <>
             <div className="flex flex-col w-full mt-8 gap-10">
