@@ -1,5 +1,8 @@
+import { GET_VEHICLE_BY_DRIVER } from "@/graphql/client";
 import { Journey } from "@/types/journey";
+import { Vehicle } from "@/types/vehicle";
 import { formatHour, calculateDuration } from "@/utils/formatDates";
+import { useQuery } from "@apollo/client";
 import {
   Card,
   CardHeader,
@@ -8,18 +11,35 @@ import {
   CardBody,
   CardFooter,
 } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 
 type JourneyCardProps = {
   journey: Journey;
 };
 
 const JourneyCard = ({ journey }: JourneyCardProps) => {
+  const [vehicles, setVehicles] = useState<Vehicle>();
+  const searchVehiclesByDriver = useQuery(GET_VEHICLE_BY_DRIVER, {
+    variables: {
+      driverId: journey.driver.id,
+    },
+    onCompleted: (data) => {
+      setVehicles(data.getVehiclesByUserId);
+    }
+  });
+
+  useEffect(() => {
+    if (journey.driver.id) {
+      searchVehiclesByDriver.refetch();
+    }
+  }, [journey.driver.id]);
+
   return (
     <Card isPressable className="flex flex-row">
       <Image
         className="h-56 w-32 max-w-none rounded-r-none object-cover"
         alt="Card background"
-        src="https://picsum.photos/200/200"
+        src={vehicles?.picture}
       />
 
       <div className="flex flex-col justify-between items-center p-2 h-52">

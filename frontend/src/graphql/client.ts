@@ -56,6 +56,7 @@ export const FIND_JOURNEY_BY_DRIVER = gql`
       availableSeats
       price
       driver {
+        id
         picture
         firstName
       }
@@ -69,8 +70,9 @@ export const SEARCH_JOURNEY = gql`
     $arrival: String
     $date: DateTime
     $seats: Float
+    $categoryIds: [Float!]
   ) {
-    getJourneys(start: $start, arrival: $arrival, date: $date, seats: $seats) {
+    getJourneys(start: $start, arrival: $arrival, date: $date, seats: $seats, categoryIds: $categoryIds) {
       id
       startingPoint
       arrivalPoint
@@ -80,6 +82,7 @@ export const SEARCH_JOURNEY = gql`
       availableSeats
       price
       driver {
+        id
         firstName
         picture
       }
@@ -193,4 +196,26 @@ export const GET_ALL_RESERVATIONS = gql`
       seatNumber
     }
   }
+`;
+export const GET_CATEGORIES = gql`
+query Query {
+  getCategories {
+    id
+    wording
+    creationDate
+  }
+}
+`;
+
+export const GET_VEHICLE_BY_DRIVER = gql`
+query Query($driverId: Float!) {
+  getVehiclesByUserId(driverId: $driverId) {
+    id
+    model
+    brand
+    name
+    seats
+    picture
+  }
+}
 `;

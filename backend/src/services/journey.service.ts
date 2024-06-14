@@ -1,13 +1,15 @@
-import { Between, DeleteResult, MoreThanOrEqual } from "typeorm";
+import { Between, DeleteResult, In, MoreThanOrEqual } from "typeorm";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
+import { User } from "../entities/user";
 
 export async function searchJourney(
   start: string,
   arrival: string,
   date: Date,
-  seats: number
+  seats: number,
+  categoryIds?: number[]
 ): Promise<Journey[] | Error> {
   const endDate = new Date(date);
   endDate.setHours(23, 59, 59, 999);
@@ -24,6 +26,30 @@ export async function searchJourney(
     },
     order: { startDate: "DESC" },
   };
+
+  if (categoryIds && categoryIds.length > 0) {
+    const usersWithCategory = await User.find({
+      relations: ['vehicle', 'vehicle.category'],
+      where: {
+        vehicle: {
+          category: {
+            id: In(categoryIds),
+          }
+        }
+      }
+    });
+
+    const userIds = usersWithCategory.map(user => user.id);
+
+    if (userIds.length > 0) {
+      searchFilter.where.driver = {
+        id: In(userIds),
+      };
+    } else {
+      return [];
+    }
+  }
+
 
   const journeys = await Journey.find(searchFilter);
 

@@ -116,7 +116,7 @@ const ProfilPage = () => {
                 {userInfos?.vehicle ? (
                     <>
                         <div className="flex flex-col md:flex-row justify-center items-center px-4 md:px-10 gap-6 md:gap-4">
-                            <div className="w-auto ">
+                            <div className="w-5/12 ">
                                 <Image
                                     className="rounded-md object-cover w-full"
                                     alt="Card background"
