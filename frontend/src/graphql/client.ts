@@ -242,3 +242,14 @@ query Query($driverId: Float!) {
   }
 }
 `;
+
+
+export const GET_CATEGORIES = gql`
+query Query {
+  getCategories {
+    id
+    wording
+    creationDate
+  }
+}
+`;
