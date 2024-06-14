@@ -12,7 +12,6 @@ export const MyJourneys = () => {
   const { currentUser } = useContext(AuthContext);
 
   const { loading, error } = useQuery(FIND_JOURNEY_BY_DRIVER, {
-  const { loading, error } = useQuery(FIND_JOURNEY_BY_DRIVER, {
     variables: {
       driverId: currentUser?.id,
     },

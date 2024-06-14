@@ -8,7 +8,6 @@ import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillTool } from "react-icons/ai";
 import { AuthContext } from "@/contexts/authContext";
-import Link from "next/link";
 import { DELETE_JOURNEY, GET_JOURNEY_BY_ID } from "@/graphql/client";
 import { MdAirlineSeatReclineExtra } from "react-icons/md";
 
