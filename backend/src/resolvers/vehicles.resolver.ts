@@ -38,4 +38,10 @@ export class VehicleResolver {
     async deleteVehicle(@Arg("id") id: number): Promise<DeleteResult | String> {
         return VehicleService.deleteVehicle(id);
     }
+
+    @Query(() => Vehicle)
+    async getVehiclesByUserId(@Arg("driverId") driverId: number): Promise<Vehicle | null> {
+        return await VehicleService.getVehiclesByUserId(driverId);
+    }
+
 }

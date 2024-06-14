@@ -1,3 +1,4 @@
+import { get } from 'http';
 import { DeleteResult } from "typeorm";
 import { Vehicle } from "../entities/vehicle";
 import { CreateVehicleInputType } from "../types/CreateVehicleInputType";
@@ -66,4 +67,8 @@ export async function deleteVehicle(id: number): Promise<DeleteResult | string> 
     }
     await Vehicle.delete(id);
     return "Le véhicule a bien été supprimé";
+}
+
+export async function getVehiclesByUserId(userId: number): Promise<Vehicle | null> {
+    return Vehicle.findOne({ where: { user: { id: userId } }, relations: ['user'] });
 }

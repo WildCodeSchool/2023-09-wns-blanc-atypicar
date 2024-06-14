@@ -56,6 +56,7 @@ export const FIND_JOURNEY_BY_DRIVER = gql`
       availableSeats
       price
       driver {
+        id
         picture
         firstName
       }
@@ -81,6 +82,7 @@ export const SEARCH_JOURNEY = gql`
       availableSeats
       price
       driver {
+        id
         firstName
         picture
       }
@@ -201,6 +203,19 @@ query Query {
     id
     wording
     creationDate
+  }
+}
+`;
+
+export const GET_VEHICLE_BY_DRIVER = gql`
+query Query($driverId: Float!) {
+  getVehiclesByUserId(driverId: $driverId) {
+    id
+    model
+    brand
+    name
+    seats
+    picture
   }
 }
 `;

@@ -9,7 +9,7 @@ import HeaderPicture from "../assets/images/Header.png";
 import SearchBar from "@/components/SearchBar";
 import { formattedDate } from "@/utils/formatDates";
 import { GoArrowRight } from "react-icons/go";
-import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
+import { Button, Checkbox } from "@nextui-org/react";
 import { GET_CATEGORIES, SEARCH_JOURNEY } from "@/graphql/client";
 import { Category } from "@/types/category";
 
