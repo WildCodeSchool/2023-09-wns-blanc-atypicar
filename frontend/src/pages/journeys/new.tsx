@@ -36,14 +36,16 @@ function NewJourney() {
       });
     } catch (error) {
       errorToast("Une erreur est survenue lors de la création du trajet");
-      console.error("Incident");
     }
   };
 
-
-
-
-  return <JourneyForm handleSubmit={handleSubmit} endDate={endDate} setEndDate={setEndDate} />;
+  return (
+    <JourneyForm
+      handleSubmit={handleSubmit}
+      endDate={endDate}
+      setEndDate={setEndDate}
+    />
+  );
 }
 
 export default NewJourney;

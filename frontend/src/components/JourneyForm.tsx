@@ -13,19 +13,26 @@ interface JourneyFormProps {
   setEndDate?: any;
 }
 
-const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDate, setEndDate }) => {
+const JourneyForm: React.FC<JourneyFormProps> = ({
+  journey,
+  handleSubmit,
+  endDate,
+  setEndDate,
+}) => {
   const router = useRouter();
   const [currentJourney, setCurrentJourney] = useState<
     JourneyInput | undefined
   >();
   const [citySuggestionsStart, setCitySuggestionsStart] = useState<any>();
   const [citySuggestionsEnd, setCitySuggestionsEnd] = useState<any>();
-  const [journeyDuration, setJourneyDuration] = useState<number>()
+  const [journeyDuration, setJourneyDuration] = useState<number>();
   useEffect(() => {
     if (journey) {
       setCurrentJourney({
         ...journey,
-        startDate: journey.startDate ? formatStringToDate(journey.startDate) : "",
+        startDate: journey.startDate
+          ? formatStringToDate(journey.startDate)
+          : "",
       });
       getCitySuggestions(journey?.startingPoint);
       getCitySuggestionsEnd(journey?.arrivalPoint);
@@ -34,25 +41,26 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
   const [coordinatesStart, setCoordinatesStart] = useState<string>();
   const [coordinatesEnd, setCoordinatesEnd] = useState<string>();
 
-
   const getCitySuggestions = async (input: any) => {
     try {
-      const response = await fetch(`https://us1.locationiq.com/v1/autocomplete?q=${encodeURIComponent(input)}&key=pk.41ec9155202c25b414d024e5ca533173&limit=5&dedupe=1&countrycodes=FR`);
+      const response = await fetch(
+        `https://us1.locationiq.com/v1/autocomplete?q=${encodeURIComponent(input)}&key=pk.41ec9155202c25b414d024e5ca533173&limit=5&dedupe=1&countrycodes=FR`
+      );
       if (!response.ok) {
-
       }
       const data = await response.json();
       setCitySuggestionsStart(data);
       return data;
     } catch (error) {
-      console.error('Error fetching city suggestions:', error);
-
+      console.error("Error fetching city suggestions:", error);
     }
   };
 
   const getCitySuggestionsEnd = async (input: any) => {
     try {
-      const response = await fetch(`https://us1.locationiq.com/v1/autocomplete?q=${encodeURIComponent(input)}&key=pk.41ec9155202c25b414d024e5ca533173&limit=5&dedupe=1&countrycodes=FR`);
+      const response = await fetch(
+        `https://us1.locationiq.com/v1/autocomplete?q=${encodeURIComponent(input)}&key=pk.41ec9155202c25b414d024e5ca533173&limit=5&dedupe=1&countrycodes=FR`
+      );
       if (!response.ok) {
         console.error("error");
       }
@@ -61,16 +69,17 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
       setCitySuggestionsEnd(data);
       return data;
     } catch (error) {
-      console.error('Error fetching city suggestions:', error);
+      console.error("Error fetching city suggestions:", error);
     }
   };
 
   const fetchJourneyDuration = async () => {
-
-    const response = await fetch(`https://us1.locationiq.com/v1/directions/driving/${coordinatesStart};${coordinatesEnd}?key=pk.41ec9155202c25b414d024e5ca533173&steps=true&alternatives=true&geometries=polyline&overview=full&`);
+    const response = await fetch(
+      `https://us1.locationiq.com/v1/directions/driving/${coordinatesStart};${coordinatesEnd}?key=pk.41ec9155202c25b414d024e5ca533173&steps=true&alternatives=true&geometries=polyline&overview=full&`
+    );
 
     if (!response.ok) {
-      console.error('Failed to fetch journey duration');
+      console.error("Failed to fetch journey duration");
     }
 
     const data = await response.json();
@@ -80,35 +89,34 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
       if (duration) {
         setJourneyDuration(duration);
       } else {
-        console.error('Duration is undefined or null.');
+        console.error("Duration is undefined or null.");
       }
     } else {
-      console.error('Routes are undefined or empty.');
+      console.error("Routes are undefined or empty.");
     }
-
   };
   useEffect(() => {
     if (coordinatesStart && coordinatesEnd) {
       fetchJourneyDuration();
     }
-  }, [coordinatesStart, coordinatesEnd]);
+  }, [coordinatesStart, coordinatesEnd, fetchJourneyDuration]);
   useEffect(() => {
     if (currentJourney?.startDate && journeyDuration) {
-      const seconds = (new Date(currentJourney.startDate)).getTime() / 1000;
+      const seconds = new Date(currentJourney.startDate).getTime() / 1000;
       const arrivalDateSecond = seconds + journeyDuration;
       const milliseconds = arrivalDateSecond * 1000;
       const arrivalDateMS = new Date(milliseconds);
       const year = arrivalDateMS.getFullYear();
-      const month = ('0' + (arrivalDateMS.getMonth() + 1)).slice(-2);
-      const day = ('0' + arrivalDateMS.getDate()).slice(-2);
-      const hours = ('0' + arrivalDateMS.getHours()).slice(-2);
-      const minutes = ('0' + arrivalDateMS.getMinutes()).slice(-2);
-      const formattedDate = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+      const month = ("0" + (arrivalDateMS.getMonth() + 1)).slice(-2);
+      const day = ("0" + arrivalDateMS.getDate()).slice(-2);
+      const hours = ("0" + arrivalDateMS.getHours()).slice(-2);
+      const minutes = ("0" + arrivalDateMS.getMinutes()).slice(-2);
+      const formattedDate =
+        year + "-" + month + "-" + day + "T" + hours + ":" + minutes;
 
       setEndDate(formattedDate);
-
     }
-  }, [currentJourney?.startDate, journeyDuration]);
+  }, [currentJourney?.startDate, journeyDuration, setEndDate]);
   return (
     <form
       data-testid="journey-form"
@@ -149,19 +157,24 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
               }}
             />
             {citySuggestionsStart?.length > 0 && (
-              <div data-testid="select-city-start" className="  bg-white border border-gray-200 rounded-b-xl  w-full z-50">
+              <div
+                data-testid="select-city-start"
+                className="  bg-white border border-gray-200 rounded-b-xl  w-full z-50"
+              >
                 {citySuggestionsStart.map((city: any, index: number) => (
-                  <div key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
-                    setCurrentJourney({
-                      ...currentJourney,
-                      startingPoint: city.address.name
-                    });
-                    setCitySuggestionsStart([]);
-                    setCoordinatesStart(city.lon + ',' + city.lat);
-                  }}>
-
+                  <div
+                    key={index}
+                    className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setCurrentJourney({
+                        ...currentJourney,
+                        startingPoint: city.address.name,
+                      });
+                      setCitySuggestionsStart([]);
+                      setCoordinatesStart(city.lon + "," + city.lat);
+                    }}
+                  >
                     {city.display_name}
-
                   </div>
                 ))}
               </div>
@@ -186,7 +199,6 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
                   arrivalPoint: e.target.value,
                 });
                 getCitySuggestionsEnd(e.target.value);
-
               }}
               className="shadow-sm"
               classNames={{
@@ -196,13 +208,20 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
             {citySuggestionsEnd?.length > 0 && (
               <div className=" bg-white border border-gray-200 rounded-b-xl  w-full z-50 md:right-[21rem]">
                 {citySuggestionsEnd.map((city: any, index: number) => (
-                  <div data-testid="select-city-end" key={index} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
-                    setCurrentJourney({ ...currentJourney, arrivalPoint: city.address.name }); setCoordinatesEnd(city.lon + ',' + city.lat);
-                    ; setCitySuggestionsEnd([])
-                  }}>
-
+                  <div
+                    data-testid="select-city-end"
+                    key={index}
+                    className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setCurrentJourney({
+                        ...currentJourney,
+                        arrivalPoint: city.address.name,
+                      });
+                      setCoordinatesEnd(city.lon + "," + city.lat);
+                      setCitySuggestionsEnd([]);
+                    }}
+                  >
                     {city.display_name}
-
                   </div>
                 ))}
               </div>
@@ -227,7 +246,6 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
                 ...currentJourney,
                 startDate: e.target.value,
               });
-
             }}
           />
           <Input
@@ -236,9 +254,7 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
             name="endDate"
             label="Date d'arrivée (estimée)"
             labelPlacement="outside"
-
             value={endDate}
-
             className="shadow-sm"
             classNames={{
               inputWrapper: "bg-white",
@@ -328,7 +344,6 @@ const JourneyForm: React.FC<JourneyFormProps> = ({ journey, handleSubmit, endDat
           </Button>
           <Button
             type="submit"
-
             color="primary"
             className="text-white md:px-10"
             radius="full"

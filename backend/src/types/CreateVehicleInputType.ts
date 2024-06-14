@@ -14,7 +14,7 @@ export class CreateVehicleInputType {
     @Field()
     seats: number;
 
-    @Field()
+    @Field({ nullable: true })
     picture: string;
 
     @Field()

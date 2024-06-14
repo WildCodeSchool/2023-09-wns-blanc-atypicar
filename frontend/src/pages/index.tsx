@@ -5,6 +5,7 @@ import { CiRainbow } from "react-icons/ci";
 import TopCard from "@/components/TopCard";
 import CategoryCard from "@/components/CategoryCard";
 import SearchBar from "@/components/SearchBar";
+import { useEffect, useState } from "react";
 
 function Home() {
   return (

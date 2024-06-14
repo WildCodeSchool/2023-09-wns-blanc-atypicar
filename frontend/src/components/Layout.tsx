@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { ReactNode, useContext, useEffect } from "react";
-import CustomNavbar from "./customnavbar";
+import CustomNavbar from "./CustomNavbar";
 import BigFooter from "./BigFooter";
 import { useQuery } from "@apollo/client";
 import { AuthContext } from "@/contexts/authContext";
@@ -8,20 +8,19 @@ import { ToastContainer } from "react-toastify";
 import { GET_USER } from "@/graphql/client";
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const { setCurrentUser } = useContext(AuthContext);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
   const { loading, data } = useQuery(GET_USER);
 
   useEffect(() => {
     if (data && !loading) {
       setCurrentUser({ ...data.getUser });
     }
-  }, [data, loading]);
+  }, [data, loading, setCurrentUser]);
 
   return (
     <>
       <Head>
-        <title>Atypi'Car</title>
+        <title>Atypi&apos;Car</title>
         <meta name="" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="favicon.ico" />
@@ -32,7 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </Head>
-      <CustomNavbar />
+      <CustomNavbar currentUser={currentUser} />
       <main className="py-24">{children}</main>
       <ToastContainer />
       <BigFooter />

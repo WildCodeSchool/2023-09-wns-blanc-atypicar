@@ -19,7 +19,7 @@ export class UserResolver {
   @Authorized()
   updateProfile(@Ctx() ctx: CustomContext, @Arg("user") user: UpdateUserType): Promise<User | null> {
     const userId = ctx.user.id;
-    return UserServices.modifyUser({...user}, userId);
+    return UserServices.modifyUser({ ...user }, userId);
   }
 
   @Mutation(() => User)
@@ -27,6 +27,13 @@ export class UserResolver {
     @Arg("createUserType") createUserType: CreateUserType
   ): Promise<User | Error> {
     return UserServices.createUser(createUserType);
+  }
+
+  @Query(() => User)
+  @Authorized()
+  getUserProfileInfos(@Ctx() ctx: CustomContext): Promise<User | null> {
+    const userId = ctx.user.id;
+    return UserServices.getUserProfileInfos(userId);
   }
 
   @Mutation(() => String)

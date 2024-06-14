@@ -18,8 +18,6 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
   const { journey } = reservation;
 
   const totalPrice = journey.price * reservation.seatNumber;
-
-  console.log(journey);
   return (
     <Card isPressable className="flex flex-row">
       <Image
@@ -46,12 +44,13 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
           </CardHeader>
           <CardBody className="py-1 ml-0 md:ml-4 md:p-3 w-auto">
             <button
-              className={`px-4 py-1 text-white rounded-full ${reservation.status === "VALIDATED"
-                ? "bg-green-500"
-                : reservation.status === "CANCELED"
-                  ? "bg-red-500"
-                  : ""
-                }`}
+              className={`px-4 py-1 text-white rounded-full ${
+                reservation.status === "VALIDATED"
+                  ? "bg-green-500"
+                  : reservation.status === "CANCELED"
+                    ? "bg-red-500"
+                    : ""
+              }`}
             >
               {reservation.status === "VALIDATED"
                 ? "Validé"
