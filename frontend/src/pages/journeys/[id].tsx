@@ -2,7 +2,7 @@ import { Journey } from "@/types/journey";
 import { useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState, useContext } from "react";
-import { Divider, Image, Button, Avatar, Chip } from "@nextui-org/react";
+import { Divider, Image, Button, Avatar, Chip, Link } from "@nextui-org/react";
 import { formatHour, calculateDuration, formatDate } from "@/utils/formatDates";
 import { IoIosHome, IoIosArrowForward } from "react-icons/io";
 import { RiDeleteBinLine } from "react-icons/ri";
