@@ -189,20 +189,43 @@ export const GET_ALL_RESERVATIONS = gql`
           firstName
           lastName
           picture
-          description
         }
       }
       creationDate
       seatNumber
+      passenger {
+        id
+      }
     }
   }
 `;
-export const GET_CATEGORIES = gql`
-query Query {
-  getCategories {
+
+export const GET_RESERVATIONS_USER = gql`
+query GetReservations($getReservationByUserId: Float!) {
+  getReservationByUser(id: $getReservationByUserId) {
     id
-    wording
+    status
+    passenger {
+      id
+    }
     creationDate
+    seatNumber
+    journey {
+      arrivalPoint
+      availableSeats
+      description
+      endDate
+      id
+      price
+      startDate
+      startingPoint
+      driver{
+        id
+        firstName
+        lastName
+        picture
+      }
+    }
   }
 }
 `;

@@ -1,5 +1,8 @@
+import { GET_VEHICLE_BY_DRIVER } from "@/graphql/client";
 import { Reservation } from "@/types/reservation";
+import { Vehicle } from "@/types/vehicle";
 import { formatHour, calculateDuration } from "@/utils/formatDates";
+import { useQuery } from "@apollo/client";
 import {
   Card,
   CardHeader,
@@ -8,6 +11,7 @@ import {
   CardBody,
   CardFooter,
 } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 import { MdAirlineSeatReclineExtra } from "react-icons/md";
 
 type ReservationCardProps = {
@@ -16,15 +20,30 @@ type ReservationCardProps = {
 
 const ReservationCard = ({ reservation }: ReservationCardProps) => {
   const { journey } = reservation;
+  const [vehicles, setVehicles] = useState<Vehicle>();
+  const searchVehiclesByDriver = useQuery(GET_VEHICLE_BY_DRIVER, {
+    variables: {
+      driverId: journey.driver.id,
+    },
+    onCompleted: (data) => {
+      setVehicles(data.getVehiclesByUserId);
+    }
+  });
+
+  useEffect(() => {
+    if (journey.driver.id) {
+      searchVehiclesByDriver.refetch();
+    }
+  }, [journey.driver.id]);
 
   const totalPrice = journey.price * reservation.seatNumber;
-
+  console.log(journey)
   return (
     <Card isPressable className="flex flex-row">
       <Image
         className="h-52 w-32 max-w-none rounded-r-none object-cover"
         alt="Card background"
-        src="https://www.largus.fr/images/images/bmw-m3-competition-2020-3.jpg"
+        src={vehicles?.picture ? vehicles.picture : "https://via.placeholder.com/150"}
       />
       <div className="flex flex-col justify-between items-center p-2 h-52">
         <div className="flex flex-col md:flex-row">
@@ -72,9 +91,9 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
             as="button"
             color="success"
             size="md"
-            src="https://i.pravatar.cc/300"
+            src={journey?.driver?.picture}
           />
-          <h4>{journey.driver.firstName}</h4>
+          <h4>{journey?.driver?.firstName}</h4>
           <h4 className="ml-auto">{totalPrice}€</h4>
         </CardFooter>
       </div>
