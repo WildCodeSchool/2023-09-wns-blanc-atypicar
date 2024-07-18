@@ -27,6 +27,7 @@ export default function CustomNavbar({ currentUser }: any) {
   useEffect(() => {
     if (storedToken) {
       setToken(localStorage.getItem("token"));
+
     }
   }, [storedToken]);
 
@@ -64,8 +65,7 @@ export default function CustomNavbar({ currentUser }: any) {
                 <DropdownItem key="categories" href="/categories">
                   Modifier les catégories
                 </DropdownItem>
-                <DropdownItem key="categories">A venir</DropdownItem>
-                <DropdownItem key="categories">A venir !</DropdownItem>
+
               </DropdownMenu>
             </Dropdown>
           )}

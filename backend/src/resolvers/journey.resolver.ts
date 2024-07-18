@@ -12,9 +12,10 @@ export class JourneyResolver {
     @Arg("start", { nullable: true }) start: string,
     @Arg("arrival", { nullable: true }) arrival: string,
     @Arg("date", { nullable: true }) date: Date,
-    @Arg("seats", { nullable: true }) seats: number
+    @Arg("seats", { nullable: true }) seats: number,
+    @Arg("categoryIds", () => [Number], { nullable: true }) categoryIds: number[]
   ): Promise<Journey[] | Error> {
-    return journeyService.searchJourney(start, arrival, date, seats);
+    return journeyService.searchJourney(start, arrival, date, seats, categoryIds);
   }
 
   @Query(() => Journey)

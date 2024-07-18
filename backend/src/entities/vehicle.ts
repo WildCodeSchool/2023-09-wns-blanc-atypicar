@@ -48,6 +48,6 @@ export class Vehicle extends BaseEntity {
 
 
   @Field(() => Category, { nullable: true })
-  @ManyToOne(() => Category, category => category.wording, { nullable: true })
+  @ManyToOne(() => Category, category => category.vehicles, { onDelete: 'SET NULL' })
   category: Category;
 }

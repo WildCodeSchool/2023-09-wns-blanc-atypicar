@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import JourneyCard from "@/components/JourneyCard";
 import Link from "next/link";
@@ -9,11 +9,15 @@ import HeaderPicture from "../assets/images/Header.png";
 import SearchBar from "@/components/SearchBar";
 import { formattedDate } from "@/utils/formatDates";
 import { GoArrowRight } from "react-icons/go";
-import { Button } from "@nextui-org/react";
-import { SEARCH_JOURNEY } from "@/graphql/client";
+import { Button, Checkbox } from "@nextui-org/react";
+import { GET_CATEGORIES, SEARCH_JOURNEY } from "@/graphql/client";
+import { Category } from "@/types/category";
+
 
 export default function SearchPage() {
   const [journeys, setJourneys] = useState<Journey[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const router = useRouter();
   const startingPoint =
     typeof router.query.start === "string"
@@ -31,11 +35,20 @@ export default function SearchPage() {
         typeof router.query.seats === "string"
           ? parseInt(router.query.seats)
           : undefined,
+      categoryIds: selectedCategories.length > 0 ? selectedCategories : undefined,
     },
     onCompleted: (data) => {
       setJourneys(data.getJourneys);
     },
   });
+
+  const { data } = useQuery(GET_CATEGORIES, {
+    onCompleted: (data) => {
+      setCategories(data.getCategories);
+      setSelectedCategories(data.getCategories.map((category: any) => category.id));
+    },
+  });
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :-(</p>;
@@ -49,6 +62,29 @@ export default function SearchPage() {
       new Date(b.endDate).getTime() - new Date(b.startDate).getTime();
     return durationA - durationB;
   });
+
+
+  const handleCategoryChange = (categoryId: number, isChecked: boolean) => {
+    if (isChecked) {
+
+      setSelectedCategories((prevSelectedCategories) => {
+        if (!prevSelectedCategories.includes(categoryId)) {
+          return [...prevSelectedCategories, categoryId];
+        }
+        return prevSelectedCategories;
+      });
+    } else {
+
+      setSelectedCategories((prevSelectedCategories) => {
+        if (prevSelectedCategories.includes(categoryId)) {
+          return prevSelectedCategories.filter((id) => id !== categoryId);
+        }
+        return prevSelectedCategories;
+      });
+    }
+  };
+
+
 
   return (
     <>
@@ -73,9 +109,9 @@ export default function SearchPage() {
         </div>
       </div>
       {router.query.start &&
-      router.query.end &&
-      router.query.date &&
-      router.query.seats ? (
+        router.query.end &&
+        router.query.date &&
+        router.query.seats ? (
         <div
           id="contentSearchPage"
           className="flex flex-col lg:flex-row  justify-center gap-10 pt-[45vh]"
@@ -102,8 +138,29 @@ export default function SearchPage() {
                 Trajet le plus court
               </Button>
             </div>
+            <div
+              id="filter"
+              className="lg:text-left text-center lg:w-[20vw] w-screen mt-5 "
+            >
+              <h4 className="text-xl text-default font-montserrat font-bold mb-8">
+                {" "}
+                Filtrer par catégories de véhicules
+              </h4>
+              <div className="flex flex-col lg:text-left text-center lg:items-start items-center justify-start pt-8 gap-3">
+                {categories.map((category, index) => (
+                  <Checkbox
+                    key={index}
+                    value={category.id.toString()}
+                    isSelected={selectedCategories.includes(category.id)}
+                    onValueChange={(isChecked) => handleCategoryChange(category.id, isChecked)}
+                  >
+                    {category.wording}
+                  </Checkbox>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col items-center lg:items-start gap-2 w-100 pt-10">
+          <div className="flex flex-col items-center lg:items-start gap-2 w-1/2 pt-10">
             <div className="pb-10">
               {router.query.date && (
                 <h4 className="pb-7 text-xl text-default font-montserrat font-medium">
@@ -121,7 +178,7 @@ export default function SearchPage() {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col items-start gap-7">
+            <div className="flex flex-col items-start gap-7 ">
               {journeys.map((journey) => (
                 <Link href={`/journeys/${journey.id}`} key={journey.id}>
                   <JourneyCard journey={journey} />
