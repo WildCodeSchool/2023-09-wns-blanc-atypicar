@@ -13,6 +13,13 @@ Nous cherchons à créer une plateforme permettant aux automobilistes de partage
 - **Réservation de places** : Les passagers peuvent réserver des places pour des trajets spécifiques.
 - **Gestion des utilisateurs** : Les utilisateurs peuvent s'inscrire, se connecter et gérer leur profil.
 
+## Prérequis
+
+Avant de pouvoir démarrer le projet, assurez-vous d'avoir installé les outils suivants :
+
+- Docker
+- Docker Compose
+
 ## Installation et lancement
 
 1. Cloner le répertoire du projet
@@ -29,3 +36,11 @@ JWT_SECRET_KEY=your_jwt_secret_key
 
 3. Lancer le projet avec Docker :`docker-compose up --build`
 4. L'application sera accessible à l'adresse suivante : http://localhost:3000.
+
+## Contributeurs
+
+- [maevacrh](github.com/maevacrh)
+- [mathysfrc](https://github.com/mathysfrc)
+- [LefClem](https://github.com/LefClem)
+- [titouwork](https://github.com/titouwork)
+- [Kure-ru](https://github.com/Kure-ru)
