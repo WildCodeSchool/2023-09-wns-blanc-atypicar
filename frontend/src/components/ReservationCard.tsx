@@ -37,10 +37,6 @@ const ReservationCard = ({ reservation }: ReservationCardProps) => {
   }, [journey.driver.id]);
 
   const totalPrice = journey.price * reservation.seatNumber;
-<<<<<<< HEAD
-=======
-  console.log(journey)
->>>>>>> dev
   return (
     <Card isPressable className="flex flex-row">
       <Image
