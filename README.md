@@ -16,7 +16,7 @@ Nous cherchons à créer une plateforme permettant aux automobilistes de partage
 ## Installation et lancement
 
 1. Cloner le répertoire du projet
-2. Créez un fichier .env à la racine du projet et ajoutez les configurations nécessaires :
+2. Créez un fichier .env.dev à la racine du projet et ajoutez les configurations nécessaires :
 
 ```
 PGDATA=***
