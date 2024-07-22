@@ -3,5 +3,6 @@ node_modules
 */.env
 .env.*
 backend/build
+*/.DS_Store
 /logs
 images/uploads
