@@ -15,9 +15,6 @@ export class CreateJourneyInputType {
   startDate: Date;
 
   @Field()
-  endDate: Date;
-
-  @Field()
   availableSeats: number;
 
   @Field()

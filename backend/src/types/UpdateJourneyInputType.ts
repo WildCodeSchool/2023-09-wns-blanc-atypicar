@@ -18,9 +18,6 @@ export class UpdateJourneyInputType {
   startDate: Date;
 
   @Field()
-  endDate: Date;
-
-  @Field()
   availableSeats: number;
 
   @Field()

@@ -29,17 +29,17 @@ export async function searchJourney(
 
   if (categoryIds && categoryIds.length > 0) {
     const usersWithCategory = await User.find({
-      relations: ['vehicle', 'vehicle.category'],
+      relations: ["vehicle", "vehicle.category"],
       where: {
         vehicle: {
           category: {
             id: In(categoryIds),
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
-    const userIds = usersWithCategory.map(user => user.id);
+    const userIds = usersWithCategory.map((user) => user.id);
 
     if (userIds.length > 0) {
       searchFilter.where.driver = {
@@ -49,7 +49,6 @@ export async function searchJourney(
       return [];
     }
   }
-
 
   const journeys = await Journey.find(searchFilter);
 
@@ -63,7 +62,7 @@ export async function searchJourney(
 export function searchJourneysByDriver(driverId: number): Promise<Journey[]> {
   try {
     return Journey.find({
-      relations: ["driver"],
+      relations: ["driver", "driver.vehicle", "driver.vehicle.category"],
       where: { driver: { id: driverId } },
     });
   } catch (error) {
@@ -73,7 +72,13 @@ export function searchJourneysByDriver(driverId: number): Promise<Journey[]> {
 
 export function findJourney(id: number): Promise<Journey | null> {
   return Journey.findOne({
-    relations: ['driver', 'reservation', 'reservation.passenger'],
+    relations: [
+      "driver",
+      "reservation",
+      "reservation.passenger",
+      "driver.vehicle",
+      "driver.vehicle.category",
+    ],
     where: { id },
   });
 }
@@ -83,16 +88,9 @@ export async function addJourney(
   ctx: any
 ): Promise<Journey | Error> {
   try {
-    if (JourneyData.endDate < JourneyData.startDate) {
-      throw new Error(
-        "La date d'arrivée ne peut pas être inférieur à la date de départ"
-      );
-    }
-
     let journey = new Journey();
     Object.assign(journey, JourneyData);
     journey.driver = ctx.user.id;
-
     return journey.save();
   } catch (error) {
     return new Error();
@@ -113,7 +111,6 @@ export async function updateJourney(
   journeyToUpdate.arrivalPoint = JourneyData.arrivalPoint;
   journeyToUpdate.description = JourneyData.description;
   journeyToUpdate.startDate = JourneyData.startDate;
-  journeyToUpdate.endDate = JourneyData.endDate;
   journeyToUpdate.availableSeats = JourneyData.availableSeats;
   journeyToUpdate.price = JourneyData.price;
 
