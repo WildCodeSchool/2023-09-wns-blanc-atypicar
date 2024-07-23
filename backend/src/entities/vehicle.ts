@@ -2,11 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
-  ManyToMany,
   ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Field, ObjectType } from "type-graphql";
@@ -44,8 +40,6 @@ export class Vehicle extends BaseEntity {
   @Field(() => User, { nullable: true })
   @ManyToOne(() => User, user => user.vehicle, { nullable: true })
   user: User;
-
-
 
   @Field(() => Category, { nullable: true })
   @ManyToOne(() => Category, category => category.vehicles, { onDelete: 'SET NULL' })

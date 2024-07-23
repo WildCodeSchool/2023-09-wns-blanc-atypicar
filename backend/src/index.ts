@@ -9,8 +9,6 @@ import { UserResolver } from "./resolvers/user.resolver";
 import { verifyToken } from "./services/auth.service";
 import { getUserByEmail } from "./services/user.service";
 import { CategoryResolver } from "./resolvers/category.resolver";
-import { MessageResolver } from "./resolvers/message.resolver";
-import { ConversationResolver } from "./resolvers/conversation.resolver";
 import { VehicleResolver } from "./resolvers/vehicles.resolver";
 
 const port: number = 3001;
@@ -25,8 +23,6 @@ const start = async () => {
       ReservationResolver,
       UserResolver,
       CategoryResolver,
-      MessageResolver,
-      ConversationResolver,
       VehicleResolver,
     ],
     validate: { forbidUnknownValues: false },
