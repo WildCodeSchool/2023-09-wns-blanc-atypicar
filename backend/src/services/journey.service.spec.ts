@@ -48,6 +48,7 @@ describe("Journey Service", () => {
       startingPoint: "start",
       arrivalPoint: "arrival",
       startDate: new Date(),
+      endDate: new Date(),
       availableSeats: 2,
       price: 100,
     };
@@ -65,6 +66,7 @@ describe("Journey Service", () => {
       startingPoint: "start",
       arrivalPoint: "arrival",
       startDate: new Date(),
+      endDate: new Date(),
       availableSeats: 4,
       price: 100,
     };

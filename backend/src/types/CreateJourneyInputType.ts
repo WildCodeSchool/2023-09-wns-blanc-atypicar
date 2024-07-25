@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from "type-graphql";
+import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class CreateJourneyInputType {
@@ -13,6 +13,9 @@ export class CreateJourneyInputType {
 
   @Field()
   startDate: Date;
+
+  @Field()
+  endDate: Date;
 
   @Field()
   availableSeats: number;
