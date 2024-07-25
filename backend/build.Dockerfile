@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 COPY tsconfig.json tsconfig.json
+COPY migrations migrations
 COPY jest.config.js jest.config.js
 COPY src src
 
@@ -21,4 +22,4 @@ COPY --from=builder /app/build /app
 
 RUN npm i --production
 
-CMD npm start
+CMD npx typeorm migration:run -d ./src/config/db.js ; npm start

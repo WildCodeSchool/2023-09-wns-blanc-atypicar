@@ -3,16 +3,11 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
-  ManyToMany,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Tag } from "./tag";
 import { Vehicle } from "./vehicle";
 import { Journey } from "./journey";
-import { Conversation } from "./conversations";
 
 @ObjectType()
 @Entity()
@@ -64,10 +59,6 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   description: string;
 
-  @Field(() => Tag)
-  @ManyToMany(() => Tag, (tag) => tag.id)
-  tag: number;
-
   @Field(() => Vehicle, { nullable: true })
   @OneToOne(() => Vehicle, vehicle => vehicle.user, { nullable: true })
   vehicle?: Vehicle;
@@ -75,8 +66,4 @@ export class User extends BaseEntity {
   @Field(() => [Journey])
   @OneToOne(() => Journey, (journey) => journey.driver)
   journey: Journey[];
-
-  @Field(() => [Conversation])
-  @ManyToMany(() => Conversation, (conversation) => conversation.participants)
-  conversations: Conversation[];
 }

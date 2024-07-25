@@ -3,11 +3,8 @@ import * as dotenv from "dotenv";
 import { Category } from "../entities/category";
 import { Journey } from "../entities/journey";
 import { Reservation } from "../entities/reservation";
-import { Tag } from "../entities/tag";
 import { User } from "../entities/user";
 import { Vehicle } from "../entities/vehicle";
-import { Message } from "../entities/message";
-import { Conversation } from "../entities/conversations";
 
 dotenv.config();
 
@@ -22,12 +19,10 @@ export const dataSource = new DataSource({
     Category,
     Journey,
     Reservation,
-    Tag,
     User,
     Vehicle,
-    Message,
-    Conversation,
   ],
   logging: true,
-  synchronize: true,
+  synchronize: false,
+  migrations: ["migrations/*.{ts,js}"],
 });
