@@ -111,6 +111,7 @@ export async function updateJourney(
   journeyToUpdate.arrivalPoint = JourneyData.arrivalPoint;
   journeyToUpdate.description = JourneyData.description;
   journeyToUpdate.startDate = JourneyData.startDate;
+  journeyToUpdate.endDate = JourneyData.endDate;
   journeyToUpdate.availableSeats = JourneyData.availableSeats;
   journeyToUpdate.price = JourneyData.price;
 
