@@ -25,7 +25,8 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "redis": "^4.6.13"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.5",

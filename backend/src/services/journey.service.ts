@@ -1,8 +1,28 @@
-import { Between, DeleteResult, In, MoreThanOrEqual } from "typeorm";
+import { Between, DeleteResult, FindManyOptions, FindOperator, In, MoreThanOrEqual } from "typeorm";
 import { Journey } from "../entities/journey";
 import { CreateJourneyInputType } from "../types/CreateJourneyInputType";
 import { UpdateJourneyInputType } from "../types/UpdateJourneyInputType";
 import { User } from "../entities/user";
+import * as cacheService from "./cache.service";
+import { createHash } from 'crypto';
+
+interface SearchFilter {
+  relations: {
+    reservation: boolean;
+    driver: boolean;
+  };
+  where: {
+    startingPoint?: string;
+    arrivalPoint?: string;
+    startDate?: FindOperator<Date>;
+    availableSeats?: FindOperator<number>;
+    driver?: {
+      id: FindOperator<number>;}
+  };
+  order: {
+    startDate: 'DESC';
+  };
+}
 
 export async function searchJourney(
   start: string,
@@ -14,7 +34,7 @@ export async function searchJourney(
   const endDate = new Date(date);
   endDate.setHours(23, 59, 59, 999);
 
-  const searchFilter: any = {
+  const searchFilter: SearchFilter = {
     relations: { reservation: true, driver: true },
     where: {
       ...(start && { startingPoint: start }),
@@ -49,14 +69,17 @@ export async function searchJourney(
       return [];
     }
   }
+  const searchFilterKey = hashString(JSON.stringify(searchFilter));
 
-  const journeys = await Journey.find(searchFilter);
+  const cacheResult = await cacheService.getValue(searchFilterKey);
 
-  if (!journeys || journeys.length === 0) {
-    return [];
+  if (cacheResult){
+    return JSON.parse(cacheResult);
+  } else {
+    const result = await Journey.find(searchFilter as FindManyOptions<Journey>);
+    await cacheService.setValue(hashString(JSON.stringify(result)), result)
+    return result;
   }
-
-  return journeys;
 }
 
 export function searchJourneysByDriver(driverId: number): Promise<Journey[]> {
@@ -121,3 +144,5 @@ export async function updateJourney(
 export function deleteJourney(id: number): Promise<DeleteResult> {
   return Journey.delete({ id });
 }
+
+const hashString = (input: string) => createHash('sha256').update(input).digest('hex');
