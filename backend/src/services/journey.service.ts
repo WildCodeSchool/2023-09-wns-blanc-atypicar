@@ -73,8 +73,6 @@ export async function searchJourney(
 
   const cacheResult = await cacheService.getValue(searchFilterKey);
 
-  console.log(`🔥🔥🔥🔥🔥 ${cacheResult}`);
-
   if (cacheResult){
     return JSON.parse(cacheResult);
   } else {
