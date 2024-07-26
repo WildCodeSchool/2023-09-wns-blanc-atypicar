@@ -10,10 +10,21 @@ import { verifyToken } from "./services/auth.service";
 import { getUserByEmail } from "./services/user.service";
 import { CategoryResolver } from "./resolvers/category.resolver";
 import { VehicleResolver } from "./resolvers/vehicles.resolver";
+import { createClient } from 'redis';
 
 const port: number = 3001;
 
+export const redisClient = createClient({ url: "redis://redis" });
+
+redisClient.on("error", (err: Error) => {
+  console.log("Redis Client Error", err);
+});
+redisClient.on("connect", () => {
+  console.log("redis connected");
+});
+
 const start = async () => {
+  await redisClient.connect();
   dotenv.config();
   await dataSource.initialize();
 
@@ -39,6 +50,11 @@ const start = async () => {
     },
   });
 
+  const plugins = [];
+  if (process.env.NODE_ENV === 'production') {
+    plugins.push(ApolloServerPluginLandingPageDisabled());
+  }
+
   const server = new ApolloServer({
     schema,
     context: ({ req }) => {
@@ -58,6 +74,9 @@ const start = async () => {
         }
       }
     },
+      plugins: [
+        ...plugins
+      ]
   });
 
   try {
@@ -69,3 +88,7 @@ const start = async () => {
 };
 
 void start();
+function ApolloServerPluginLandingPageDisabled(): any {
+  throw new Error("Function not implemented.");
+}
+
